@@ -18,6 +18,13 @@ backbone (repo, data model, site structure, routing, and a working contact
 channel) that the homepage 3D product dial, real commodity content, and logo
 refresh will be built on top of in later specs.
 
+Client-supplied references for competitive/design direction: ZEH Co
+International (zehcointernational.com), Bhandari Foods (bhandarifoods.com),
+HAG Commodities (hagcommodities.com) — all Pakistan-based multi-commodity
+exporters. Full visual-style takeaways are deferred to the later visual
+design spec; the structural takeaways (per-category nav, header WhatsApp CTA,
+dedicated Certifications page) are folded into this spec below.
+
 ### Findings from auditing the live site
 
 - Entire copy (hero, About, product catalog, meta titles) is salt-specific
@@ -125,12 +132,26 @@ dial; nothing in the UI hardcodes "salt/rice/potato" — it iterates the data.
 | `/about` | Company story — rewritten to be commodity-neutral |
 | `/products` | Index grid of all categories |
 | `/products/[slug]` | Per-product detail page, driven by the data model |
+| `/certifications` | Dedicated page for verified certifications/documents — stays sparse/placeholder until the client confirms real documents, per the "verified only" rule |
 | `/services` | Export services / logistics process (largely commodity-agnostic, ports forward) |
 | `/blog` | Insights — structure ports forward, content unchanged for now |
 | `/contact` | Quote/sample request form + WhatsApp + phone/email |
 
-Shared layout: header nav, footer, floating WhatsApp bubble — ported from
-the current site, updated only where copy is salt-specific.
+Reference audit (ZEH Co, Bhandari Foods, HAG Commodities — all Pakistan
+multi-commodity exporters) surfaced two structural patterns worth adopting
+now rather than retrofitting later:
+
+- **Per-category nav:** the header "Products" nav is category-driven (a
+  dropdown listing each `category` from the data model — Salt, Rice, Potato,
+  Tomato, ...) rather than a single flat link, so it scales with the
+  client's growing commodity list without a nav redesign.
+- **Header CTAs, not just a floating bubble:** the header includes a
+  "WhatsApp Us" button next to "Get a Quote," in addition to (not instead
+  of) the floating WhatsApp bubble. Both link to the same `wa.me` deep link.
+
+Shared layout: header nav (with the category dropdown and dual CTAs above),
+footer, floating WhatsApp bubble — ported from the current site, updated
+only where copy is salt-specific.
 
 ## Contact form fix
 
