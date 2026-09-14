@@ -1,0 +1,11 @@
+# Superpowers brainstorming companion (transient mockups/state)
+.superpowers/
+
+# Node / Next.js (added ahead of scaffolding)
+node_modules/
+.next/
+out/
+.env
+.env.local
+.vercel/
+npm-debug.log*
