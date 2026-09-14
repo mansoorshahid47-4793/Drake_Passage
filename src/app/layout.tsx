@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppBubble } from "@/components/layout/WhatsAppBubble";
+import { getCategories } from "@/lib/catalog";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -36,7 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <Header categories={getCategories()} />
         <main id="main" className="flex-1">{children}</main>
+        <Footer />
+        <WhatsAppBubble />
       </body>
     </html>
   );
