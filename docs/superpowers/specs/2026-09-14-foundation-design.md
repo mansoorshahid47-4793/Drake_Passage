@@ -108,9 +108,14 @@ interface Certification {
 }
 
 interface Product {
-  slug: string;            // "himalayan-pink-salt", "basmati-rice"
+  slug: string;             // "1121-steam-single", "salt-lamp-natural-pink"
   name: string;
-  category: string;        // "Salt", "Rice", "Potato", "Tomato", ...
+  category: string;         // top-level commodity: "Salt", "Rice", "Potato", "Onion", "Spices", ...
+  subCategory?: string;     // use-case/variety grouping within a category —
+                             // e.g. Salt: "Edible Salt" | "Cooking & Grilling" |
+                             // "Table Products" | "Kitchen Products" | "Salt Lamps" |
+                             // "Wellness" | "Home & Decor" | "Industrial";
+                             // Rice: "Basmati" | "Non-Basmati"; Potato: "Red" | "White"
   tagline: string;
   summary: string;
   heroImage: string;
@@ -121,8 +126,26 @@ interface Product {
 }
 ```
 
-Products are grouped by `category` for the Products index and the homepage
-dial; nothing in the UI hardcodes "salt/rice/potato" — it iterates the data.
+Products are grouped by `category` (and, within a category, by `subCategory`
+where present) for the Products index, per-category nav dropdown, and the
+homepage dial; nothing in the UI hardcodes "salt/rice/potato" — it iterates
+the data. This stays a flat list (no rigid multi-level tree), so the client
+can add a new category, a new subCategory, or a one-off product at any time
+without a schema change.
+
+### Confirmed initial catalog (client-supplied)
+
+| Category | Sub-categories / varieties |
+|---|---|
+| Salt | Edible Salt, Cooking & Grilling, Table Products, Kitchen Products, Salt Lamps, Wellness Products, Home & Decor, Industrial Products |
+| Rice | Basmati (1121 Steam — Single/Double, 1847, 1509 Sella) and Non-Basmati (IRRI-6) |
+| Potato | Red, White |
+| Onion | — |
+| Spices | Turmeric Powder, Red Chilli Powder |
+
+Tomato was mentioned earlier as a target category but wasn't included in
+this catalog drop — flagged as an open question below rather than dropped
+silently.
 
 ## Site structure
 
@@ -132,7 +155,7 @@ dial; nothing in the UI hardcodes "salt/rice/potato" — it iterates the data.
 | `/about` | Company story — rewritten to be commodity-neutral |
 | `/products` | Index grid of all categories |
 | `/products/[slug]` | Per-product detail page, driven by the data model |
-| `/certifications` | Dedicated page for verified certifications/documents — stays sparse/placeholder until the client confirms real documents, per the "verified only" rule |
+| `/certifications` | Dedicated page for verified certifications/documents (see confirmed list below), per the "verified only" rule |
 | `/services` | Export services / logistics process (largely commodity-agnostic, ports forward) |
 | `/blog` | Insights — structure ports forward, content unchanged for now |
 | `/contact` | Quote/sample request form + WhatsApp + phone/email |
@@ -178,9 +201,15 @@ only where copy is salt-specific.
 
 ## Open items for later specs
 
-- Full commodity list beyond Salt/Rice/Potato/Tomato (client to provide).
+- Whether Tomato is still in scope, and where it sits in the catalog (its
+  own category, or under a future "Vegetables" grouping with Potato/Onion) —
+  client to confirm.
 - Homepage Coverflow Dial implementation (design already agreed: drag/click
   through products, center item pops in 3D, click expands a detail card).
-- Real, researched product content per commodity.
-- Logo redesign direction.
+- Real, researched product content per commodity (grades, packaging, MOQ,
+  Incoterms per item in the confirmed initial catalog above).
+- Logo redesign: client supplied a reference
+  (`docs/brand-references/logo-reference-dp-monogram.jpg`) — a "D/P"
+  monogram built into a sailboat-on-waves shape, navy + teal. Direction for
+  the later logo spec, not Foundation.
 - Real business email to replace the personal Gmail placeholder.
