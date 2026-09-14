@@ -33,42 +33,44 @@
   --radius-tile: 12px;
 }
 
-html {
-  background: var(--salt);
-  color: var(--ink);
-  scroll-behavior: smooth;
-}
+@layer base {
+  html {
+    background: var(--salt);
+    color: var(--ink);
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: var(--font-body);
-  font-size: 1.125rem;
-  line-height: 1.55;
-  font-variant-numeric: tabular-nums;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+  }
 
-h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  text-wrap: balance;
-}
-h1 { font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem); }
-h2 { font-size: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem); }
-h3 { font-size: clamp(1.375rem, 1.2rem + 0.5vw, 1.625rem); }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(2.25rem, 1.5rem + 2.5vw, 3.5rem); }
+  h2 { font-size: clamp(1.75rem, 1.25rem + 1.5vw, 2.5rem); }
+  h3 { font-size: clamp(1.375rem, 1.2rem + 0.5vw, 1.625rem); }
 
-p { max-width: 70ch; }
+  p { max-width: 70ch; }
 
-a { color: var(--teal); text-underline-offset: 3px; }
+  a { color: var(--teal); text-underline-offset: 3px; }
 
-:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
