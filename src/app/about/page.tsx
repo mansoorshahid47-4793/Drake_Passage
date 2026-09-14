@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { company } from "@/data/company";
 import { getCategories } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "About", description: "Drake Passage Pvt Limited, an export company based in Kasur, Punjab, Pakistan." };
+export const metadata: Metadata = { title: "About", description: "Drake Passage Pvt Limited, an export company based in Kasur, Punjab, Pakistan.", alternates: { canonical: "/about" } };
 
 export default function AboutPage() {
   const categories = getCategories();

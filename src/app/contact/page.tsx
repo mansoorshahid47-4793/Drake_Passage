@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { ContactDetails } from "@/components/contact/ContactDetails";
 
-export const metadata: Metadata = { title: "Contact", description: "Request a quote or a sample from Drake Passage. WhatsApp, phone and email." };
+export const metadata: Metadata = { title: "Contact", description: "Request a quote or a sample from Drake Passage. WhatsApp, phone and email.", alternates: { canonical: "/contact" } };
 
 export default function ContactPage() {
   return (

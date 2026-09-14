@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   },
   description:
     "Drake Passage Pvt Limited exports Himalayan salt, basmati and non-basmati rice, potatoes, onions, tomatoes and spices from Pakistan. FOB and CIF quotes, samples by DHL or Leopard.",
+  alternates: { canonical: "/" },
 };
 
 const orgJsonLd = {

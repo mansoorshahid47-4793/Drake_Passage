@@ -1,15 +1,6 @@
 # Superpowers brainstorming companion (transient mockups/state)
 .superpowers/
 
-# Node / Next.js (added ahead of scaffolding)
-node_modules/
-.next/
-out/
-.env
-.env.local
-.vercel/
-npm-debug.log*
-
 # git worktrees
 .worktrees/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
@@ -46,6 +37,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel

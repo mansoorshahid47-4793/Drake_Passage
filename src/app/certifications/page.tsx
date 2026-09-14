@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { CertificationRow } from "@/components/ui/CertificationRow";
 import { company } from "@/data/company";
 
-export const metadata: Metadata = { title: "Certifications and documents", description: "ISO 9001, Halal, certificate of origin, COA, SGS inspection and phytosanitary certificate — available on request for every shipment." };
+export const metadata: Metadata = { title: "Certifications and documents", description: "ISO 9001, Halal, certificate of origin, COA, SGS inspection and phytosanitary certificate — available on request for every shipment.", alternates: { canonical: "/certifications" } };
 
 export default function CertificationsPage() {
   return (

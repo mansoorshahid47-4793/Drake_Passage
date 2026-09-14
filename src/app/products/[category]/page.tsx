@@ -17,7 +17,11 @@ export function generateStaticParams(): Params[] {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const category = getCategory((await params).category);
   if (!category) return {};
-  return { title: categoryTitle(category), description: `${category.tagline}. FOB or CIF quotes for wholesale buyers.` };
+  return {
+    title: categoryTitle(category),
+    description: `${category.tagline}. FOB or CIF quotes for wholesale buyers.`,
+    alternates: { canonical: `/products/${category.slug}` },
+  };
 }
 
 export default async function CategoryPage({ params }: { params: Promise<Params> }) {

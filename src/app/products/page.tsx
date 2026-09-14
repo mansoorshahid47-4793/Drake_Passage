@@ -7,6 +7,7 @@ import { getCategories, getProductsByCategory, groupBySubCategory } from "@/lib/
 export const metadata: Metadata = {
   title: "Products",
   description: "Himalayan salt, basmati and non-basmati rice, potatoes, onions, tomatoes and spices for export from Pakistan.",
+  alternates: { canonical: "/products" },
 };
 
 export default function ProductsPage() {

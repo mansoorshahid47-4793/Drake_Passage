@@ -21,7 +21,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const category = getCategory(c);
   const product = getProduct(c, slug);
   if (!category || !product) return {};
-  return { title: productTitle(product, category), description: `${product.tagline}. ${product.summary}` };
+  return {
+    title: productTitle(product, category),
+    description: `${product.tagline}. ${product.summary}`,
+    alternates: { canonical: `/products/${category.slug}/${product.slug}` },
+  };
 }
 
 export default async function ProductPage({ params }: { params: Promise<Params> }) {
