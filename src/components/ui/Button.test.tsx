@@ -17,4 +17,10 @@ describe("Button", () => {
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
+  it("applies compact padding without the default padding when size is compact", () => {
+    render(<Button href="/contact" size="compact">Compact quote</Button>);
+    const link = screen.getByRole("link", { name: "Compact quote" });
+    expect(link.className).toContain("px-3");
+    expect(link.className).not.toContain("px-5");
+  });
 });
