@@ -163,6 +163,12 @@ exist, not the documents themselves.
 - **New buyers:** 100% advance payment.
 - **Repeat buyers:** 70% advance, 30% against BL (Bill of Lading) copy.
 
+### Confirmed sample courier options (client-supplied)
+
+Sample dispatch is via **DHL or Leopard Courier only** (the current live
+site's FAQ mentions "DHL/FedEx" — that's being replaced, not carried
+forward).
+
 ## Site structure
 
 | Route | Purpose |
