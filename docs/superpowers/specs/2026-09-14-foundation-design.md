@@ -94,7 +94,7 @@ dedicated Certifications page) are folded into this spec below.
 ## Data model
 
 ```ts
-type TradeTerm = "FOB" | "CIF" | "CFR" | "EXW";
+type TradeTerm = "FOB" | "CIF";
 
 interface ProductSpec {
   label: string;   // e.g. "Grade", "Grain size", "Broken %"
@@ -141,11 +141,8 @@ without a schema change.
 | Rice | Basmati (1121 Steam — Single/Double, 1847, 1509 Sella) and Non-Basmati (IRRI-6) |
 | Potato | Red, White |
 | Onion | — |
+| Tomato | — |
 | Spices | Turmeric Powder, Red Chilli Powder |
-
-Tomato was mentioned earlier as a target category but wasn't included in
-this catalog drop — flagged as an open question below rather than dropped
-silently.
 
 ### Confirmed certifications (client-supplied, for `/certifications`)
 
@@ -215,9 +212,6 @@ only where copy is salt-specific.
 
 ## Open items for later specs
 
-- Whether Tomato is still in scope, and where it sits in the catalog (its
-  own category, or under a future "Vegetables" grouping with Potato/Onion) —
-  client to confirm.
 - Homepage Coverflow Dial implementation (design already agreed: drag/click
   through products, center item pops in 3D, click expands a detail card).
 - Real, researched product content per commodity (grades, packaging, MOQ,
