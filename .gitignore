@@ -9,3 +9,6 @@ out/
 .env.local
 .vercel/
 npm-debug.log*
+
+# git worktrees
+.worktrees/
