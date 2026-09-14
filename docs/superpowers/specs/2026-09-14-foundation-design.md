@@ -68,8 +68,8 @@ dedicated Certifications page) are folded into this spec below.
 ## Non-goals (deferred to later specs)
 
 - The homepage 3D Coverflow Dial product selector (separate spec).
-- Real researched commodity content/specs for rice, potato, tomato, etc.
-  (separate spec, after the client's full category list arrives).
+- Real researched commodity content/specs per item in the confirmed catalog
+  (separate spec).
 - Logo redesign (separate, parallel sub-project).
 - Any CMS/backend for non-developer content editing.
 - Analytics, blog/Insights content authoring workflow.
@@ -146,6 +146,20 @@ without a schema change.
 Tomato was mentioned earlier as a target category but wasn't included in
 this catalog drop — flagged as an open question below rather than dropped
 silently.
+
+### Confirmed certifications (client-supplied, for `/certifications`)
+
+1. ISO 9001
+2. Halal Certification
+3. Certificate of Origin
+4. Certificate of Analysis (COA)
+5. SGS Inspection
+6. Phytosanitary Certificate
+
+These are recorded as verified per the client, but publishing on the live
+page still needs the actual certificate documents/numbers from the client
+(scans or reference numbers) — the spec captures *which* certifications
+exist, not the documents themselves.
 
 ## Site structure
 
