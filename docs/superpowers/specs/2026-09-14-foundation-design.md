@@ -158,6 +158,11 @@ page still needs the actual certificate documents/numbers from the client
 (scans or reference numbers) — the spec captures *which* certifications
 exist, not the documents themselves.
 
+### Confirmed payment terms (client-supplied, for `/services` and `/contact`)
+
+- **New buyers:** 100% advance payment.
+- **Repeat buyers:** 70% advance, 30% against BL (Bill of Lading) copy.
+
 ## Site structure
 
 | Route | Purpose |
