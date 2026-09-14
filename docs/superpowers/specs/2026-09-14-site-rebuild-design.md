@@ -50,9 +50,10 @@ Certifications page, full-bleed real commodity photography.
 | Tomato | — |
 | Spices | Turmeric Powder, Red Chilli Powder |
 
-**Certifications** (state these only; documents/numbers still to come from the
-client before publishing scans): ISO 9001 · Halal · Certificate of Origin ·
-Certificate of Analysis (COA) · SGS Inspection · Phytosanitary Certificate.
+**Certifications** — ISO 9001 · Halal · Certificate of Origin · Certificate
+of Analysis (COA) · SGS Inspection · Phytosanitary Certificate. The site lists
+these as **"available on request"** (name + what it covers + "Request a copy"
+link to the enquiry form); no scans or certificate numbers are published.
 
 **Trade terms:** FOB or CIF only.
 **Payment:** new buyers 100% advance; repeat buyers 70% advance, 30% against
@@ -140,7 +141,7 @@ Services and Certifications pages from one place.
 | `/products` | All categories, then products grouped by category and sub-category |
 | `/products/[category]` | Category page: intro, sub-category groups, product list |
 | `/products/[category]/[slug]` | Product detail: gallery, spec table, packaging, terms, quote CTA |
-| `/certifications` | The six certifications, what each covers, document placeholders |
+| `/certifications` | The six certifications, what each covers, "available on request" with a request link |
 | `/services` | Export process, trade and payment terms, sample dispatch, logistics |
 | `/about` | Company story rewritten commodity-neutral (origin regions, sourcing, team) |
 | `/insights` | Articles index (structure only; content later). Old `/blog` redirects here |
@@ -193,8 +194,8 @@ center item and the sticky header.
 uses WhatsApp green `#25D366` with navy text — the one brand-external color);
 inputs with visible labels above, 44px min height; spec table (zebra-free,
 rules from `--line`, tabular figures); category tile (photo, name, count,
-sub-category chips); certification row (name, what it covers, document
-status); process step (numbered — this is a real sequence).
+sub-category chips); certification row (name, what it covers, "Request a copy"
+link); process step (numbered — this is a real sequence).
 
 **Motion.** One orchestrated page-load moment: hero copy settles, then the
 dial's center item comes forward. Everything else moves only in response to
@@ -220,7 +221,8 @@ terms → sample kit → final CTA.
    and the Punjab plains to your port". CTAs: "Get a quote" (teal), "Chat on
    WhatsApp" (green). No stat counters — nothing invented.
 2. **Proof strip.** The six certifications as a single row of name + one-line
-   scope (no logos until documents arrive), plus office location and hours.
+   scope, marked "available on request" (no logos or scans), plus office
+   location and hours.
 3. **Categories.** Six photo tiles from data, each linking to its category page.
 4. **How an order works.** Numbered steps: enquiry → quote (FOB/CIF) → sample
    (DHL/Leopard) → contract and advance → quality checks and documents →
@@ -323,7 +325,6 @@ and keys come from env vars, never from the client bundle.
 
 - Custom domain: does the client own one? Affects email provider choice and
   final URLs.
-- Certificate documents/numbers for the Certifications page.
 - Real business email to replace the Gmail placeholder.
 - Product photography: client-supplied or licensed stock of the actual
   commodities (no generic imagery).
