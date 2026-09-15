@@ -1,7 +1,6 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const src = readFileSync("src/data/catalog.ts", "utf8");
-const categorySlugs = [...src.matchAll(/slug: "([a-z0-9-]+)", name: "[^"]+", tagline/g)].map((m) => m[1]);
 const productSlugs = [...src.matchAll(/base\(\{ slug: "([a-z0-9-]+)"/g)].map((m) => m[1]);
 
 function svg(label, bg) {
@@ -14,8 +13,6 @@ function svg(label, bg) {
 </svg>`;
 }
 
-mkdirSync("public/images/categories", { recursive: true });
 mkdirSync("public/images/products", { recursive: true });
-for (const s of categorySlugs) writeFileSync(`public/images/categories/${s}.svg`, svg(s, "#0b2545"));
 for (const s of productSlugs) writeFileSync(`public/images/products/${s}.svg`, svg(s, "#123a66"));
-console.log(`wrote ${categorySlugs.length} category and ${productSlugs.length} product placeholders`);
+console.log(`wrote ${productSlugs.length} product placeholders`);

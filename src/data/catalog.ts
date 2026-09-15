@@ -1,21 +1,34 @@
 import type { Category, Product } from "@/lib/types";
 
-const img = (folder: "categories" | "products", name: string) => `/images/${folder}/${name}.svg`;
+const svg = (folder: "products", name: string) => `/images/${folder}/${name}.svg`;
+const jpg = (folder: "categories", name: string) => `/images/${folder}/${name}.jpg`;
 
 export const categories: Category[] = [
-  { slug: "salt", name: "Salt", tagline: "Himalayan pink salt from the Khewra range", heroImage: img("categories", "salt"),
+  { slug: "salt", name: "Salt", tagline: "Himalayan pink salt from the Khewra range",
+    description: "Rock salt from Pakistan's Salt Range, offered as edible grades, cooking and grilling slabs, table and kitchen pieces, salt lamps, wellness products, home and decor items and industrial grades.",
+    heroImage: jpg("categories", "salt"),
     subCategories: ["Edible Salt", "Cooking & Grilling", "Table Products", "Kitchen Products", "Salt Lamps", "Wellness Products", "Home & Decor", "Industrial Products"] },
-  { slug: "rice", name: "Rice", tagline: "Basmati and non-basmati from the Punjab plains", heroImage: img("categories", "rice"),
+  { slug: "rice", name: "Rice", tagline: "Basmati and non-basmati from the Punjab plains",
+    description: "Basmati and non-basmati varieties from the Punjab plains, including 1121 steam, 1509 sella, 1847 and IRRI-6, milled and graded for export.",
+    heroImage: jpg("categories", "rice"),
     subCategories: ["Basmati", "Non-Basmati"] },
-  { slug: "potato", name: "Potato", tagline: "Red and white table potatoes", heroImage: img("categories", "potato"),
+  { slug: "potato", name: "Potato", tagline: "Red and white table potatoes",
+    description: "Red-skinned and white-skinned table potatoes, sorted and graded by size before dispatch.",
+    heroImage: jpg("categories", "potato"),
     subCategories: ["Red", "White"] },
-  { slug: "onion", name: "Onion", tagline: "Fresh onions for wholesale buyers", heroImage: img("categories", "onion"), subCategories: [] },
-  { slug: "tomato", name: "Tomato", tagline: "Fresh tomatoes for wholesale buyers", heroImage: img("categories", "tomato"), subCategories: [] },
-  { slug: "spices", name: "Spices", tagline: "Ground turmeric and red chilli", heroImage: img("categories", "spices"), subCategories: [] },
+  { slug: "onion", name: "Onion", tagline: "Fresh onions for wholesale buyers",
+    description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
+    heroImage: jpg("categories", "onion"), subCategories: [] },
+  { slug: "tomato", name: "Tomato", tagline: "Fresh tomatoes for wholesale buyers",
+    description: "Fresh tomatoes sorted by size and ripeness for wholesale buyers.",
+    heroImage: jpg("categories", "tomato"), subCategories: [] },
+  { slug: "spices", name: "Spices", tagline: "Ground turmeric and red chilli",
+    description: "Ground turmeric and red chilli powder, cleaned, milled and packed for retail or bulk buyers.",
+    heroImage: jpg("categories", "spices"), subCategories: [] },
 ];
 
 const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "supportedTradeTerms" | "certifications" | "summary"> & Partial<Product>): Product => ({
-  images: [img("products", p.slug)],
+  images: [svg("products", p.slug)],
   specs: [],
   packagingOptions: [],
   supportedTradeTerms: ["FOB", "CIF"],

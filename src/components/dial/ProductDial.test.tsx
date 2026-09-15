@@ -5,7 +5,7 @@ import { ProductDial } from "@/components/dial/ProductDial";
 import type { DialItem } from "@/components/dial/types";
 
 const items: DialItem[] = ["salt", "rice", "potato", "onion", "tomato", "spices"].map((slug, i) => ({
-  slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, image: `/images/categories/${slug}.svg`,
+  slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, description: `${slug} description`, image: `/images/categories/${slug}.svg`,
   productCount: i + 1, subCategories: slug === "rice" ? ["Basmati", "Non-Basmati"] : [],
   products: [{ slug: `${slug}-a`, name: `${slug} A`, ...(slug === "rice" ? { subCategory: "Basmati" } : {}) }],
 }));
@@ -25,6 +25,15 @@ describe("ProductDial", () => {
     region.focus();
     await user.keyboard("{ArrowLeft}{ArrowLeft}");
     expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Spices");
+  });
+
+  it("updates the description text after clicking Next category", async () => {
+    const user = userEvent.setup();
+    render(<ProductDial items={items} />);
+    expect(screen.getByText("salt description")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Next category" }));
+    expect(screen.queryByText("salt description")).not.toBeInTheDocument();
+    expect(screen.getByText("rice description")).toBeInTheDocument();
   });
 
   it("Home and End jump to the first and last item", async () => {

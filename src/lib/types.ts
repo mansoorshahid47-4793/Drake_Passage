@@ -15,6 +15,7 @@ export interface Category {
   slug: string;
   name: string;
   tagline: string;
+  description: string;
   heroImage: string;
   subCategories: string[];
 }
