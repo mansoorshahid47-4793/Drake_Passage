@@ -26,6 +26,9 @@
 
 .dial-item[data-offset="0"] .dial-card { box-shadow: 0 24px 48px -16px rgba(11, 37, 69, 0.45); }
 
+/* Mouse drags must reach the stage's swipe handler, not start a native image drag. */
+.dial-item img { -webkit-user-drag: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .dial-item { transition: none; }
   .dial-item[data-offset="1"], .dial-item[data-offset="-1"],

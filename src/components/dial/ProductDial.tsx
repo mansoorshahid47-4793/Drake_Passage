@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./dial.css";
 import type { DialItem } from "./types";
 import { CategoryPanel } from "./CategoryPanel";
@@ -13,9 +13,20 @@ export function ProductDial({ items }: { items: DialItem[] }) {
   const count = items.length;
   const { index, next, prev, goTo } = useDialState(count);
   const [expanded, setExpanded] = useState(false);
+  const stageRef = useRef<HTMLDivElement>(null);
   const dragStart = useRef<number | null>(null);
   const swiped = useRef(false);
   const current = items[index];
+
+  // If a card button holds focus when the dial moves, follow the centre so focus
+  // never sits inside an aria-hidden slide. Focus on the controls or region stays put.
+  useEffect(() => {
+    const stage = stageRef.current;
+    const active = document.activeElement;
+    if (!stage || !active || !active.closest(".dial-item")) return;
+    const center = stage.querySelector<HTMLButtonElement>('.dial-item[data-offset="0"] button');
+    if (center && center !== active) center.focus();
+  }, [index]);
 
   const move = (fn: () => void) => { setExpanded(false); fn(); };
 
@@ -45,12 +56,14 @@ export function ProductDial({ items }: { items: DialItem[] }) {
   return (
     <section aria-label="Product categories" aria-roledescription="carousel" className="w-full" tabIndex={0} onKeyDown={onKeyDown}>
       <div
+        ref={stageRef}
         className="dial-stage touch-pan-y select-none"
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onPointerLeave={onPointerUp}
         onPointerCancel={onPointerCancel}
         onClickCapture={onClickCapture}
+        onDragStart={(e) => e.preventDefault()}
       >
         {items.map((item, i) => {
           const d = relativeOffset(i, index, count);
