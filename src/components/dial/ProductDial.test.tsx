@@ -1,11 +1,8 @@
-import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, describe, it, expect } from "vitest";
+import { describe, it, expect } from "vitest";
 import { ProductDial } from "@/components/dial/ProductDial";
 import type { DialItem } from "@/components/dial/types";
-
-// Vitest globals are off in this repo, so Testing Library cannot auto-register cleanup.
-afterEach(cleanup);
 
 const items: DialItem[] = ["salt", "rice", "potato", "onion", "tomato", "spices"].map((slug, i) => ({
   slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, image: `/images/categories/${slug}.svg`,
