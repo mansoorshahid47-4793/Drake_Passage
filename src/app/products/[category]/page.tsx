@@ -37,6 +37,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         <p className="m-0 text-[15px]"><Link href="/products">Products</Link></p>
         <h1 className="mt-2">{category.name}</h1>
         <p className="mt-3 text-muted text-[1.2rem]">{category.tagline}</p>
+        <p className="mt-3 text-muted text-[15px] max-w-prose">{category.description}</p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button href={`/contact?category=${category.slug}`}>Get a quote for {category.name.toLowerCase()}</Button>
           <Button href={whatsAppUrl(`Quote request: ${category.name}`)} external variant="whatsapp">Chat on WhatsApp</Button>

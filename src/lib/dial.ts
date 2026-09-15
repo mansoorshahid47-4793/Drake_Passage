@@ -8,6 +8,7 @@ export function toDialItems(): DialItem[] {
       slug: c.slug,
       name: c.name,
       tagline: c.tagline,
+      description: c.description,
       image: c.heroImage,
       productCount: products.length,
       subCategories: c.subCategories,

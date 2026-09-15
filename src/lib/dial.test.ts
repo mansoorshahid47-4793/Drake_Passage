@@ -9,6 +9,8 @@ describe("toDialItems", () => {
     expect(rice.productCount).toBe(5);
     expect(rice.subCategories).toEqual(["Basmati", "Non-Basmati"]);
     expect(rice.products.find((p) => p.slug === "irri-6")?.subCategory).toBe("Non-Basmati");
+    expect(typeof rice.description).toBe("string");
+    expect(rice.description.length).toBeGreaterThan(0);
     expect(JSON.parse(JSON.stringify(items))).toEqual(items);
   });
 });

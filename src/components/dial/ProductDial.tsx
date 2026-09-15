@@ -104,6 +104,7 @@ export function ProductDial({ items }: { items: DialItem[] }) {
         </button>
       </div>
       <p className="mt-2 text-center text-muted text-[15px]">{current.tagline}</p>
+      <p className="mt-2 max-w-prose text-center text-muted text-[15px] mx-auto">{current.description}</p>
       {expanded && <CategoryPanel item={current} />}
     </section>
   );
