@@ -1,0 +1,34 @@
+.dial-stage {
+  position: relative;
+  height: 340px;
+  perspective: 1100px;
+  overflow: hidden;
+}
+@media (min-width: 768px) { .dial-stage { height: 420px; } }
+@media (min-width: 1024px) { .dial-stage { height: 460px; } }
+
+.dial-item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(62%, 320px);
+  translate: -50% -50%;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-dial) cubic-bezier(0.2, 0.7, 0.2, 1), opacity var(--dur-dial) ease-out;
+  will-change: transform;
+}
+.dial-item[data-offset="0"]  { transform: translateX(0) scale(1) rotateY(0deg); opacity: 1; z-index: 5; }
+.dial-item[data-offset="1"]  { transform: translateX(46%) scale(0.82) rotateY(-28deg); opacity: 0.6; z-index: 4; }
+.dial-item[data-offset="-1"] { transform: translateX(-46%) scale(0.82) rotateY(28deg); opacity: 0.6; z-index: 4; }
+.dial-item[data-offset="2"]  { transform: translateX(80%) scale(0.7) rotateY(-36deg); opacity: 0.3; z-index: 3; }
+.dial-item[data-offset="-2"] { transform: translateX(-80%) scale(0.7) rotateY(36deg); opacity: 0.3; z-index: 3; }
+.dial-item[data-offset="hidden"] { visibility: hidden; opacity: 0; transform: scale(0.6); }
+
+.dial-item[data-offset="0"] .dial-card { box-shadow: 0 24px 48px -16px rgba(11, 37, 69, 0.45); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dial-item { transition: none; }
+  .dial-item[data-offset="1"], .dial-item[data-offset="-1"],
+  .dial-item[data-offset="2"], .dial-item[data-offset="-2"] { transform: none; opacity: 0; visibility: hidden; }
+  .dial-item[data-offset="0"] { transform: none; }
+}
