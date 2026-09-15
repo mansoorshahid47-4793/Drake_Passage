@@ -8,10 +8,15 @@ export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (!allow(ip)) return NextResponse.json({ ok: false, error: "Too many requests. Try again in a few minutes or use WhatsApp." }, { status: 429 });
 
-  let body: Record<string, unknown>;
-  try { body = await req.json(); } catch { return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 }); }
+  let parsed: unknown;
+  try { parsed = await req.json(); } catch { return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 }); }
 
-  if (typeof body.botcheck === "string" && body.botcheck.length > 0) return NextResponse.json({ ok: true });
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    return NextResponse.json({ ok: false, error: "Invalid request" }, { status: 400 });
+  }
+  const body = parsed as Record<string, unknown>;
+
+  if (body.botcheck) return NextResponse.json({ ok: true });
 
   const result = validateEnquiry(body as Record<string, string>, getCategories().map((c) => c.slug));
   if (!result.ok) return NextResponse.json({ ok: false, errors: result.errors }, { status: 400 });

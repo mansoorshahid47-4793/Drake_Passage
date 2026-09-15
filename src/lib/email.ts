@@ -21,15 +21,21 @@ export async function sendEnquiry(v: EnquiryInput): Promise<{ ok: true } | { ok:
     message: v.message,
   };
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
   try {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "content-type": "application/json", accept: "application/json" },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
     const data = (await res.json()) as { success?: boolean; message?: string };
     return data.success ? { ok: true } : { ok: false, reason: data.message ?? `Provider returned ${res.status}` };
   } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") return { ok: false, reason: "Provider timeout" };
     return { ok: false, reason: err instanceof Error ? err.message : "Network error" };
+  } finally {
+    clearTimeout(timeout);
   }
 }
