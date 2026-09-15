@@ -48,3 +48,6 @@ next-env.d.ts
 
 # ruflo runtime (never commit)
 .claude-flow/
+
+# Claude Code native worktrees
+.claude/worktrees/
