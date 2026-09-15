@@ -6,8 +6,10 @@ import { ProofStrip } from "@/components/home/ProofStrip";
 import { TermsBand } from "@/components/home/TermsBand";
 import { SampleKit } from "@/components/home/SampleKit";
 import { FinalCta } from "@/components/home/FinalCta";
+import { ProductDial } from "@/components/dial/ProductDial";
 import { PROCESS_STEPS } from "@/data/process";
 import { getCategories, getProductsByCategory } from "@/lib/catalog";
+import { toDialItems } from "@/lib/dial";
 
 export default function Home() {
   const categories = getCategories();
@@ -15,9 +17,15 @@ export default function Home() {
   return (
     <>
       <Hero>
-        <CategoryGrid categories={categories} counts={counts} />
+        <ProductDial items={toDialItems()} />
       </Hero>
       <ProofStrip />
+      <section className="py-20">
+        <Container>
+          <h2>What we export</h2>
+          <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
+        </Container>
+      </section>
       <section className="py-20">
         <Container>
           <h2>How an order works</h2>

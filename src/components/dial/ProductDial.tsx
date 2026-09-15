@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import "./dial.css";
 import type { DialItem } from "./types";
+import { CategoryPanel } from "./CategoryPanel";
 import { DialItemCard } from "./DialItemCard";
 import { relativeOffset, useDialState } from "./useDialState";
 
@@ -81,7 +82,7 @@ export function ProductDial({ items }: { items: DialItem[] }) {
         </button>
       </div>
       <p className="mt-2 text-center text-muted text-[15px]">{current.tagline}</p>
-      {expanded && <div id={`dial-panel-${current.slug}`} />}
+      {expanded && <CategoryPanel item={current} />}
     </section>
   );
 }
