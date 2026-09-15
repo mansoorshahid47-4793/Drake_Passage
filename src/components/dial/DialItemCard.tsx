@@ -10,11 +10,11 @@ type Props = {
   total: number;
   isCenter: boolean;
   expanded: boolean;
-  priority: boolean;
+  preload: boolean;
   onSelect: () => void;
 };
 
-export function DialItemCard({ item, offset, position, total, isCenter, expanded, priority, onSelect }: Props) {
+export function DialItemCard({ item, offset, position, total, isCenter, expanded, preload, onSelect }: Props) {
   return (
     <div
       className="dial-item"
@@ -34,7 +34,7 @@ export function DialItemCard({ item, offset, position, total, isCenter, expanded
         className="dial-card block w-full overflow-hidden rounded-tile bg-navy text-left text-salt cursor-pointer"
       >
         <div className="relative aspect-[4/3]">
-          <Image src={item.image} alt="" fill sizes="(min-width: 1024px) 320px, 62vw" preload={priority} draggable={false} className="object-cover" />
+          <Image src={item.image} alt="" fill sizes="(min-width: 520px) 320px, 62vw" preload={preload} draggable={false} className="object-cover" />
         </div>
         <div className="px-4 py-3">
           <span className="block font-display text-xl font-semibold">{item.name}</span>

@@ -14,6 +14,8 @@ const items: DialItem[] = ["salt", "rice", "potato", "onion", "tomato", "spices"
 }));
 
 const cardButton = (slug: string) => within(screen.getByTestId(`dial-item-${slug}`)).getByRole("button", { hidden: true });
+const stageOf = (slug: string) => screen.getByTestId(`dial-item-${slug}`).parentElement!;
+const primary = (clientX: number) => ({ clientX, isPrimary: true, button: 0 });
 
 describe("ProductDial", () => {
   it("announces the center item and moves with controls and arrow keys", async () => {
@@ -26,6 +28,16 @@ describe("ProductDial", () => {
     region.focus();
     await user.keyboard("{ArrowLeft}{ArrowLeft}");
     expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Spices");
+  });
+
+  it("Home and End jump to the first and last item", async () => {
+    const user = userEvent.setup();
+    render(<ProductDial items={items} />);
+    screen.getByRole("region", { name: "Product categories" }).focus();
+    await user.keyboard("{End}");
+    expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Spices");
+    await user.keyboard("{Home}");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
   });
 
   it("marks offsets so CSS can position items", () => {
@@ -47,6 +59,33 @@ describe("ProductDial", () => {
     expect(panel).toHaveTextContent("Basmati");
     expect(screen.getByRole("link", { name: "Get a quote for rice" })).toHaveAttribute("href", "/contact?category=rice");
     expect(screen.getByRole("link", { name: "See all rice" })).toHaveAttribute("href", "/products/rice");
+  });
+
+  it("toggles aria-expanded on the centre button as the panel opens and closes", async () => {
+    const user = userEvent.setup();
+    render(<ProductDial items={items} />);
+    const salt = cardButton("salt");
+    expect(salt).toHaveAttribute("aria-expanded", "false");
+    expect(salt).toHaveAttribute("aria-controls", "dial-panel-salt");
+    expect(cardButton("rice")).not.toHaveAttribute("aria-expanded");
+    await user.click(salt);
+    expect(salt).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("region", { name: "Salt details" })).toHaveAttribute("id", "dial-panel-salt");
+    await user.click(salt);
+    expect(salt).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("region", { name: "Salt details" })).not.toBeInTheDocument();
+  });
+
+  it("leaves keys pressed inside the expanded panel to the panel", async () => {
+    const user = userEvent.setup();
+    render(<ProductDial items={items} />);
+    await user.click(cardButton("salt"));
+    const link = screen.getByRole("link", { name: "See all salt" });
+    link.focus();
+    await user.keyboard("{End}{ArrowRight}");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
+    expect(screen.getByRole("region", { name: "Salt details" })).toBeInTheDocument();
+    expect(document.activeElement).toBe(link);
   });
 
   it("moves focus to the new center card when a focused card rotates away, never into aria-hidden", async () => {
@@ -86,28 +125,43 @@ describe("ProductDial", () => {
   it("a swipe moves the dial and the click that follows it does not open the panel", () => {
     render(<ProductDial items={items} />);
     const salt = cardButton("salt");
-    fireEvent.pointerDown(salt, { clientX: 200 });
-    fireEvent.pointerUp(salt, { clientX: 140 });
+    fireEvent.pointerDown(salt, primary(200));
+    fireEvent.pointerUp(salt, primary(140));
     expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     fireEvent.click(salt);
     expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     expect(screen.queryByRole("region", { name: /details$/ })).not.toBeInTheDocument();
     // The guard only swallows the one click that follows a swipe.
-    fireEvent.pointerDown(cardButton("rice"), { clientX: 100 });
-    fireEvent.pointerUp(cardButton("rice"), { clientX: 100 });
+    fireEvent.pointerDown(cardButton("rice"), primary(100));
+    fireEvent.pointerUp(cardButton("rice"), primary(100));
     fireEvent.click(cardButton("rice"));
     expect(screen.getByRole("region", { name: "Rice details" })).toBeInTheDocument();
   });
 
-  it("a drag that leaves the stage still settles and does not leave a stale start", () => {
+  it("ignores non-primary pointers and secondary buttons", () => {
     render(<ProductDial items={items} />);
-    const stage = screen.getByTestId("dial-item-salt").parentElement!;
-    fireEvent.pointerDown(stage, { clientX: 100 });
-    fireEvent.pointerLeave(stage, { clientX: 300 });
+    const stage = stageOf("salt");
+    fireEvent.pointerDown(stage, { clientX: 200, isPrimary: false, button: 0 });
+    fireEvent.pointerUp(stage, { clientX: 100, isPrimary: false, button: 0 });
+    fireEvent.pointerDown(stage, { clientX: 200, isPrimary: true, button: 2 });
+    fireEvent.pointerUp(stage, { clientX: 100, isPrimary: true, button: 2 });
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
+  });
+
+  it("a drag that leaves the stage still settles, leaves no stale start, and does not eat the next key", async () => {
+    const user = userEvent.setup();
+    render(<ProductDial items={items} />);
+    const stage = stageOf("salt");
+    fireEvent.pointerDown(stage, primary(100));
+    fireEvent.pointerLeave(stage, primary(300));
     expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Spices");
     // A later pointerup without a pointerdown on the stage must be a no-op.
-    fireEvent.pointerUp(stage, { clientX: 0 });
+    fireEvent.pointerUp(stage, primary(0));
     expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Spices");
+    // No click followed the swipe, so the guard must not swallow a keyboard activation.
+    cardButton("spices").focus();
+    await user.keyboard("{Enter}");
+    expect(screen.getByRole("region", { name: "Spices details" })).toBeInTheDocument();
   });
 });
 

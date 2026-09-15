@@ -31,13 +31,22 @@ export function ProductDial({ items }: { items: DialItem[] }) {
   const move = (fn: () => void) => { setExpanded(false); fn(); };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
+    // Only the region itself and the cards drive the dial from the keyboard; keys pressed
+    // on the prev/next buttons or inside the expanded panel are theirs to handle.
+    const target = e.target as Node;
+    if (target !== e.currentTarget && !stageRef.current?.contains(target)) return;
+    swiped.current = false;
     if (e.key === "ArrowRight") { e.preventDefault(); move(next); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); move(prev); }
     else if (e.key === "Home") { e.preventDefault(); move(() => goTo(0)); }
     else if (e.key === "End") { e.preventDefault(); move(() => goTo(count - 1)); }
   };
 
-  const onPointerDown = (e: React.PointerEvent) => { dragStart.current = e.clientX; swiped.current = false; };
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (!e.isPrimary || e.button !== 0) return;
+    dragStart.current = e.clientX;
+    swiped.current = false;
+  };
   const onPointerUp = (e: React.PointerEvent) => {
     if (dragStart.current === null) return;
     const dx = e.clientX - dragStart.current;
@@ -77,7 +86,7 @@ export function ProductDial({ items }: { items: DialItem[] }) {
               total={count}
               isCenter={d === 0}
               expanded={expanded}
-              priority={i === 0}
+              preload={i === 0}
               onSelect={() => (d === 0 ? setExpanded((v) => !v) : move(() => goTo(i)))}
             />
           );
@@ -87,7 +96,7 @@ export function ProductDial({ items }: { items: DialItem[] }) {
         <button type="button" onClick={() => move(prev)} aria-label="Previous category" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-navy text-navy hover:bg-navy hover:text-salt cursor-pointer">
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 4l-6 6 6 6" /></svg>
         </button>
-        <p role="status" aria-live="polite" className="m-0 min-w-[10ch] text-center text-[15px] text-muted">
+        <p role="status" aria-live="polite" className="m-0 min-w-[16ch] text-center text-[15px] text-muted">
           {index + 1} of {count}, {current.name}
         </p>
         <button type="button" onClick={() => move(next)} aria-label="Next category" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-navy text-navy hover:bg-navy hover:text-salt cursor-pointer">
