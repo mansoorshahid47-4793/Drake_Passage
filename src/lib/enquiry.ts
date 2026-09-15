@@ -27,7 +27,7 @@ export type ValidationResult =
   | { ok: false; errors: Partial<Record<keyof EnquiryInput, string>> };
 
 export function validateEnquiry(input: Partial<EnquiryInput>, categorySlugs: string[]): ValidationResult {
-  const v = Object.fromEntries(ENQUIRY_FIELDS.map((k) => [k, (input[k] ?? "").toString().trim()])) as EnquiryInput;
+  const v = Object.fromEntries(ENQUIRY_FIELDS.map((k) => [k, (input[k] ?? "").toString().trim()])) as unknown as EnquiryInput;
   const errors: Partial<Record<keyof EnquiryInput, string>> = {};
 
   if (!(ENQUIRY_TYPES as readonly string[]).includes(v.enquiryType)) errors.enquiryType = "Choose what you are asking for";
