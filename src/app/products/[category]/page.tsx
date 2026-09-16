@@ -9,6 +9,7 @@ import { getCategories, getCategory, groupBySubCategory, ENQUIRY_NOTE } from "@/
 import { getOriginPhotos } from "@/lib/origin";
 import { categoryTitle } from "@/lib/seo";
 import { whatsAppUrl } from "@/lib/whatsapp";
+import { SITE_URL } from "@/lib/site";
 
 type Params = { category: string };
 
@@ -19,9 +20,12 @@ export function generateStaticParams(): Params[] {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const category = getCategory((await params).category);
   if (!category) return {};
+  const description = category.tier === "primary"
+    ? `${category.tagline}. FOB or CIF quotes from Drake Passage, Lahore, Pakistan; samples by courier, documents on request.`
+    : `${category.tagline}, supplied on enquiry by Drake Passage, Lahore, Pakistan. FOB or CIF quotes; tell us the grade, quantity and destination.`;
   return {
     title: categoryTitle(category),
-    description: `${category.tagline}. FOB or CIF quotes for wholesale buyers.`,
+    description,
     alternates: { canonical: `/products/${category.slug}` },
   };
 }
@@ -31,8 +35,17 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
   if (!category) notFound();
   const groups = groupBySubCategory(category);
   const originPhotos = category.originPhotoIds ? getOriginPhotos(category.originPhotoIds) : [];
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Products", item: `${SITE_URL}/products` },
+      { "@type": "ListItem", position: 2, name: category.name, item: `${SITE_URL}/products/${category.slug}` },
+    ],
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <div className="relative h-[40vh] min-h-[280px] bg-navy">
         <Image src={category.heroImage} alt={`${category.name}: ${category.tagline}`} fill preload sizes="100vw" className="object-cover opacity-80" />
       </div>
@@ -69,7 +82,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         {originPhotos.length > 0 && (
           <section className="mt-12">
             <h2 className="text-[1.6rem]">From the source</h2>
-            <div className="mt-4 grid gap-8 sm:grid-cols-2">
+            <div className={`mt-4 grid gap-8 ${originPhotos.length > 1 ? "sm:grid-cols-2" : "max-w-2xl"}`}>
               {originPhotos.map((photo) => (
                 <OriginFigure key={photo.id} photo={photo} />
               ))}

@@ -4,7 +4,11 @@ import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { TermsBand } from "@/components/home/TermsBand";
 import { PROCESS_STEPS } from "@/data/process";
 
-export const metadata: Metadata = { title: "Export services", description: "How an order works with Drake Passage: quote, sample, contract, quality checks, shipment. FOB or CIF.", alternates: { canonical: "/services" } };
+export const metadata: Metadata = {
+  title: "Export process and trade terms",
+  description: "How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB or CIF, 100% advance for new buyers, samples by DHL or Leopard Courier.",
+  alternates: { canonical: "/services" },
+};
 
 export default function ServicesPage() {
   return (

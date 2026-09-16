@@ -4,7 +4,11 @@ import { ContactDetails } from "@/components/contact/ContactDetails";
 import { EnquiryFormLoader } from "@/components/contact/EnquiryFormLoader";
 import { getCategories, getProductsByCategory } from "@/lib/catalog";
 
-export const metadata: Metadata = { title: "Contact", description: "Request a quote or a sample from Drake Passage. WhatsApp, phone and email.", alternates: { canonical: "/contact" } };
+export const metadata: Metadata = {
+  title: "Contact: get a quote or a sample",
+  description: "Request a quote, a sample or a certificate copy from Drake Passage, Lahore. WhatsApp or phone +92 304 740 9567, email, Mon–Sat 09:00–18:00 PKT.",
+  alternates: { canonical: "/contact" },
+};
 
 export default function ContactPage() {
   const formCategories = getCategories().map((c) => ({

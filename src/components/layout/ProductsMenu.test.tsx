@@ -15,7 +15,7 @@ describe("ProductsMenu", () => {
     expect(screen.getByText("Primary lines")).toBeInTheDocument();
     expect(screen.getByText("On enquiry")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Rice" })).toHaveAttribute("href", "/products/rice");
-    expect(screen.getByRole("link", { name: "Potato" })).toHaveAttribute("href", "/products/potato");
+    expect(screen.getByRole("link", { name: "Potatoes" })).toHaveAttribute("href", "/products/potato");
     expect(screen.getByRole("link", { name: "All products" })).toHaveAttribute("href", "/products");
     await user.keyboard("{Escape}");
     expect(trigger).toHaveAttribute("aria-expanded", "false");

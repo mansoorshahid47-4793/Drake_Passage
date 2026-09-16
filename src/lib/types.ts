@@ -16,6 +16,7 @@ export type CategoryTier = "primary" | "enquiry";
 export interface Category {
   slug: string;
   name: string;
+  seoName?: string;
   tagline: string;
   description: string;
   heroImage: string;

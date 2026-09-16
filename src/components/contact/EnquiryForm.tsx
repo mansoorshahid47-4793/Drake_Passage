@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ENQUIRY_FIELDS, ENQUIRY_TYPES, TRADE_TERMS, validateEnquiry, type EnquiryInput, type EnquiryType } from "@/lib/enquiry";
 import { whatsAppUrl } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/Button";
+import { company } from "@/data/company";
 
 export type FormCategory = { slug: string; name: string; products: { slug: string; name: string }[] };
 
@@ -155,7 +156,7 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     return (
       <div ref={successRef} role="status" tabIndex={-1} className="rounded-tile border border-success bg-white p-6">
         <h2 className="text-success">Enquiry sent</h2>
-        <p className="mt-2">We reply within one business day. For anything urgent, message us on WhatsApp.</p>
+        <p className="mt-2">We reply during office hours, {company.hours}. For anything urgent, message us on WhatsApp.</p>
         <div className="mt-4"><Button href={whatsAppUrl()} external variant="whatsapp">Chat on WhatsApp</Button></div>
       </div>
     );

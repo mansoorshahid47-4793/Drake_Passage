@@ -41,7 +41,7 @@ export const ORIGIN_PHOTOS: OriginPhoto[] = [
     id: "salt-block",
     src: "/images/origin/salt-block.jpg",
     alt: "A quarried block of rock salt from the Khewra mine",
-    caption: "Rock-salt block from Khewra",
+    caption: "Rock salt block from Khewra",
     author: "Hubertl",
     licence: CC_BY_SA_4,
     sourceUrl: "https://commons.wikimedia.org/wiki/File:2015-03-07_Pakistanisches,_sogenanntes_Himalaya-Salz_0399.jpg",

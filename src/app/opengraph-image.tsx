@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Drake Passage — Himalayan salt and basmati rice exporters, Pakistan";
+export const alt = "Drake Passage: Himalayan salt and Basmati rice exporters, Pakistan";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -68,7 +68,7 @@ export default function OgImage() {
           </div>
         </div>
         <div style={{ display: "flex", marginTop: 28, fontSize: 30, color: "#5a6b72" }}>
-          Himalayan salt and basmati rice exporters, Pakistan
+          Himalayan salt and Basmati rice exporters, Pakistan
         </div>
       </div>
     ),
