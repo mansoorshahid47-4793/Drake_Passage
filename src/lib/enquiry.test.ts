@@ -1,0 +1,70 @@
+import { describe, it, expect } from "vitest";
+import { validateEnquiry, type EnquiryCatalog } from "@/lib/enquiry";
+
+const good = {
+  fullName: "Amina Khan", email: "amina@importco.ae", company: "ImportCo", phone: "+971 50 000 0000",
+  category: "rice", product: "irri-6", destination: "United Arab Emirates", quantity: "2 x 40ft containers",
+  tradeTerm: "CIF", message: "Please quote IRRI-6, 25kg PP bags, Jebel Ali.", enquiryType: "quote",
+};
+const catalog: EnquiryCatalog = [
+  { slug: "salt", products: [] },
+  { slug: "rice", products: ["irri-6", "basmati"] },
+];
+
+describe("validateEnquiry", () => {
+  it("accepts a complete enquiry and trims strings", () => {
+    const r = validateEnquiry({ ...good, fullName: "  Amina Khan " }, catalog);
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.value.fullName).toBe("Amina Khan");
+  });
+
+  it("reports one message per invalid required field", () => {
+    const r = validateEnquiry({ ...good, fullName: "A", email: "nope", category: "gold", tradeTerm: "EXW", message: "short", enquiryType: "x" }, catalog);
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(Object.keys(r.errors).sort()).toEqual(["category", "email", "enquiryType", "fullName", "message", "tradeTerm"]);
+      expect(r.errors.email).toBe("Enter a valid email address");
+    }
+  });
+
+  it("allows company, phone and product to be empty", () => {
+    const r = validateEnquiry({ ...good, company: "", phone: "", product: "" }, catalog);
+    expect(r.ok).toBe(true);
+  });
+
+  it("rejects a non-string field instead of coercing it", () => {
+    const r = validateEnquiry({ ...good, fullName: {} }, catalog);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.fullName).toBe("Enter your full name");
+  });
+
+  it("strips control characters from a name", () => {
+    const r = validateEnquiry({ ...good, fullName: "Ami\x07na\x00 Khan" }, catalog);
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.value.fullName).toBe("Amina Khan");
+  });
+
+  it("keeps newlines, carriage returns and tabs in message but strips other control characters", () => {
+    const r = validateEnquiry({ ...good, message: "Line one\nLine two\r\nTabbed:\tvalue\x07bell" }, catalog);
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.value.message).toBe("Line one\nLine two\r\nTabbed:\tvaluebell");
+  });
+
+  it("rejects a company over 200 characters with the cap message", () => {
+    const r = validateEnquiry({ ...good, company: "x".repeat(5000) }, catalog);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.company).toBe("Keep the company name under 200 characters");
+  });
+
+  it("rejects a product value with an embedded header-injection attempt", () => {
+    const r = validateEnquiry({ ...good, product: "\r\nBcc: x" }, catalog);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.product).toBe("Choose a product from the selected category");
+  });
+
+  it("rejects a product not belonging to the selected category", () => {
+    const r = validateEnquiry({ ...good, category: "rice", product: "bogus" }, catalog);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.product).toBe("Choose a product from the selected category");
+  });
+});
