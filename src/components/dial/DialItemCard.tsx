@@ -33,7 +33,7 @@ export function DialItemCard({ item, offset, position, total, isCenter, expanded
         aria-controls={isCenter ? `dial-panel-${item.slug}` : undefined}
         className="dial-card block w-full overflow-hidden rounded-tile bg-navy text-left text-salt cursor-pointer"
       >
-        <div className="relative aspect-[4/3]">
+        <div className="dial-photo relative aspect-[4/3]">
           <Image src={item.image} alt="" fill sizes="(min-width: 520px) 320px, 62vw" preload={preload} draggable={false} className="object-cover" />
         </div>
         <div className="px-4 py-3">
