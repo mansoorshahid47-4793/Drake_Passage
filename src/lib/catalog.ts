@@ -1,8 +1,18 @@
 import { categories, products } from "@/data/catalog";
 import type { Category, Product } from "@/lib/types";
 
+export const ENQUIRY_NOTE = "Supplied on enquiry. Tell us the grade, quantity and destination and we will quote.";
+
 export function getCategories(): Category[] {
   return categories;
+}
+
+export function getPrimaryCategories(): Category[] {
+  return categories.filter((c) => c.tier === "primary");
+}
+
+export function getEnquiryCategories(): Category[] {
+  return categories.filter((c) => c.tier === "enquiry");
 }
 
 export function getCategory(slug: string): Category | undefined {

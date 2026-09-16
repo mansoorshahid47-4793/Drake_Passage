@@ -37,7 +37,12 @@ export function DialItemCard({ item, offset, position, total, isCenter, expanded
           <Image src={item.image} alt="" fill sizes="(min-width: 520px) 320px, 62vw" preload={preload} draggable={false} className="object-cover" />
         </div>
         <div className="px-4 py-3">
-          <span className="block font-display text-xl font-semibold">{item.name}</span>
+          <span className="flex items-center gap-2">
+            <span className="font-display text-xl font-semibold">{item.name}</span>
+            {item.tier === "enquiry" && (
+              <span className="rounded-full border border-teal-bright px-2 py-0.5 text-[11px] font-semibold text-teal-bright">On enquiry</span>
+            )}
+          </span>
           <span className="block text-salt/80 text-[15px]">{item.productCount} {item.productCount === 1 ? "product" : "products"}</span>
         </div>
       </button>

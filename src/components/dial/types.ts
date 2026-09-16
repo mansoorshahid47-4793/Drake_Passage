@@ -7,4 +7,5 @@ export interface DialItem {
   productCount: number;
   subCategories: string[];
   products: { slug: string; name: string; subCategory?: string }[];
+  tier: "primary" | "enquiry";
 }

@@ -2,23 +2,28 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
-import { getCategories, getProductsByCategory, groupBySubCategory } from "@/lib/catalog";
+import { EnquiryCategoryList } from "@/components/ui/EnquiryCategoryList";
+import { getCategories, getPrimaryCategories, getEnquiryCategories, getProductsByCategory, groupBySubCategory } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Products",
-  description: "Himalayan salt, basmati and non-basmati rice, potatoes, onions, tomatoes and spices for export from Pakistan.",
+  description: "Himalayan salt and basmati rice exporters, with potatoes, onions, tomatoes and spices available on enquiry from Pakistan.",
   alternates: { canonical: "/products" },
 };
 
 export default function ProductsPage() {
   const categories = getCategories();
+  const primaryCategories = getPrimaryCategories();
+  const enquiryCategories = getEnquiryCategories();
   const counts = Object.fromEntries(categories.map((c) => [c.slug, getProductsByCategory(c.slug).length]));
   return (
     <Container className="py-16">
       <h1>Products</h1>
-      <p className="mt-4 text-muted">Six commodity groups. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
-      <h2 className="sr-only">Browse by category</h2>
-      <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
+      <p className="mt-4 text-muted">Salt and rice are our primary lines. Potatoes, onions, tomatoes and spices are available on enquiry. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
+      <h2 className="mt-10">Primary lines</h2>
+      <div className="mt-6"><CategoryGrid categories={primaryCategories} counts={counts} /></div>
+      <h2 className="mt-12">On enquiry</h2>
+      <div className="mt-6"><EnquiryCategoryList categories={enquiryCategories} /></div>
       {categories.map((c) => (
         <section key={c.slug} className="mt-16 border-t border-line pt-10">
           <h2><Link href={`/products/${c.slug}`} className="text-ink no-underline hover:text-teal">{c.name}</Link></h2>

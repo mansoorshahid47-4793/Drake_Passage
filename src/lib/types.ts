@@ -11,6 +11,8 @@ export interface Certification {
   documentUrl?: string;
 }
 
+export type CategoryTier = "primary" | "enquiry";
+
 export interface Category {
   slug: string;
   name: string;
@@ -18,6 +20,7 @@ export interface Category {
   description: string;
   heroImage: string;
   subCategories: string[];
+  tier: CategoryTier;
 }
 
 export interface Product {

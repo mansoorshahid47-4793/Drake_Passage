@@ -12,6 +12,8 @@ export function MobileNav({ categories }: { categories: Category[] }) {
   const panelId = useId();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const primaryCategories = categories.filter((c) => c.tier === "primary");
+  const enquiryCategories = categories.filter((c) => c.tier === "enquiry");
 
   const close = () => {
     setOpen(false);
@@ -47,8 +49,17 @@ export function MobileNav({ categories }: { categories: Category[] }) {
       </button>
       <div id={panelId} ref={panelRef} tabIndex={-1} hidden={!open} role="dialog" aria-label="Site menu" className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-white p-4">
         <p className="mb-2 font-semibold">Products</p>
+        <p className="mb-1 text-[13px] font-semibold text-muted">Primary lines</p>
+        <ul className="m-0 mb-3 list-none p-0">
+          {primaryCategories.map((c) => (
+            <li key={c.slug}>
+              <Link href={`/products/${c.slug}`} onClick={close} className="block py-3 text-ink no-underline border-b border-line">{c.name}</Link>
+            </li>
+          ))}
+        </ul>
+        <p className="mb-1 text-[13px] font-semibold text-muted">On enquiry</p>
         <ul className="m-0 mb-4 list-none p-0">
-          {categories.map((c) => (
+          {enquiryCategories.map((c) => (
             <li key={c.slug}>
               <Link href={`/products/${c.slug}`} onClick={close} className="block py-3 text-ink no-underline border-b border-line">{c.name}</Link>
             </li>

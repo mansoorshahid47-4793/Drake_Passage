@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { SpecTable } from "@/components/ui/SpecTable";
-import { getCategory, getProduct, getProducts } from "@/lib/catalog";
+import { getCategory, getProduct, getProducts, ENQUIRY_NOTE } from "@/lib/catalog";
 import { productTitle } from "@/lib/seo";
 import { whatsAppUrl } from "@/lib/whatsapp";
 import { company } from "@/data/company";
@@ -59,6 +59,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <h1>{product.name}</h1>
           <p className="mt-3 text-muted text-[1.2rem]">{product.tagline}</p>
           <p className="mt-4">{product.summary}</p>
+          {category.tier === "enquiry" && (
+            <p className="mt-4 max-w-prose rounded-control bg-salt px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
+          )}
           <h2 className="mt-8 text-[1.6rem]">Specifications</h2>
           <div className="mt-3"><SpecTable caption={`${product.name} specifications`} specs={product.specs} /></div>
           {product.packagingOptions.length > 0 && (
