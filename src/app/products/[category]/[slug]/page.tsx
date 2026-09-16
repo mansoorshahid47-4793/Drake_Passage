@@ -74,7 +74,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <p className="mt-3 text-muted text-[1.2rem]">{product.tagline}</p>
           <p className="mt-4">{product.summary}</p>
           {category.tier === "enquiry" && (
-            <p className="mt-4 max-w-prose rounded-control bg-salt px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
+            <p className="mt-4 max-w-prose rounded-control bg-white border border-line px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
           )}
           <h2 className="mt-8 text-[1.6rem]">Specifications</h2>
           <div className="mt-3"><SpecTable caption={`${product.name} specifications`} specs={product.specs} /></div>

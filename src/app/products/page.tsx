@@ -26,7 +26,7 @@ export default function ProductsPage() {
       <div className="mt-6"><EnquiryCategoryList categories={enquiryCategories} /></div>
       {categories.map((c) => (
         <section key={c.slug} className="mt-16 border-t border-line pt-10">
-          <h2><Link href={`/products/${c.slug}`} className="text-ink no-underline hover:text-teal">All {c.name.toLowerCase()} products</Link></h2>
+          <h2><Link href={`/products/${c.slug}`} className="text-ink no-underline hover:text-teal">All {c.name.toLowerCase()}</Link></h2>
           {groupBySubCategory(c).map((g) => (
             <div key={g.subCategory ?? "all"} className="mt-6">
               {g.subCategory && <h3 className="text-[1.25rem]">{g.subCategory}</h3>}

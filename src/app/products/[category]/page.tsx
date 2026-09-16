@@ -55,7 +55,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         <p className="mt-3 text-muted text-[1.2rem]">{category.tagline}</p>
         <p className="mt-3 text-muted text-[15px] max-w-prose">{category.description}</p>
         {category.tier === "enquiry" && (
-          <p className="mt-4 max-w-prose rounded-control bg-salt px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
+          <p className="mt-4 max-w-prose rounded-control bg-white border border-line px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
         )}
         <div className="mt-6 flex flex-wrap gap-3">
           <Button href={`/contact?category=${category.slug}`}>Get a quote for {category.name.toLowerCase()}</Button>

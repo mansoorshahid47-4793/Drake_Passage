@@ -3,10 +3,11 @@ import { Container } from "@/components/ui/Container";
 import { ContactDetails } from "@/components/contact/ContactDetails";
 import { EnquiryFormLoader } from "@/components/contact/EnquiryFormLoader";
 import { getCategories, getProductsByCategory } from "@/lib/catalog";
+import { company } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Contact: get a quote or a sample",
-  description: "Request a quote, a sample or a certificate copy from Drake Passage, Lahore. WhatsApp or phone +92 304 740 9567, email, Mon–Sat 09:00–18:00 PKT.",
+  description: `Request a quote, a sample or a certificate copy from Drake Passage, Lahore. WhatsApp or phone ${company.phoneDisplay}, email, ${company.hours}.`,
   alternates: { canonical: "/contact" },
 };
 

@@ -3,10 +3,11 @@ import { Container } from "@/components/ui/Container";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { TermsBand } from "@/components/home/TermsBand";
 import { PROCESS_STEPS } from "@/data/process";
+import { company } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Export process and trade terms",
-  description: "How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB or CIF, 100% advance for new buyers, samples by DHL or Leopard Courier.",
+  description: `How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB or CIF, ${company.paymentTerms.newBuyers} for new buyers, samples by ${company.sampleCouriers.join(" or ")}.`,
   alternates: { canonical: "/services" },
 };
 

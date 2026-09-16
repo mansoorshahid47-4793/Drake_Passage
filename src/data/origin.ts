@@ -31,7 +31,7 @@ export const ORIGIN_PHOTOS: OriginPhoto[] = [
     src: "/images/origin/salt-coarse.jpg",
     alt: "Coarse crystals of pink Himalayan salt from Pakistan",
     caption: "Coarse Himalayan salt from Pakistan",
-    author: "Iifar",
+    author: "Ivar Leidus",
     licence: CC_BY_SA_4,
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Himalayan_salt_(coarse).jpg",
     width: 1600,
@@ -51,7 +51,7 @@ export const ORIGIN_PHOTOS: OriginPhoto[] = [
   {
     id: "paddy-chunian",
     src: "/images/origin/paddy-chunian.jpg",
-    alt: "A flooded rice paddy field in Tehsil Chunian, Punjab",
+    alt: "A rice paddy field with dense green seedlings in Tehsil Chunian, Punjab",
     caption: "Rice field in Tehsil Chunian, Punjab, Pakistan",
     author: "Kamran sardar",
     licence: CC_BY_3,
@@ -62,7 +62,7 @@ export const ORIGIN_PHOTOS: OriginPhoto[] = [
   {
     id: "badshahi-mosque",
     src: "/images/origin/badshahi-mosque.jpg",
-    alt: "The red sandstone facade and domes of Badshahi Mosque in Lahore",
+    alt: "A night view of the red sandstone facade and domes of Badshahi Mosque in Lahore",
     caption: "Lahore, where Drake Passage is based",
     author: "Harvinder Chandigarh",
     licence: CC_BY_SA_4,

@@ -11,7 +11,7 @@ export function OriginFigure({ photo, sizes = "(min-width: 640px) 50vw, 100vw", 
         <span className="block text-[15px] text-muted">{photo.caption}</span>
         <span className="mt-1 block text-[15px] text-muted">
           Photo: <a href={photo.sourceUrl} target="_blank" rel="noopener noreferrer">{photo.author}</a>,{" "}
-          <a href={photo.licence.url} target="_blank" rel="noopener noreferrer">{photo.licence.name}</a>
+          <a href={photo.licence.url} target="_blank" rel="noopener noreferrer">{photo.licence.name}</a>, cropped
         </span>
       </figcaption>
     </figure>
