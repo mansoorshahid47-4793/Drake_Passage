@@ -33,15 +33,42 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [focusToken, setFocusToken] = useState(0);
+  const [prevInitial, setPrevInitial] = useState(initial);
   const summaryRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
   const id = useId();
   const fid = (k: keyof EnquiryInput) => `${id}-${k}`;
   const eid = (k: keyof EnquiryInput) => `${id}-${k}-error`;
-  const products = categories.find((c) => c.slug === values.category)?.products ?? [];
+
+  // A later `initial` (e.g. the loader resolving the URL after mount) fills in
+  // fields the user has not already changed, without clobbering their input.
+  // Adjusting state during render (guarded by a reference comparison), per
+  // https://react.dev/learn/you-might-not-need-an-effect#adjusting-some-state-when-a-prop-changes,
+  // rather than in a useEffect. Compared against `empty[key]` rather than plain
+  // truthiness because some fields (e.g. enquiryType) default to a non-empty
+  // value ("quote").
+  if (initial !== prevInitial) {
+    setPrevInitial(initial);
+    setValues((v) => {
+      const next = { ...v };
+      for (const [k, val] of Object.entries(initial)) {
+        const key = k as keyof EnquiryInput;
+        if (val && next[key] === empty[key]) next[key] = val as string;
+      }
+      return next;
+    });
+  }
+
+  const categoryObj = categories.find((c) => c.slug === values.category);
+  const products = categoryObj?.products ?? [];
 
   useEffect(() => {
     if (focusToken > 0) summaryRef.current?.focus();
   }, [focusToken]);
+
+  useEffect(() => {
+    if (status.kind === "sent") successRef.current?.focus();
+  }, [status.kind]);
 
   const set = (k: keyof EnquiryInput, v: string) => {
     setValues((s) => ({ ...s, [k]: v, ...(k === "category" ? { product: "" } : {}) }));
@@ -76,6 +103,11 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     }
   };
 
+  const productObj = categoryObj?.products.find((p) => p.slug === values.product);
+  const failureWhatsAppMessage = categoryObj
+    ? `Enquiry: ${categoryObj.name}${productObj ? `, ${productObj.name}` : ""}`
+    : undefined;
+
   const errorList = ENQUIRY_FIELDS.filter((k) => errors[k]);
   const field = (k: keyof EnquiryInput, control: React.ReactNode) => (
     <div>
@@ -89,7 +121,7 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
 
   if (status.kind === "sent") {
     return (
-      <div role="status" className="rounded-tile border border-success bg-white p-6">
+      <div ref={successRef} role="status" tabIndex={-1} className="rounded-tile border border-success bg-white p-6">
         <h2 className="text-success">Enquiry sent</h2>
         <p className="mt-2">We reply within one business day. For anything urgent, message us on WhatsApp.</p>
         <div className="mt-4"><Button href={whatsAppUrl()} external variant="whatsapp">Chat on WhatsApp</Button></div>
@@ -110,7 +142,7 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
       {status.kind === "failed" && (
         <div role="alert" className="rounded-control border border-danger bg-white p-4">
           <p className="m-0">{status.message}</p>
-          <p className="mt-2 mb-0"><a href={whatsAppUrl(`Enquiry: ${values.category} ${values.product}`.trim())} target="_blank" rel="noopener noreferrer">Send it on WhatsApp instead</a></p>
+          <p className="mt-2 mb-0"><a href={whatsAppUrl(failureWhatsAppMessage)} target="_blank" rel="noopener noreferrer">Send it on WhatsApp instead</a></p>
         </div>
       )}
 

@@ -44,12 +44,13 @@ describe("EnquiryForm", () => {
     await user.click(screen.getByRole("button", { name: "Send enquiry" }));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Enquiry sent"));
     expect(fetch).toHaveBeenCalledWith("/api/enquiry", expect.objectContaining({ method: "POST" }));
+    expect(screen.getByRole("status")).toHaveFocus();
   });
 
-  it("shows the server error and a WhatsApp fallback when delivery fails", async () => {
+  it("shows the server error and a WhatsApp fallback with the category and product names when delivery fails", async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: false, error: "We could not send your enquiry." }), { status: 502 }));
     const user = userEvent.setup();
-    render(<EnquiryForm categories={categories} initial={{ category: "rice" }} />);
+    render(<EnquiryForm categories={categories} initial={{ category: "rice", product: "irri-6" }} />);
     await user.type(screen.getByLabelText("Full name"), "Amina Khan");
     await user.type(screen.getByLabelText("Business email"), "amina@importco.ae");
     await user.type(screen.getByLabelText("Destination country or port"), "Jebel Ali");
@@ -58,6 +59,32 @@ describe("EnquiryForm", () => {
     await user.type(screen.getByLabelText("Message"), "Please quote IRRI-6 in 25kg bags.");
     await user.click(screen.getByRole("button", { name: "Send enquiry" }));
     expect(await screen.findByRole("alert")).toHaveTextContent("We could not send your enquiry.");
-    expect(screen.getByRole("link", { name: "Send it on WhatsApp instead" })).toHaveAttribute("href", expect.stringContaining("wa.me"));
+    const link = screen.getByRole("link", { name: "Send it on WhatsApp instead" });
+    expect(link).toHaveAttribute("href", expect.stringContaining("wa.me"));
+    expect(link).toHaveAttribute("href", expect.stringContaining(encodeURIComponent("Enquiry: Rice, IRRI-6")));
+  });
+
+  it("stays responsive after following an error-summary link, so a later select change is not dropped", async () => {
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    const user = userEvent.setup();
+    render(<EnquiryForm categories={categories} initial={{}} />);
+    await user.click(screen.getByRole("button", { name: "Send enquiry" }));
+    const summary = await screen.findByRole("alert");
+    await user.click(screen.getAllByRole("link")[0]);
+    expect(summary).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText("Full name"), "Amina Khan");
+    await user.type(screen.getByLabelText("Business email"), "amina@importco.ae");
+    await user.selectOptions(screen.getByLabelText("Product category"), "rice");
+    await user.type(screen.getByLabelText("Destination country or port"), "Jebel Ali");
+    await user.type(screen.getByLabelText("Quantity"), "1 x 40ft");
+    await user.selectOptions(screen.getByLabelText("Trade term"), "CIF");
+    await user.type(screen.getByLabelText("Message"), "Please quote IRRI-6 in 25kg bags.");
+    await user.click(screen.getByRole("button", { name: "Send enquiry" }));
+
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    const [, init] = vi.mocked(fetch).mock.calls[0];
+    const body = JSON.parse((init as RequestInit).body as string);
+    expect(body.tradeTerm).toBe("CIF");
   });
 });
