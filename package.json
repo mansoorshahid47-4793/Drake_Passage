@@ -9,7 +9,10 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check:static": "node scripts/check-static.mjs"
+    "check:static": "node scripts/check-static.mjs",
+    "qa:build": "npm run lint && npm test && npm run build && npm run check:static",
+    "qa:lighthouse": "node -e \"require('fs').mkdirSync('.qa',{recursive:true})\" && npx --yes lighthouse http://localhost:3000 --preset=perf --form-factor=mobile --screenEmulation.mobile --only-categories=performance,accessibility,best-practices,seo --chrome-flags=\"--headless=new\" --output=json --output-path=./.qa/lighthouse-home.json",
+    "qa:axe": "node scripts/qa-axe.mjs"
   },
   "dependencies": {
     "next": "16.3.5",
@@ -17,6 +20,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
@@ -29,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "jsdom": "^30.0.1",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite": "^8.3.0",

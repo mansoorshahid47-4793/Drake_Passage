@@ -18,19 +18,29 @@
   will-change: transform;
 }
 .dial-item[data-offset="0"]  { transform: translateX(0) scale(1) rotateY(0deg); opacity: 1; z-index: 5; }
-.dial-item[data-offset="1"]  { transform: translateX(46%) scale(0.82) rotateY(-28deg); opacity: 0.6; z-index: 4; }
-.dial-item[data-offset="-1"] { transform: translateX(-46%) scale(0.82) rotateY(28deg); opacity: 0.6; z-index: 4; }
-.dial-item[data-offset="2"]  { transform: translateX(80%) scale(0.7) rotateY(-36deg); opacity: 0.3; z-index: 3; }
-.dial-item[data-offset="-2"] { transform: translateX(-80%) scale(0.7) rotateY(36deg); opacity: 0.3; z-index: 3; }
+.dial-item[data-offset="1"]  { transform: translateX(46%) scale(0.82) rotateY(-28deg); z-index: 4; }
+.dial-item[data-offset="-1"] { transform: translateX(-46%) scale(0.82) rotateY(28deg); z-index: 4; }
+.dial-item[data-offset="2"]  { transform: translateX(80%) scale(0.7) rotateY(-36deg); z-index: 3; }
+.dial-item[data-offset="-2"] { transform: translateX(-80%) scale(0.7) rotateY(36deg); z-index: 3; }
 .dial-item[data-offset="hidden"] { visibility: hidden; opacity: 0; transform: scale(0.6); }
 
 .dial-item[data-offset="0"] .dial-card { box-shadow: 0 24px 48px -16px rgba(11, 37, 69, 0.45); }
+
+/* Depth fade lives on the photo only, so the caption text underneath (name +
+   product count) stays at full opacity on the navy card and keeps AA text
+   contrast, regardless of how far the card sits from center. */
+.dial-photo { transition: opacity var(--dur-dial) ease-out; }
+.dial-item[data-offset="1"] .dial-photo,
+.dial-item[data-offset="-1"] .dial-photo { opacity: 0.6; }
+.dial-item[data-offset="2"] .dial-photo,
+.dial-item[data-offset="-2"] .dial-photo { opacity: 0.3; }
 
 /* Mouse drags must reach the stage's swipe handler, not start a native image drag. */
 .dial-item img { -webkit-user-drag: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .dial-item { transition: none; }
+  .dial-photo { transition: none; }
   .dial-item[data-offset="1"], .dial-item[data-offset="-1"],
   .dial-item[data-offset="2"], .dial-item[data-offset="-2"] { transform: none; opacity: 0; visibility: hidden; }
   .dial-item[data-offset="0"] { transform: none; }

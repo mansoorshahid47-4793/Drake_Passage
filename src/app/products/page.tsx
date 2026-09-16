@@ -17,6 +17,7 @@ export default function ProductsPage() {
     <Container className="py-16">
       <h1>Products</h1>
       <p className="mt-4 text-muted">Six commodity groups. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
+      <h2 className="sr-only">Browse by category</h2>
       <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
       {categories.map((c) => (
         <section key={c.slug} className="mt-16 border-t border-line pt-10">
