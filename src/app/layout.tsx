@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Drake Passage",
   },
   description:
-    "Drake Passage Pvt Limited exports Himalayan salt, basmati and non-basmati rice, potatoes, onions, tomatoes and spices from Pakistan. FOB and CIF quotes, samples by DHL or Leopard.",
+    "Drake Passage Pvt Limited, Lahore: Himalayan salt and basmati rice exporters, with fresh produce and spices on enquiry. FOB and CIF quotes, samples by courier.",
   alternates: { canonical: "/" },
 };
 
@@ -40,7 +40,7 @@ const orgJsonLd = {
   url: SITE_URL,
   telephone: "+923047409567",
   email: "mansoorshahid47@gmail.com",
-  address: { "@type": "PostalAddress", addressLocality: "Kasur", addressRegion: "Punjab", addressCountry: "PK" },
+  address: { "@type": "PostalAddress", addressLocality: "Lahore", addressRegion: "Punjab", addressCountry: "PK" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
