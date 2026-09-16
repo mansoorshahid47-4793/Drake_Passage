@@ -4,6 +4,10 @@
   --navy: #0b2545;
   --teal: #0f8286;
   --teal-bright: #22b8bc;
+  /* Darker than --teal so inline text links meet WCAG AA (4.5:1) on the
+     --salt page background; --teal itself stays untouched since it also
+     backs buttons/hover states where the lighter shade already passes. */
+  --teal-text: #0c6c70;
   --salt: #f4f7f6;
   --ink: #14202e;
   --line: #d5dcda;
@@ -61,7 +65,7 @@
 
   p { max-width: 70ch; }
 
-  a { color: var(--teal); text-underline-offset: 3px; }
+  a { color: var(--teal-text); text-underline-offset: 3px; }
 
   :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
