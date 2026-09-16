@@ -17,4 +17,15 @@ describe("catalog images", () => {
       expect(existsSync(filePath), `${product.images[0]} (product: ${product.slug})`).toBe(true);
     }
   });
+
+  it("no heroImage or product image is an .svg placeholder", () => {
+    for (const category of getCategories()) {
+      expect(category.heroImage.endsWith(".svg"), `${category.heroImage} (category: ${category.slug})`).toBe(false);
+    }
+    for (const product of getProducts()) {
+      for (const image of product.images) {
+        expect(image.endsWith(".svg"), `${image} (product: ${product.slug})`).toBe(false);
+      }
+    }
+  });
 });

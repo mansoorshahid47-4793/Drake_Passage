@@ -1,7 +1,6 @@
 import type { Category, Product } from "@/lib/types";
 
-const svg = (folder: "products", name: string) => `/images/${folder}/${name}.svg`;
-const jpg = (folder: "categories", name: string) => `/images/${folder}/${name}.jpg`;
+const jpg = (folder: "categories" | "products", name: string) => `/images/${folder}/${name}.jpg`;
 
 export const categories: Category[] = [
   { slug: "salt", name: "Salt", tagline: "Himalayan pink salt from the Khewra range",
@@ -28,7 +27,7 @@ export const categories: Category[] = [
 ];
 
 const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "supportedTradeTerms" | "certifications" | "summary"> & Partial<Product>): Product => ({
-  images: [svg("products", p.slug)],
+  images: [jpg("products", p.slug)],
   specs: [],
   packagingOptions: [],
   supportedTradeTerms: ["FOB", "CIF"],
