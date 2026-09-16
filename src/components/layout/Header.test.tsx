@@ -13,4 +13,12 @@ describe("Header", () => {
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Certifications" })).toHaveAttribute("href", "/certifications");
   });
+
+  it("shows the two-tone wordmark on the home link", () => {
+    render(<Header categories={getCategories()} />);
+    const homeLink = screen.getByRole("link", { name: /home$/i });
+    expect(homeLink).toHaveTextContent("Drake Passage");
+    expect(screen.getByText("Drake")).toBeInTheDocument();
+    expect(screen.getByText("Passage")).toBeInTheDocument();
+  });
 });
