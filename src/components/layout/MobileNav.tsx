@@ -31,7 +31,7 @@ export function MobileNav({ categories }: { categories: Category[] }) {
   }, [open]);
 
   return (
-    <div className="md:hidden">
+    <div className="lg:hidden">
       <button
         ref={triggerRef}
         type="button"

@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Header categories={getCategories()} />
-        <main id="main" className="flex-1">{children}</main>
+        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">{children}</main>
         <Footer />
         <WhatsAppBubble />
       </body>

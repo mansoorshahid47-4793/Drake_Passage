@@ -29,6 +29,7 @@
 /* Depth fade lives on the photo only, so the caption text underneath (name +
    product count) stays at full opacity on the navy card and keeps AA text
    contrast, regardless of how far the card sits from center. */
+.dial-photo { transition: opacity var(--dur-dial) ease-out; }
 .dial-item[data-offset="1"] .dial-photo,
 .dial-item[data-offset="-1"] .dial-photo { opacity: 0.6; }
 .dial-item[data-offset="2"] .dial-photo,
@@ -39,6 +40,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dial-item { transition: none; }
+  .dial-photo { transition: none; }
   .dial-item[data-offset="1"], .dial-item[data-offset="-1"],
   .dial-item[data-offset="2"], .dial-item[data-offset="-2"] { transform: none; opacity: 0; visibility: hidden; }
   .dial-item[data-offset="0"] { transform: none; }
