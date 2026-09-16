@@ -5,10 +5,11 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { SpecTable } from "@/components/ui/SpecTable";
-import { getCategory, getProduct, getProducts } from "@/lib/catalog";
-import { productTitle } from "@/lib/seo";
+import { getCategory, getProduct, getProducts, ENQUIRY_NOTE } from "@/lib/catalog";
+import { productTitle, lowerFirst } from "@/lib/seo";
 import { whatsAppUrl } from "@/lib/whatsapp";
 import { company } from "@/data/company";
+import { SITE_URL } from "@/lib/site";
 
 type Params = { category: string; slug: string };
 
@@ -22,8 +23,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const product = getProduct(c, slug);
   if (!category || !product) return {};
   return {
-    title: productTitle(product, category),
-    description: `${product.tagline}. ${product.summary}`,
+    title: productTitle(product),
+    description: `${product.name} from Pakistan: ${lowerFirst(product.tagline)}. FOB or CIF quotes, samples by courier and specs on enquiry from Drake Passage, Lahore.`,
     alternates: { canonical: `/products/${category.slug}/${product.slug}` },
   };
 }
@@ -34,18 +35,31 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
   const product = getProduct(c, slug);
   if (!category || !product) notFound();
 
+  const productUrl = `${SITE_URL}/products/${category.slug}/${product.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    description: product.summary,
+    description: `${product.tagline}. ${product.summary}`,
+    image: `${SITE_URL}${product.images[0]}`,
+    url: productUrl,
     category: category.name,
     brand: { "@type": "Organization", name: company.legalName },
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Products", item: `${SITE_URL}/products` },
+      { "@type": "ListItem", position: 2, name: category.name, item: `${SITE_URL}/products/${category.slug}` },
+      { "@type": "ListItem", position: 3, name: product.name, item: productUrl },
+    ],
   };
 
   return (
     <Container className="py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <p className="m-0 text-[15px]">
         <Link href="/products">Products</Link> / <Link href={`/products/${category.slug}`}>{category.name}</Link>
       </p>
@@ -59,6 +73,9 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <h1>{product.name}</h1>
           <p className="mt-3 text-muted text-[1.2rem]">{product.tagline}</p>
           <p className="mt-4">{product.summary}</p>
+          {category.tier === "enquiry" && (
+            <p className="mt-4 max-w-prose rounded-control bg-white border border-line px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
+          )}
           <h2 className="mt-8 text-[1.6rem]">Specifications</h2>
           <div className="mt-3"><SpecTable caption={`${product.name} specifications`} specs={product.specs} /></div>
           {product.packagingOptions.length > 0 && (

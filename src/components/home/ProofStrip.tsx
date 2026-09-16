@@ -12,7 +12,7 @@ export function ProofStrip() {
         </div>
         <ul className="mt-4 grid list-none gap-x-8 gap-y-2 p-0 m-0 sm:grid-cols-2 lg:grid-cols-3">
           {company.certifications.map((c) => (
-            <li key={c.name} className="text-[15px]"><span className="font-semibold">{c.name}</span> <span className="text-muted">— {c.covers}</span></li>
+            <li key={c.name} className="text-[15px]"><span className="font-semibold">{c.name}</span> <span className="text-muted">· {c.covers}</span></li>
           ))}
         </ul>
         <p className="mt-4 mb-0 text-[15px]"><Link href="/certifications">How each document is provided</Link></p>

@@ -13,4 +13,13 @@ describe("toDialItems", () => {
     expect(rice.description.length).toBeGreaterThan(0);
     expect(JSON.parse(JSON.stringify(items))).toEqual(items);
   });
+
+  it("maps the category tier through to each dial item", () => {
+    const items = toDialItems();
+    expect(items.find((i) => i.slug === "salt")?.tier).toBe("primary");
+    expect(items.find((i) => i.slug === "rice")?.tier).toBe("primary");
+    for (const slug of ["potato", "onion", "tomato", "spices"]) {
+      expect(items.find((i) => i.slug === slug)?.tier).toBe("enquiry");
+    }
+  });
 });

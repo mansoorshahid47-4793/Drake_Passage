@@ -13,6 +13,7 @@ export function toDialItems(): DialItem[] {
       productCount: products.length,
       subCategories: c.subCategories,
       products: products.map((p) => ({ slug: p.slug, name: p.name, ...(p.subCategory ? { subCategory: p.subCategory } : {}) })),
+      tier: c.tier,
     };
   });
 }

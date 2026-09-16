@@ -11,13 +11,18 @@ export interface Certification {
   documentUrl?: string;
 }
 
+export type CategoryTier = "primary" | "enquiry";
+
 export interface Category {
   slug: string;
   name: string;
+  seoName?: string;
   tagline: string;
   description: string;
   heroImage: string;
   subCategories: string[];
+  tier: CategoryTier;
+  originPhotoIds?: string[];
 }
 
 export interface Product {
@@ -33,6 +38,18 @@ export interface Product {
   moq?: string;
   supportedTradeTerms: TradeTerm[];
   certifications: Certification[];
+}
+
+export interface OriginPhoto {
+  id: string;
+  src: string;
+  alt: string;
+  caption: string;
+  author: string;
+  licence: { name: string; url: string };
+  sourceUrl: string;
+  width: number;
+  height: number;
 }
 
 export interface CompanyCertification {

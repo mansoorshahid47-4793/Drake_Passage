@@ -3,8 +3,13 @@ import { Container } from "@/components/ui/Container";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
 import { TermsBand } from "@/components/home/TermsBand";
 import { PROCESS_STEPS } from "@/data/process";
+import { company } from "@/data/company";
 
-export const metadata: Metadata = { title: "Export services", description: "How an order works with Drake Passage: quote, sample, contract, quality checks, shipment. FOB or CIF.", alternates: { canonical: "/services" } };
+export const metadata: Metadata = {
+  title: "Export process and trade terms",
+  description: `How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB or CIF, ${company.paymentTerms.newBuyers} for new buyers, samples by ${company.sampleCouriers.join(" or ")}.`,
+  alternates: { canonical: "/services" },
+};
 
 export default function ServicesPage() {
   return (

@@ -15,7 +15,9 @@ export function Header({ categories }: { categories: Category[] }) {
       <Container className="flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 no-underline text-navy" aria-label={`${company.legalName} home`}>
           <Image src="/logo.svg" alt="" width={36} height={36} preload />
-          <span className="hidden sm:inline font-display text-xl font-semibold leading-none">{company.name}</span>
+          <span className="hidden sm:inline font-display text-xl font-semibold leading-none">
+            <span className="text-navy">Drake</span> <span className="text-teal">Passage</span>
+          </span>
         </Link>
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
           <ProductsMenu categories={categories} />

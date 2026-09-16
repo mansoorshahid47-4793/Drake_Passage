@@ -23,6 +23,7 @@
 @theme inline {
   --color-navy: var(--navy);
   --color-teal: var(--teal);
+  --color-teal-text: var(--teal-text);
   --color-teal-bright: var(--teal-bright);
   --color-salt: var(--salt);
   --color-ink: var(--ink);

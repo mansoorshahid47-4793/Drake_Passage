@@ -6,8 +6,8 @@ export const company: Company = {
   phoneDisplay: "+92 304 740 9567",
   phoneE164: "923047409567",
   email: "mansoorshahid47@gmail.com",
-  office: "Kasur, Punjab, Pakistan",
-  hours: "Mon–Sat, 09:00–18:00 PKT",
+  office: "Lahore, Punjab, Pakistan",
+  hours: "Mon–Sat 09:00–18:00 PKT",
   tradeTerms: ["FOB", "CIF"],
   paymentTerms: {
     newBuyers: "100% advance",
@@ -17,9 +17,9 @@ export const company: Company = {
   certifications: [
     { name: "ISO 9001", covers: "Quality management system" },
     { name: "Halal", covers: "Halal certification for food products" },
-    { name: "Certificate of Origin", covers: "Confirms goods originate in Pakistan" },
-    { name: "Certificate of Analysis (COA)", covers: "Lab analysis of a shipment lot" },
-    { name: "SGS Inspection", covers: "Third-party pre-shipment inspection" },
-    { name: "Phytosanitary Certificate", covers: "Plant-health clearance for agricultural goods" },
+    { name: "Certificate of origin", covers: "Confirms goods originate in Pakistan" },
+    { name: "Certificate of analysis (COA)", covers: "Lab analysis of a shipment lot" },
+    { name: "SGS inspection", covers: "Third-party pre-shipment inspection" },
+    { name: "Phytosanitary certificate", covers: "Plant-health clearance for agricultural goods" },
   ],
 };

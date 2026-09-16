@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = { title: "Insights", description: "Notes on grades, packing and export documentation from Drake Passage.", alternates: { canonical: "/insights" } };
+export const metadata: Metadata = {
+  title: "Insights on grades, packing and documents",
+  description: "Notes from Drake Passage on salt and rice grades, packing and export documentation for wholesale buyers. Articles are being prepared; ask us in the meantime.",
+  alternates: { canonical: "/insights" },
+};
 
 export default function InsightsPage() {
   return (

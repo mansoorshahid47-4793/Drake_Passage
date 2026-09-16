@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getCategories, getCategory, getProducts, getProductsByCategory, getProduct, groupBySubCategory } from "@/lib/catalog";
+import { getCategories, getCategory, getProducts, getProductsByCategory, getProduct, groupBySubCategory, getPrimaryCategories, getEnquiryCategories } from "@/lib/catalog";
 
 describe("catalog accessors", () => {
   it("lists six categories in display order", () => {
@@ -35,5 +35,21 @@ describe("catalog accessors", () => {
   it("puts products without a sub-category in a null group", () => {
     const groups = groupBySubCategory(getCategory("spices")!);
     expect(groups).toEqual([{ subCategory: null, products: getProductsByCategory("spices") }]);
+  });
+
+  it("marks salt and rice as primary and the rest as on enquiry", () => {
+    const tiers = Object.fromEntries(getCategories().map((c) => [c.slug, c.tier]));
+    expect(tiers).toEqual({
+      salt: "primary", rice: "primary",
+      potato: "enquiry", onion: "enquiry", tomato: "enquiry", spices: "enquiry",
+    });
+  });
+
+  it("getPrimaryCategories returns salt and rice in catalog order", () => {
+    expect(getPrimaryCategories().map((c) => c.slug)).toEqual(["salt", "rice"]);
+  });
+
+  it("getEnquiryCategories returns potato, onion, tomato and spices in catalog order", () => {
+    expect(getEnquiryCategories().map((c) => c.slug)).toEqual(["potato", "onion", "tomato", "spices"]);
   });
 });

@@ -10,7 +10,9 @@ export function Footer() {
     <footer className="mt-24 bg-navy text-salt">
       <Container className="grid gap-10 py-14 md:grid-cols-4">
         <div>
-          <p className="font-display text-2xl font-semibold m-0">{company.name}</p>
+          <p className="font-display text-2xl font-semibold m-0">
+            <span className="text-salt">Drake</span> <span className="text-teal-bright">Passage</span>
+          </p>
           <p className="mt-2 text-salt/80 m-0">{company.legalName}</p>
           <p className="mt-4 m-0">{company.office}</p>
           <p className="m-0"><a href={`tel:+${company.phoneE164}`} className="text-teal-bright">{company.phoneDisplay}</a></p>
