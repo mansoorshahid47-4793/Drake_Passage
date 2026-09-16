@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
@@ -86,5 +86,59 @@ describe("EnquiryForm", () => {
     const [, init] = vi.mocked(fetch).mock.calls[0];
     const body = JSON.parse((init as RequestInit).body as string);
     expect(body.tradeTerm).toBe("CIF");
+  });
+
+  it("clears a field's inline error on blur but keeps it in the summary until the next submit", async () => {
+    const user = userEvent.setup();
+    render(<EnquiryForm categories={categories} initial={{}} />);
+    await user.click(screen.getByRole("button", { name: "Send enquiry" }));
+    await screen.findByRole("alert");
+
+    const name = screen.getByLabelText("Full name");
+    expect(name).toHaveAccessibleDescription("Enter your full name");
+    expect(screen.getByRole("alert")).toHaveTextContent("Enter your full name");
+
+    await user.type(name, "Amina Khan");
+    await user.tab(); // blur -> validateField("fullName") clears the inline error only
+
+    expect(name).not.toHaveAttribute("aria-invalid", "true");
+    expect(name).not.toHaveAccessibleDescription("Enter your full name");
+    // The summary is a snapshot from the last submit attempt: still lists the
+    // now-fixed field until the user submits again.
+    expect(screen.getByRole("alert")).toHaveTextContent("Enter your full name");
+  });
+
+  it("keeps a field's error slot element in the DOM after its error clears (stable layout)", async () => {
+    const user = userEvent.setup();
+    render(<EnquiryForm categories={categories} initial={{}} />);
+    await user.click(screen.getByRole("button", { name: "Send enquiry" }));
+    await screen.findByRole("alert");
+
+    const name = screen.getByLabelText("Full name");
+    const errorId = name.getAttribute("aria-describedby");
+    expect(errorId).toBeTruthy();
+    const errorEl = document.getElementById(errorId as string);
+    expect(errorEl).not.toBeNull();
+    expect(errorEl).toHaveTextContent("Enter your full name");
+
+    await user.type(name, "Amina Khan");
+    await user.tab();
+
+    // Same element, still present, just empty -> no layout shift.
+    expect(document.getElementById(errorId as string)).toBe(errorEl);
+    expect(errorEl).toHaveTextContent("");
+  });
+
+  it("does not move focus away from the active field when the submit button is pressed with a mouse", () => {
+    render(<EnquiryForm categories={categories} initial={{}} />);
+    const name = screen.getByLabelText("Full name");
+    name.focus();
+    expect(name).toHaveFocus();
+
+    const button = screen.getByRole("button", { name: "Send enquiry" });
+    const notPrevented = fireEvent.mouseDown(button);
+
+    expect(notPrevented).toBe(false); // dispatchEvent returns false when preventDefault() was called
+    expect(document.activeElement).toBe(name);
   });
 });

@@ -26,27 +26,28 @@ type Props = {
   type?: "button" | "submit";
   className?: string;
   onClick?: () => void;
+  onMouseDown?: (e: React.MouseEvent) => void;
   disabled?: boolean;
 };
 
-export function Button({ children, href, external, variant = "primary", size = "default", type = "button", className = "", onClick, disabled }: Props) {
+export function Button({ children, href, external, variant = "primary", size = "default", type = "button", className = "", onClick, onMouseDown, disabled }: Props) {
   const cls = `${baseClass} ${sizes[size]} ${styles[variant]} ${className}`;
   if (href && external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClick}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} onClick={onClick} onMouseDown={onMouseDown}>
         {children}
       </a>
     );
   }
   if (href) {
     return (
-      <Link href={href} className={cls} onClick={onClick}>
+      <Link href={href} className={cls} onClick={onClick} onMouseDown={onMouseDown}>
         {children}
       </Link>
     );
   }
   return (
-    <button type={type} className={cls} onClick={onClick} disabled={disabled}>
+    <button type={type} className={cls} onClick={onClick} onMouseDown={onMouseDown} disabled={disabled}>
       {children}
     </button>
   );

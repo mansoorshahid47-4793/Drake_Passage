@@ -31,6 +31,13 @@ const empty: EnquiryInput = { enquiryType: "quote", fullName: "", email: "", com
 export function EnquiryForm({ categories, initial }: { categories: FormCategory[]; initial: Partial<EnquiryInput> }) {
   const [values, setValues] = useState<EnquiryInput>({ ...empty, ...initial });
   const [errors, setErrors] = useState<Errors>({});
+  // Snapshot of the errors from the last submit attempt (client validation
+  // failure or server-side 400 field errors). Rendered in the summary only.
+  // Blur validation never touches this, so the summary's height — and
+  // therefore the submit button's position — never shifts while the user is
+  // fixing fields between submits (see round-2 finding: a layout shift
+  // between mousedown and mouseup swallowed mouse/touch submit clicks).
+  const [summaryErrors, setSummaryErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [focusToken, setFocusToken] = useState(0);
   const [prevInitial, setPrevInitial] = useState(initial);
@@ -85,18 +92,20 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     const r = validateEnquiry(values, categories.map((c) => c.slug));
     if (!r.ok) {
       setErrors(r.errors);
+      setSummaryErrors(r.errors);
       setStatus({ kind: "idle" });
       setFocusToken((t) => t + 1);
       return;
     }
     setErrors({});
+    setSummaryErrors({});
     setStatus({ kind: "sending" });
     const botcheck = (form.elements.namedItem("botcheck") as HTMLInputElement | null)?.value ?? "";
     try {
       const res = await fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...r.value, botcheck }) });
       const data = (await res.json()) as { ok: boolean; error?: string; errors?: Errors };
       if (res.ok && data.ok) { setStatus({ kind: "sent" }); return; }
-      if (data.errors) { setErrors(data.errors); setStatus({ kind: "idle" }); setFocusToken((t) => t + 1); return; }
+      if (data.errors) { setErrors(data.errors); setSummaryErrors(data.errors); setStatus({ kind: "idle" }); setFocusToken((t) => t + 1); return; }
       setStatus({ kind: "failed", message: data.error ?? "We could not send your enquiry." });
     } catch {
       setStatus({ kind: "failed", message: "We could not send your enquiry. Check your connection and try again." });
@@ -108,12 +117,15 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     ? `Enquiry: ${categoryObj.name}${productObj ? `, ${productObj.name}` : ""}`
     : undefined;
 
-  const errorList = ENQUIRY_FIELDS.filter((k) => errors[k]);
+  const summaryList = ENQUIRY_FIELDS.filter((k) => summaryErrors[k]);
+  // The error slot is always rendered (empty text when there is no error) with
+  // a reserved min-height, so a field's error appearing or clearing never
+  // changes the page layout.
   const field = (k: keyof EnquiryInput, control: React.ReactNode) => (
     <div>
       <label htmlFor={fid(k)} className="mb-1 block font-semibold">{LABELS[k]}</label>
       {control}
-      {errors[k] && <p id={eid(k)} className="mt-1 mb-0 text-[15px] text-danger">{errors[k]}</p>}
+      <p id={eid(k)} aria-live="off" className="mt-1 mb-0 min-h-6 text-[15px] text-danger">{errors[k] ?? ""}</p>
     </div>
   );
   const inputClass = "w-full min-h-11 rounded-control border border-line bg-white px-3 py-2 aria-[invalid=true]:border-danger";
@@ -131,11 +143,11 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-5">
-      {errorList.length > 0 && (
+      {summaryList.length > 0 && (
         <div ref={summaryRef} role="alert" tabIndex={-1} className="rounded-control border border-danger bg-white p-4">
           <p className="m-0 font-semibold">Check these fields</p>
           <ul className="mt-2 mb-0 list-disc pl-5">
-            {errorList.map((k) => <li key={k}><a href={`#${fid(k)}`} className="text-danger">{errors[k]}</a></li>)}
+            {summaryList.map((k) => <li key={k}><a href={`#${fid(k)}`} className="text-danger">{summaryErrors[k]}</a></li>)}
           </ul>
         </div>
       )}
@@ -180,7 +192,13 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
         ))}
       </div>
       {field("message", <textarea {...a11y("message")} value={values.message} onChange={(e) => set("message", e.target.value)} onBlur={() => validateField("message")} rows={5} className={inputClass} />)}
-      <Button type="submit" disabled={status.kind === "sending"}>{status.kind === "sending" ? "Sending…" : "Send enquiry"}</Button>
+      <Button
+        type="submit"
+        disabled={status.kind === "sending"}
+        onMouseDown={(e) => e.preventDefault()}
+      >
+        {status.kind === "sending" ? "Sending…" : "Send enquiry"}
+      </Button>
     </form>
   );
 }
