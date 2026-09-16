@@ -12,7 +12,7 @@ export function EnquiryCategoryList({ categories }: { categories: Category[] }) 
             </Link>
             <span className="rounded-full border border-line px-2 py-0.5 text-[12px] text-muted">On enquiry</span>
           </span>
-          <Link href={`/contact?category=${c.slug}`} className="inline-flex min-h-11 items-center text-[15px] font-semibold text-teal no-underline">
+          <Link href={`/contact?category=${c.slug}`} className="inline-flex min-h-11 items-center text-[15px] font-semibold text-teal-text underline underline-offset-[3px]">
             Get a quote
           </Link>
         </li>
