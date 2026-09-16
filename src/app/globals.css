@@ -65,11 +65,17 @@
 
   p { max-width: 70ch; }
 
-  a { color: var(--teal-text); text-underline-offset: 3px; }
+  a { color: var(--teal-text); text-decoration: underline; text-underline-offset: 3px; }
 
   :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
   :where(footer, .bg-navy) :focus-visible { outline-color: var(--teal-bright); }
+
+  /* Safety net: a future link dropped into a navy-background block without
+     its own color class would otherwise inherit --teal-text, which is too
+     dark to read on --navy. Every current navy-context link already sets
+     its own color, so this has no visible effect today. */
+  :where(footer, .bg-navy) a { color: var(--teal-bright); }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }

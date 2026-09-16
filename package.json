@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "check:static": "node scripts/check-static.mjs",
     "qa:build": "npm run lint && npm test && npm run build && npm run check:static",
-    "qa:lighthouse": "npx --yes lighthouse http://localhost:3000 --preset=perf --form-factor=mobile --screenEmulation.mobile --only-categories=performance,accessibility,best-practices,seo --chrome-flags=\"--headless=new\" --output=json --output-path=./.qa/lighthouse-home.json",
+    "qa:lighthouse": "node -e \"require('fs').mkdirSync('.qa',{recursive:true})\" && npx --yes lighthouse http://localhost:3000 --preset=perf --form-factor=mobile --screenEmulation.mobile --only-categories=performance,accessibility,best-practices,seo --chrome-flags=\"--headless=new\" --output=json --output-path=./.qa/lighthouse-home.json",
     "qa:axe": "node scripts/qa-axe.mjs"
   },
   "dependencies": {

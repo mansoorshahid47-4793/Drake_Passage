@@ -8,7 +8,7 @@ export function CertificationRow({ certification }: { certification: CompanyCert
       <p className="text-muted m-0">{certification.covers}</p>
       <p className="m-0 text-[15px]">
         Available on request ·{" "}
-        <Link href={`/contact?inquiry=certificate&name=${encodeURIComponent(certification.name)}`} className="underline">
+        <Link href={`/contact?inquiry=certificate&name=${encodeURIComponent(certification.name)}`}>
           Request a copy
         </Link>
       </p>
