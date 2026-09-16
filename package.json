@@ -9,8 +9,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check:static": "node scripts/check-static.mjs",
-    "placeholders": "node scripts/make-placeholders.mjs"
+    "check:static": "node scripts/check-static.mjs"
   },
   "dependencies": {
     "next": "16.3.5",
