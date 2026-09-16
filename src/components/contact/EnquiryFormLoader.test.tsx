@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, afterEach } from "vitest";
 import { EnquiryFormLoader } from "@/components/contact/EnquiryFormLoader";
 
@@ -16,9 +16,7 @@ describe("EnquiryFormLoader", () => {
     window.history.replaceState({}, "", "/contact?category=rice&product=irri-6&inquiry=sample");
     render(<EnquiryFormLoader categories={categories} />);
 
-    await waitFor(async () => {
-      expect(await screen.findByLabelText("Product category")).toHaveValue("rice");
-    });
+    expect(await screen.findByLabelText("Product category")).toHaveValue("rice");
     expect(await screen.findByLabelText("Product (optional)")).toHaveValue("irri-6");
     expect(await screen.findByLabelText("What are you asking for?")).toHaveValue("sample");
   });
@@ -27,9 +25,7 @@ describe("EnquiryFormLoader", () => {
     window.history.replaceState({}, "", "/contact?inquiry=certificate&name=ISO%209001");
     render(<EnquiryFormLoader categories={categories} />);
 
-    await waitFor(async () => {
-      expect(await screen.findByLabelText("Message")).toHaveValue("Please send a copy of: ISO 9001");
-    });
+    expect(await screen.findByLabelText("Message")).toHaveValue("Please send a copy of: ISO 9001");
     expect(await screen.findByLabelText("What are you asking for?")).toHaveValue("certificate");
   });
 
@@ -37,9 +33,7 @@ describe("EnquiryFormLoader", () => {
     window.history.replaceState({}, "", "/contact?product=bogus&category=rice");
     render(<EnquiryFormLoader categories={categories} />);
 
-    await waitFor(async () => {
-      expect(await screen.findByLabelText("Product category")).toHaveValue("rice");
-    });
+    expect(await screen.findByLabelText("Product category")).toHaveValue("rice");
     expect(await screen.findByLabelText("Product (optional)")).toHaveValue("");
   });
 });

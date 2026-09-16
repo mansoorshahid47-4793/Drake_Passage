@@ -29,6 +29,18 @@ describe("sendEnquiry", () => {
     expect(result).toEqual({ ok: false, reason: "bad key" });
   });
 
+  it("falls back to 'Provider returned <status>' when a failed response carries no message", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => ({ status: 502, json: async () => ({ success: false }) }) as unknown as Response));
+    const result = await sendEnquiry(value);
+    expect(result).toEqual({ ok: false, reason: "Provider returned 502" });
+  });
+
+  it("returns a generic network-error reason when fetch rejects with a non-abort error", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("getaddrinfo ENOTFOUND"); }));
+    const result = await sendEnquiry(value);
+    expect(result).toEqual({ ok: false, reason: "getaddrinfo ENOTFOUND" });
+  });
+
   it("returns a timeout reason when the request is aborted", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => {
       const err = new Error("aborted");

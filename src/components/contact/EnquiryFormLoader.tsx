@@ -6,8 +6,15 @@ import type { EnquiryInput } from "@/lib/enquiry";
 
 // No real external store to subscribe to: we only need the URL's query string
 // once, right after hydration. An empty unsubscribe means React re-reads the
-// snapshot when it reconciles the server/client mismatch and then leaves it alone
-// — router-driven hash changes (e.g. clicking an error-summary link) never re-run this.
+// snapshot when it reconciles the server/client mismatch and then leaves it
+// alone: it never re-runs on a later same-route soft navigation (e.g. a
+// client-side Link from `/contact?category=rice` to `/contact?category=salt`
+// while this component stays mounted), so readInitial would not re-run and
+// the form would keep the stale prefill. No such link exists today — nothing
+// navigates to `/contact` with different query params without a full
+// reload — so this is currently harmless, but a real subscription (e.g. to
+// `popstate`, or keying this component by the route) would be needed if one
+// were added.
 function subscribe() {
   return () => {};
 }

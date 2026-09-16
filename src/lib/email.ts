@@ -22,7 +22,7 @@ export async function sendEnquiry(v: EnquiryInput): Promise<{ ok: true } | { ok:
   };
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10_000);
+  const timeout = setTimeout(() => controller.abort(), 8_000);
   try {
     const res = await fetch("https://api.web3forms.com/submit", {
       method: "POST",

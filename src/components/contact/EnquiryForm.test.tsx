@@ -1,6 +1,6 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { EnquiryForm } from "@/components/contact/EnquiryForm";
 
 const categories = [
@@ -10,6 +10,7 @@ const categories = [
 
 describe("EnquiryForm", () => {
   beforeEach(() => { vi.stubGlobal("fetch", vi.fn()); });
+  afterEach(() => { vi.unstubAllGlobals(); });
 
   it("shows an error summary and inline errors on empty submit, and focuses the summary", async () => {
     const user = userEvent.setup();
@@ -76,8 +77,13 @@ describe("EnquiryForm", () => {
     render(<EnquiryForm categories={categories} initial={{}} />);
     await user.click(screen.getByRole("button", { name: "Send enquiry" }));
     const summary = await screen.findByRole("alert");
-    await user.click(screen.getAllByRole("link")[0]);
+    const firstLink = screen.getAllByRole("link")[0];
+    await user.click(firstLink);
     expect(summary).toBeInTheDocument();
+    // The summary link's onClick explicitly focuses the field by id (the
+    // href is kept only as a no-JS fallback), so the click must land focus
+    // on the field the link pointed at, not merely navigate the hash.
+    expect(document.getElementById(firstLink.getAttribute("href")!.slice(1))).toHaveFocus();
 
     await user.type(screen.getByLabelText("Full name"), "Amina Khan");
     await user.type(screen.getByLabelText("Business email"), "amina@importco.ae");
@@ -135,7 +141,11 @@ describe("EnquiryForm", () => {
     expect(errorEl).toHaveTextContent("");
   });
 
-  it("does not move focus away from the active field when the submit button is pressed with a mouse", () => {
+  it("calls preventDefault on mousedown so the browser cannot move focus off the active field", () => {
+    // jsdom does not implement the browser's default "move focus to the
+    // mousedown target" behavior, so this test cannot observe a focus change
+    // either way; it only asserts the handler called preventDefault(), which
+    // is what stops that browser behavior in a real browser.
     render(<EnquiryForm categories={categories} initial={{}} />);
     const name = screen.getByLabelText("Full name");
     name.focus();
@@ -146,5 +156,19 @@ describe("EnquiryForm", () => {
 
     expect(notPrevented).toBe(false); // dispatchEvent returns false when preventDefault() was called
     expect(document.activeElement).toBe(name);
+  });
+
+  it("shows the generic server-error message when the response body is not JSON", async () => {
+    vi.mocked(fetch).mockResolvedValue(new Response("<html>Internal Server Error</html>", { status: 500 }));
+    const user = userEvent.setup();
+    render(<EnquiryForm categories={categories} initial={{ category: "rice" }} />);
+    await user.type(screen.getByLabelText("Full name"), "Amina Khan");
+    await user.type(screen.getByLabelText("Business email"), "amina@importco.ae");
+    await user.type(screen.getByLabelText("Destination country or port"), "Jebel Ali");
+    await user.type(screen.getByLabelText("Quantity"), "1 x 40ft");
+    await user.selectOptions(screen.getByLabelText("Trade term"), "CIF");
+    await user.type(screen.getByLabelText("Message"), "Please quote IRRI-6 in 25kg bags.");
+    await user.click(screen.getByRole("button", { name: "Send enquiry" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent("We could not send your enquiry.");
   });
 });

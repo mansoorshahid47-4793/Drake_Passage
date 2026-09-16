@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { ENQUIRY_FIELDS, ENQUIRY_TYPES, TRADE_TERMS, validateEnquiry, type EnquiryInput } from "@/lib/enquiry";
+import { ENQUIRY_FIELDS, ENQUIRY_TYPES, TRADE_TERMS, validateEnquiry, type EnquiryInput, type EnquiryType } from "@/lib/enquiry";
 import { whatsAppUrl } from "@/lib/whatsapp";
 import { Button } from "@/components/ui/Button";
 
@@ -24,7 +24,7 @@ const LABELS: Record<keyof EnquiryInput, string> = {
   message: "Message",
 };
 
-const TYPE_LABELS: Record<(typeof ENQUIRY_TYPES)[number], string> = { quote: "A price quote", sample: "A sample", certificate: "A copy of a certificate" };
+const TYPE_LABELS: Record<EnquiryType, string> = { quote: "A price quote", sample: "A sample", certificate: "A copy of a certificate" };
 
 const empty: EnquiryInput = { enquiryType: "quote", fullName: "", email: "", company: "", phone: "", category: "", product: "", destination: "", quantity: "", tradeTerm: "", message: "" };
 
@@ -118,7 +118,12 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     const botcheck = (form.elements.namedItem("botcheck") as HTMLInputElement | null)?.value ?? "";
     try {
       const res = await fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...r.value, botcheck }) });
-      const data = (await res.json()) as { ok: boolean; error?: string; errors?: Errors };
+      // A platform-level failure (e.g. a 413 from a body-size limit, or an
+      // HTML 500 page from an intermediary) never reaches our route handler
+      // and so returns a non-JSON body. Falling back to `{ ok: false }`
+      // routes that case into the generic server-error message below instead
+      // of throwing and being mis-reported as a connectivity problem.
+      const data = (await res.json().catch(() => ({ ok: false }))) as { ok: boolean; error?: string; errors?: Errors };
       if (res.ok && data.ok) { setStatus({ kind: "sent" }); return; }
       if (data.errors) { setErrors(data.errors); setSummaryErrors(data.errors); setStatus({ kind: "idle" }); setFocusToken((t) => t + 1); return; }
       setStatus({ kind: "failed", message: data.error ?? "We could not send your enquiry." });
@@ -162,7 +167,17 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
         <div ref={summaryRef} role="alert" tabIndex={-1} className="rounded-control border border-danger bg-white p-4">
           <p className="m-0 font-semibold">Check these fields</p>
           <ul className="mt-2 mb-0 list-disc pl-5">
-            {summaryList.map((k) => <li key={k}><a href={`#${fid(k)}`} className="text-danger">{summaryErrors[k]}</a></li>)}
+            {summaryList.map((k) => (
+              <li key={k}>
+                <a
+                  href={`#${fid(k)}`}
+                  className="text-danger"
+                  onClick={(e) => { e.preventDefault(); document.getElementById(fid(k))?.focus(); }}
+                >
+                  {summaryErrors[k]}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       )}
@@ -207,6 +222,21 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
         ))}
       </div>
       {field("message", <textarea {...a11y("message")} value={values.message} onChange={(e) => set("message", e.target.value)} onBlur={() => validateField("message")} rows={5} className={inputClass} />)}
+      {/*
+        onMouseDown's preventDefault is the actual guarantee against
+        blur-induced layout shift swallowing this click: it stops the browser
+        from shifting focus away from the field the user was just in (and so
+        from firing that field's blur handler, which can grow the error slot
+        and move the button) before mouseup delivers the click. The
+        summaryErrors snapshot above reduces how often a blur error appears
+        during a submit attempt, but it is not a guarantee on its own — the
+        min-h-6 error slot can still wrap onto two lines on narrow screens
+        even with a stable summary, so this preventDefault is load-bearing.
+        Trade-offs: the button can never take focus from a mouse click (fine
+        here, nothing meaningful follows it in tab order), and on touch it
+        also means the on-screen keyboard stays open after a failed submit,
+        since no blur ever fires to dismiss it.
+      */}
       <Button
         type="submit"
         disabled={status.kind === "sending"}
