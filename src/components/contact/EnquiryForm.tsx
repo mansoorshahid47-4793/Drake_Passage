@@ -62,12 +62,20 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
         const key = k as keyof EnquiryInput;
         if (val && next[key] === empty[key]) next[key] = val as string;
       }
+      // A `?product=` prefill that does not belong to the resolved category
+      // (wrong slug, or a product from a different category) must not be
+      // kept in state, otherwise the <select> would be given a value with
+      // no matching <option> and silently show nothing selected while the
+      // hidden state still held the bogus slug.
+      const prefilledCategory = categories.find((c) => c.slug === next.category);
+      if (next.product && !prefilledCategory?.products.some((p) => p.slug === next.product)) next.product = "";
       return next;
     });
   }
 
   const categoryObj = categories.find((c) => c.slug === values.category);
   const products = categoryObj?.products ?? [];
+  const catalog = categories.map((c) => ({ slug: c.slug, products: c.products.map((p) => p.slug) }));
 
   useEffect(() => {
     if (focusToken > 0) summaryRef.current?.focus();
@@ -79,17 +87,24 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
 
   const set = (k: keyof EnquiryInput, v: string) => {
     setValues((s) => ({ ...s, [k]: v, ...(k === "category" ? { product: "" } : {}) }));
+    if (k === "category") {
+      // The product select is reset above, so any stale error for it (e.g.
+      // "Choose a product from the selected category" from the previous
+      // category) no longer applies.
+      setErrors((e) => ({ ...e, product: undefined }));
+      setSummaryErrors((se) => ({ ...se, product: undefined }));
+    }
   };
 
   const validateField = (k: keyof EnquiryInput) => {
-    const r = validateEnquiry(values, categories.map((c) => c.slug));
+    const r = validateEnquiry(values as unknown as Record<string, unknown>, catalog);
     setErrors((e) => ({ ...e, [k]: r.ok ? undefined : r.errors[k] }));
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const r = validateEnquiry(values, categories.map((c) => c.slug));
+    const r = validateEnquiry(values as unknown as Record<string, unknown>, catalog);
     if (!r.ok) {
       setErrors(r.errors);
       setSummaryErrors(r.errors);

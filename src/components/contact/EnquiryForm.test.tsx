@@ -31,6 +31,12 @@ describe("EnquiryForm", () => {
     expect(screen.getByLabelText("What are you asking for?")).toHaveValue("sample");
   });
 
+  it("drops a ?product= prefill that does not belong to the selected category", () => {
+    render(<EnquiryForm categories={categories} initial={{ category: "rice", product: "bogus" }} />);
+    expect(screen.getByLabelText("Product category")).toHaveValue("rice");
+    expect(screen.getByLabelText("Product (optional)")).toHaveValue("");
+  });
+
   it("submits valid data and shows success", async () => {
     vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
     const user = userEvent.setup();

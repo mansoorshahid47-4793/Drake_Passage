@@ -12,6 +12,9 @@ const good = {
 const req = (body: unknown, ip = "9.9.9.9") =>
   new Request("http://localhost/api/enquiry", { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": ip }, body: JSON.stringify(body) });
 
+const reqWithHeaders = (body: unknown, headers: Record<string, string>) =>
+  new Request("http://localhost/api/enquiry", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body) });
+
 const rawReq = (rawBody: string, ip = "9.9.9.9") =>
   new Request("http://localhost/api/enquiry", { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": ip }, body: rawBody });
 
@@ -43,6 +46,20 @@ describe("POST /api/enquiry", () => {
     for (let i = 0; i < 5; i++) await POST(req(good, "5.5.5.5"));
     const res = await POST(req(good, "5.5.5.5"));
     expect(res.status).toBe(429);
+  });
+
+  it("keys the rate limit on x-real-ip over x-forwarded-for", async () => {
+    // Both headers name different IPs; x-real-ip must win so the two IPs
+    // seen in x-forwarded-for below share one bucket and get rate limited
+    // together, while a distinct x-real-ip stays in its own bucket.
+    for (let i = 0; i < 5; i++) {
+      await POST(reqWithHeaders(good, { "x-real-ip": "7.7.7.7", "x-forwarded-for": "1.1.1.1" }));
+    }
+    const sameRealIp = await POST(reqWithHeaders(good, { "x-real-ip": "7.7.7.7", "x-forwarded-for": "2.2.2.2" }));
+    expect(sameRealIp.status).toBe(429);
+
+    const differentRealIp = await POST(reqWithHeaders(good, { "x-real-ip": "8.8.8.8", "x-forwarded-for": "1.1.1.1" }));
+    expect(differentRealIp.status).toBe(200);
   });
 
   it.each([

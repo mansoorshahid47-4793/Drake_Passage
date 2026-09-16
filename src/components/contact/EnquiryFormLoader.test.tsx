@@ -32,4 +32,14 @@ describe("EnquiryFormLoader", () => {
     });
     expect(await screen.findByLabelText("What are you asking for?")).toHaveValue("certificate");
   });
+
+  it("renders an empty product select when the prefilled product does not belong to the prefilled category", async () => {
+    window.history.replaceState({}, "", "/contact?product=bogus&category=rice");
+    render(<EnquiryFormLoader categories={categories} />);
+
+    await waitFor(async () => {
+      expect(await screen.findByLabelText("Product category")).toHaveValue("rice");
+    });
+    expect(await screen.findByLabelText("Product (optional)")).toHaveValue("");
+  });
 });
