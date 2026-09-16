@@ -21,6 +21,7 @@ export interface Category {
   heroImage: string;
   subCategories: string[];
   tier: CategoryTier;
+  originPhotoIds?: string[];
 }
 
 export interface Product {
@@ -36,6 +37,18 @@ export interface Product {
   moq?: string;
   supportedTradeTerms: TradeTerm[];
   certifications: Certification[];
+}
+
+export interface OriginPhoto {
+  id: string;
+  src: string;
+  alt: string;
+  caption: string;
+  author: string;
+  licence: { name: string; url: string };
+  sourceUrl: string;
+  width: number;
+  height: number;
 }
 
 export interface CompanyCertification {

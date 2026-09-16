@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { describe, it, expect } from "vitest";
 import { getCategories, getProducts } from "@/lib/catalog";
+import { ORIGIN_PHOTOS } from "@/data/origin";
 
 describe("catalog images", () => {
   it("every category heroImage exists on disk", () => {
@@ -15,6 +16,13 @@ describe("catalog images", () => {
     for (const product of getProducts()) {
       const filePath = path.join(process.cwd(), "public", product.images[0]);
       expect(existsSync(filePath), `${product.images[0]} (product: ${product.slug})`).toBe(true);
+    }
+  });
+
+  it("every origin photo src exists on disk", () => {
+    for (const photo of ORIGIN_PHOTOS) {
+      const filePath = path.join(process.cwd(), "public", photo.src);
+      expect(existsSync(filePath), `${photo.src} (origin photo: ${photo.id})`).toBe(true);
     }
   });
 

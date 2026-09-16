@@ -1,0 +1,73 @@
+import type { OriginPhoto } from "@/lib/types";
+
+const CC_BY_SA_4 = { name: "CC BY-SA 4.0", url: "https://creativecommons.org/licenses/by-sa/4.0/" };
+const CC_BY_3 = { name: "CC BY 3.0", url: "https://creativecommons.org/licenses/by/3.0/" };
+
+export const ORIGIN_PHOTOS: OriginPhoto[] = [
+  {
+    id: "khewra-interior",
+    src: "/images/origin/khewra-interior.jpg",
+    alt: "A tunnel inside the Khewra Salt Mine, its walls carved from pink rock salt",
+    caption: "Inside the Khewra Salt Mine",
+    author: "Shahzaib Damn Cruze",
+    licence: CC_BY_SA_4,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Inside_Khewra_Salt_Mines7.jpg",
+    width: 1600,
+    height: 1200,
+  },
+  {
+    id: "khewra-landscape",
+    src: "/images/origin/khewra-landscape.jpg",
+    alt: "The arid, folded hills of the Salt Range surrounding Khewra",
+    caption: "Salt Range landscape at Khewra",
+    author: "Mohammad.Waris.khan",
+    licence: CC_BY_SA_4,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Khewra_Salt_Mines_landscape_IMG_3127.jpg",
+    width: 1600,
+    height: 1200,
+  },
+  {
+    id: "salt-coarse",
+    src: "/images/origin/salt-coarse.jpg",
+    alt: "Coarse crystals of pink Himalayan salt from Pakistan",
+    caption: "Coarse Himalayan salt from Pakistan",
+    author: "Iifar",
+    licence: CC_BY_SA_4,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Himalayan_salt_(coarse).jpg",
+    width: 1600,
+    height: 1200,
+  },
+  {
+    id: "salt-block",
+    src: "/images/origin/salt-block.jpg",
+    alt: "A quarried block of rock salt from the Khewra mine",
+    caption: "Rock-salt block from Khewra",
+    author: "Hubertl",
+    licence: CC_BY_SA_4,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:2015-03-07_Pakistanisches,_sogenanntes_Himalaya-Salz_0399.jpg",
+    width: 1600,
+    height: 1200,
+  },
+  {
+    id: "paddy-chunian",
+    src: "/images/origin/paddy-chunian.jpg",
+    alt: "A flooded rice paddy field in Tehsil Chunian, Punjab",
+    caption: "Rice field in Tehsil Chunian, Punjab, Pakistan",
+    author: "Kamran sardar",
+    licence: CC_BY_3,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Rice_field_in_Tehsil_Chunian,_Punjab,_Pakistan_-_panoramio_(7).jpg",
+    width: 1600,
+    height: 1200,
+  },
+  {
+    id: "badshahi-mosque",
+    src: "/images/origin/badshahi-mosque.jpg",
+    alt: "The red sandstone facade and domes of Badshahi Mosque in Lahore",
+    caption: "Lahore, where Drake Passage is based",
+    author: "Harvinder Chandigarh",
+    licence: CC_BY_SA_4,
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Badshahi_Mosque_-Lahore_02.jpg",
+    width: 1600,
+    height: 1200,
+  },
+];

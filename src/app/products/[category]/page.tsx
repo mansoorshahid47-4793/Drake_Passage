@@ -4,7 +4,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { OriginFigure } from "@/components/ui/OriginFigure";
 import { getCategories, getCategory, groupBySubCategory, ENQUIRY_NOTE } from "@/lib/catalog";
+import { getOriginPhotos } from "@/lib/origin";
 import { categoryTitle } from "@/lib/seo";
 import { whatsAppUrl } from "@/lib/whatsapp";
 
@@ -28,6 +30,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
   const category = getCategory((await params).category);
   if (!category) notFound();
   const groups = groupBySubCategory(category);
+  const originPhotos = category.originPhotoIds ? getOriginPhotos(category.originPhotoIds) : [];
   return (
     <>
       <div className="relative h-[40vh] min-h-[280px] bg-navy">
@@ -63,6 +66,16 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
             </ul>
           </section>
         ))}
+        {originPhotos.length > 0 && (
+          <section className="mt-12">
+            <h2 className="text-[1.6rem]">From the source</h2>
+            <div className="mt-4 grid gap-8 sm:grid-cols-2">
+              {originPhotos.map((photo) => (
+                <OriginFigure key={photo.id} photo={photo} />
+              ))}
+            </div>
+          </section>
+        )}
       </Container>
     </>
   );
