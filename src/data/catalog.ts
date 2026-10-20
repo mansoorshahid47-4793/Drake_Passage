@@ -24,9 +24,13 @@ export const categories: Category[] = [
     description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
     heroImage: jpg("categories", "onion"), subCategories: [],
     tier: "enquiry" },
-  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Ground turmeric and red chilli",
-    description: "Ground turmeric and red chilli powder, cleaned, milled and packed for retail or bulk buyers.",
+  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric, red chilli and ginger",
+    description: "Ground turmeric and red chilli powder, cleaned, milled and packed for retail or bulk buyers, with ginger also supplied on enquiry.",
     heroImage: jpg("categories", "spices"), subCategories: [],
+    tier: "enquiry" },
+  { slug: "fruits", name: "Fruits", seoName: "Fruit", tagline: "Mango for wholesale buyers",
+    description: "Mango for wholesale and food-service buyers, with varieties, grades and packing confirmed per enquiry.",
+    heroImage: jpg("categories", "fruits"), subCategories: [],
     tier: "enquiry" },
 ];
 
@@ -76,4 +80,7 @@ export const products: Product[] = [
   // Spices
   base({ slug: "turmeric-powder", name: "Turmeric powder", category: "spices", tagline: "Ground turmeric" }),
   base({ slug: "red-chilli-powder", name: "Red chilli powder", category: "spices", tagline: "Ground red chilli" }),
+  base({ slug: "ginger", name: "Ginger", category: "spices", tagline: "Wholesale ginger" }),
+  // Fruits
+  base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Wholesale mango" }),
 ];

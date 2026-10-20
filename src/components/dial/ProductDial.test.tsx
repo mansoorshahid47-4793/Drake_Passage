@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 import { ProductDial } from "@/components/dial/ProductDial";
 import type { DialItem } from "@/components/dial/types";
 
-const items: DialItem[] = ["salt", "rice", "potato", "onion", "spices"].map((slug, i) => ({
+const items: DialItem[] = ["salt", "rice", "potato", "onion", "spices", "fruits"].map((slug, i) => ({
   slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, description: `${slug} description`, image: `/images/categories/${slug}.svg`,
   productCount: i + 1, subCategories: slug === "rice" ? ["Basmati", "Non-Basmati"] : [],
   products: [{ slug: `${slug}-a`, name: `${slug} A`, ...(slug === "rice" ? { subCategory: "Basmati" } : {}) }],
@@ -20,12 +20,12 @@ describe("ProductDial", () => {
     const user = userEvent.setup();
     render(<ProductDial items={items} />);
     const region = screen.getByRole("region", { name: "Product categories" });
-    expect(screen.getByRole("status")).toHaveTextContent("1 of 5, Salt");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
     await user.click(screen.getByRole("button", { name: "Next category" }));
-    expect(screen.getByRole("status")).toHaveTextContent("2 of 5, Rice");
+    expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     region.focus();
     await user.keyboard("{ArrowLeft}{ArrowLeft}");
-    expect(screen.getByRole("status")).toHaveTextContent("5 of 5, Spices");
+    expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Fruits");
   });
 
   it("updates the description text after clicking Next category", async () => {
@@ -42,24 +42,25 @@ describe("ProductDial", () => {
     render(<ProductDial items={items} />);
     screen.getByRole("region", { name: "Product categories" }).focus();
     await user.keyboard("{End}");
-    expect(screen.getByRole("status")).toHaveTextContent("5 of 5, Spices");
+    expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Fruits");
     await user.keyboard("{Home}");
-    expect(screen.getByRole("status")).toHaveTextContent("1 of 5, Salt");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
   });
 
   it("marks offsets so CSS can position items", () => {
     render(<ProductDial items={items} />);
     expect(screen.getByTestId("dial-item-salt")).toHaveAttribute("data-offset", "0");
     expect(screen.getByTestId("dial-item-rice")).toHaveAttribute("data-offset", "1");
-    expect(screen.getByTestId("dial-item-spices")).toHaveAttribute("data-offset", "-1");
-    expect(screen.getByTestId("dial-item-onion")).toHaveAttribute("data-offset", "-2");
+    expect(screen.getByTestId("dial-item-fruits")).toHaveAttribute("data-offset", "-1");
+    expect(screen.getByTestId("dial-item-spices")).toHaveAttribute("data-offset", "-2");
+    expect(screen.getByTestId("dial-item-onion")).toHaveAttribute("data-offset", "hidden");
   });
 
   it("selecting the center item opens the panel; selecting a side item centers it", async () => {
     const user = userEvent.setup();
     render(<ProductDial items={items} />);
     await user.click(screen.getByRole("button", { name: /Rice/ }));
-    expect(screen.getByRole("status")).toHaveTextContent("2 of 5, Rice");
+    expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     expect(screen.queryByRole("region", { name: "Rice details" })).not.toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /Rice/ }));
     const panel = screen.getByRole("region", { name: "Rice details" });
@@ -90,28 +91,21 @@ describe("ProductDial", () => {
     const link = screen.getByRole("link", { name: "See all salt" });
     link.focus();
     await user.keyboard("{End}{ArrowRight}");
-    expect(screen.getByRole("status")).toHaveTextContent("1 of 5, Salt");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
     expect(screen.getByRole("region", { name: "Salt details" })).toBeInTheDocument();
     expect(document.activeElement).toBe(link);
   });
 
   it("moves focus to the new center card when a focused card rotates away, never into aria-hidden", async () => {
     const user = userEvent.setup();
-    // With only five real categories, nothing ever rotates past offset +-2 into the
-    // hidden zone, so this generic dial-mechanics case needs a six-item fixture of its own.
-    const sixItems: DialItem[] = ["one", "two", "three", "four", "five", "six"].map((slug, i) => ({
-      slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, description: `${slug} description`, image: `/images/categories/${slug}.svg`,
-      productCount: i + 1, subCategories: [], products: [{ slug: `${slug}-a`, name: `${slug} A` }],
-      tier: "enquiry" as DialItem["tier"],
-    }));
-    render(<ProductDial items={sixItems} />);
-    await user.click(screen.getByRole("button", { name: /Two/ }));
-    expect(document.activeElement).toBe(cardButton("two"));
-    // Three moves: Two ends at offset -3, i.e. data-offset="hidden".
+    render(<ProductDial items={items} />);
+    await user.click(screen.getByRole("button", { name: /Rice/ }));
+    expect(document.activeElement).toBe(cardButton("rice"));
+    // Three moves: Rice ends at offset -3, i.e. data-offset="hidden".
     await user.keyboard("{ArrowRight}{ArrowRight}{ArrowRight}");
-    expect(screen.getByRole("status")).toHaveTextContent("5 of 6, Five");
-    expect(screen.getByTestId("dial-item-two")).toHaveAttribute("data-offset", "hidden");
-    expect(document.activeElement).toBe(cardButton("five"));
+    expect(screen.getByRole("status")).toHaveTextContent("5 of 6, Spices");
+    expect(screen.getByTestId("dial-item-rice")).toHaveAttribute("data-offset", "hidden");
+    expect(document.activeElement).toBe(cardButton("spices"));
     expect(document.activeElement?.closest('[aria-hidden="true"]')).toBeNull();
   });
 
@@ -141,9 +135,9 @@ describe("ProductDial", () => {
     const salt = cardButton("salt");
     fireEvent.pointerDown(salt, primary(200));
     fireEvent.pointerUp(salt, primary(140));
-    expect(screen.getByRole("status")).toHaveTextContent("2 of 5, Rice");
+    expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     fireEvent.click(salt);
-    expect(screen.getByRole("status")).toHaveTextContent("2 of 5, Rice");
+    expect(screen.getByRole("status")).toHaveTextContent("2 of 6, Rice");
     expect(screen.queryByRole("region", { name: /details$/ })).not.toBeInTheDocument();
     // The guard only swallows the one click that follows a swipe.
     fireEvent.pointerDown(cardButton("rice"), primary(100));
@@ -159,14 +153,14 @@ describe("ProductDial", () => {
     fireEvent.pointerUp(stage, { clientX: 100, isPrimary: false, button: 0 });
     fireEvent.pointerDown(stage, { clientX: 200, isPrimary: true, button: 2 });
     fireEvent.pointerUp(stage, { clientX: 100, isPrimary: true, button: 2 });
-    expect(screen.getByRole("status")).toHaveTextContent("1 of 5, Salt");
+    expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
   });
 
   it("shows the on enquiry badge only on enquiry-tier cards", () => {
     render(<ProductDial items={items} />);
     expect(within(screen.getByTestId("dial-item-salt")).queryByText("On enquiry")).not.toBeInTheDocument();
     expect(within(screen.getByTestId("dial-item-rice")).queryByText("On enquiry")).not.toBeInTheDocument();
-    for (const slug of ["potato", "onion", "spices"]) {
+    for (const slug of ["potato", "onion", "spices", "fruits"]) {
       expect(within(screen.getByTestId(`dial-item-${slug}`)).getByText("On enquiry")).toBeInTheDocument();
     }
   });
@@ -191,14 +185,14 @@ describe("ProductDial", () => {
     const stage = stageOf("salt");
     fireEvent.pointerDown(stage, primary(100));
     fireEvent.pointerLeave(stage, primary(300));
-    expect(screen.getByRole("status")).toHaveTextContent("5 of 5, Spices");
+    expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Fruits");
     // A later pointerup without a pointerdown on the stage must be a no-op.
     fireEvent.pointerUp(stage, primary(0));
-    expect(screen.getByRole("status")).toHaveTextContent("5 of 5, Spices");
+    expect(screen.getByRole("status")).toHaveTextContent("6 of 6, Fruits");
     // No click followed the swipe, so the guard must not swallow a keyboard activation.
-    cardButton("spices").focus();
+    cardButton("fruits").focus();
     await user.keyboard("{Enter}");
-    expect(screen.getByRole("region", { name: "Spices details" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Fruits details" })).toBeInTheDocument();
   });
 });
 

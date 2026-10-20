@@ -2,8 +2,8 @@ import { describe, it, expect } from "vitest";
 import { getCategories, getCategory, getProducts, getProductsByCategory, getProduct, groupBySubCategory, getPrimaryCategories, getEnquiryCategories } from "@/lib/catalog";
 
 describe("catalog accessors", () => {
-  it("lists five categories in display order", () => {
-    expect(getCategories().map((c) => c.slug)).toEqual(["salt", "rice", "potato", "onion", "spices"]);
+  it("lists six categories in display order", () => {
+    expect(getCategories().map((c) => c.slug)).toEqual(["salt", "rice", "potato", "onion", "spices", "fruits"]);
   });
 
   it("has unique product slugs and valid category references", () => {
@@ -41,7 +41,7 @@ describe("catalog accessors", () => {
     const tiers = Object.fromEntries(getCategories().map((c) => [c.slug, c.tier]));
     expect(tiers).toEqual({
       salt: "primary", rice: "primary",
-      potato: "enquiry", onion: "enquiry", spices: "enquiry",
+      potato: "enquiry", onion: "enquiry", spices: "enquiry", fruits: "enquiry",
     });
   });
 
@@ -49,7 +49,7 @@ describe("catalog accessors", () => {
     expect(getPrimaryCategories().map((c) => c.slug)).toEqual(["salt", "rice"]);
   });
 
-  it("getEnquiryCategories returns potato, onion and spices in catalog order", () => {
-    expect(getEnquiryCategories().map((c) => c.slug)).toEqual(["potato", "onion", "spices"]);
+  it("getEnquiryCategories returns potato, onion, spices and fruits in catalog order", () => {
+    expect(getEnquiryCategories().map((c) => c.slug)).toEqual(["potato", "onion", "spices", "fruits"]);
   });
 });
