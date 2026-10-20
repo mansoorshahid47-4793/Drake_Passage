@@ -12,7 +12,7 @@ const expected = [
   ...productEntries.map((p) => `/products/${p.category}/${p.slug}`),
 ];
 
-const NON_PAGE_ROUTES = new Set(["/_global-error", "/_not-found", "/icon.svg", "/opengraph-image", "/robots.txt", "/sitemap.xml"]);
+const NON_PAGE_ROUTES = new Set(["/_global-error", "/_not-found", "/icon.png", "/apple-icon.png", "/opengraph-image", "/robots.txt", "/sitemap.xml"]);
 const EXPECTED_PAGE_COUNT = 35; // 7 static + 5 categories + 23 products; change deliberately with the catalog
 const prerenderedPages = [...prerendered].filter((r) => !NON_PAGE_ROUTES.has(r));
 

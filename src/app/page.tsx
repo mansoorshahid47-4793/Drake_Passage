@@ -22,7 +22,7 @@ const orgJsonLd = {
   name: company.legalName,
   alternateName: company.name,
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.svg`,
+  logo: `${SITE_URL}/logo.png`,
   telephone: `+${company.phoneE164}`,
   email: company.email,
   address: { "@type": "PostalAddress", addressLocality: "Lahore", addressRegion: "Punjab", addressCountry: "PK" },
