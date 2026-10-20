@@ -7,7 +7,7 @@ import { getCategories, getPrimaryCategories, getEnquiryCategories, getProductsB
 
 export const metadata: Metadata = {
   title: "Himalayan salt and Basmati rice products",
-  description: "Himalayan pink salt grades, lamps and decor, Basmati 1121, 1509, 1847 and IRRI-6 rice, with potatoes, onions, tomatoes and spices on enquiry. From Pakistan.",
+  description: "Himalayan pink salt grades, lamps and decor, Basmati 1121, 1509, 1847 and IRRI-6 rice, with potatoes, onions and spices on enquiry. From Pakistan.",
   alternates: { canonical: "/products" },
 };
 
@@ -19,7 +19,7 @@ export default function ProductsPage() {
   return (
     <Container className="py-16">
       <h1>Products</h1>
-      <p className="mt-4 text-muted">Salt and rice are our primary lines. Potatoes, onions, tomatoes and spices are available on enquiry. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
+      <p className="mt-4 text-muted">Salt and rice are our primary lines. Potatoes, onions and spices are available on enquiry. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
       <h2 className="mt-10">Primary lines</h2>
       <div className="mt-6"><CategoryGrid categories={primaryCategories} counts={counts} /></div>
       <h2 className="mt-12">On enquiry</h2>

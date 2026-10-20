@@ -4,7 +4,7 @@ import { toDialItems } from "@/lib/dial";
 describe("toDialItems", () => {
   it("produces one serialisable item per category with products", () => {
     const items = toDialItems();
-    expect(items.map((i) => i.slug)).toEqual(["salt", "rice", "potato", "onion", "tomato", "spices"]);
+    expect(items.map((i) => i.slug)).toEqual(["salt", "rice", "potato", "onion", "spices"]);
     const rice = items[1];
     expect(rice.productCount).toBe(5);
     expect(rice.subCategories).toEqual(["Basmati", "Non-Basmati"]);
@@ -18,7 +18,7 @@ describe("toDialItems", () => {
     const items = toDialItems();
     expect(items.find((i) => i.slug === "salt")?.tier).toBe("primary");
     expect(items.find((i) => i.slug === "rice")?.tier).toBe("primary");
-    for (const slug of ["potato", "onion", "tomato", "spices"]) {
+    for (const slug of ["potato", "onion", "spices"]) {
       expect(items.find((i) => i.slug === slug)?.tier).toBe("enquiry");
     }
   });

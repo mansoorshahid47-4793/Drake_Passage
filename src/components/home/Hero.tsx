@@ -9,7 +9,7 @@ export function Hero({ children }: { children: React.ReactNode }) {
         <div className="lg:col-span-5">
           <h1>Himalayan salt and Basmati rice from Pakistan, packed to your spec</h1>
           <p className="mt-5 text-muted text-[1.2rem]">
-            Drake Passage exports Himalayan pink salt and Basmati and non-Basmati rice to wholesale buyers, with potatoes, onions, tomatoes and spices available on enquiry. FOB or CIF quotes, samples by courier, documents on request.
+            Drake Passage exports Himalayan pink salt and Basmati and non-Basmati rice to wholesale buyers, with potatoes, onions and spices available on enquiry. FOB or CIF quotes, samples by courier, documents on request.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button href="/contact">Get a quote</Button>

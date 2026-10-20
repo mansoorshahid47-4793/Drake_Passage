@@ -18,11 +18,11 @@ describe("EnquiryCategoryList", () => {
   it("renders a link and a quote link for each on-enquiry category", () => {
     const categories = getEnquiryCategories();
     render(<EnquiryCategoryList categories={categories} />);
-    expect(categories.length).toBe(4);
+    expect(categories.length).toBe(3);
     for (const c of categories) {
       expect(screen.getByRole("link", { name: c.name })).toHaveAttribute("href", `/products/${c.slug}`);
     }
-    expect(screen.getAllByRole("link", { name: /^Get a quote/ })).toHaveLength(4);
-    expect(screen.getAllByText("On enquiry")).toHaveLength(4);
+    expect(screen.getAllByRole("link", { name: /^Get a quote/ })).toHaveLength(3);
+    expect(screen.getAllByText("On enquiry")).toHaveLength(3);
   });
 });

@@ -24,10 +24,6 @@ export const categories: Category[] = [
     description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
     heroImage: jpg("categories", "onion"), subCategories: [],
     tier: "enquiry" },
-  { slug: "tomato", name: "Tomatoes", seoName: "Tomato", tagline: "Fresh tomatoes for wholesale buyers",
-    description: "Fresh tomatoes sorted by size and ripeness for wholesale buyers.",
-    heroImage: jpg("categories", "tomato"), subCategories: [],
-    tier: "enquiry" },
   { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Ground turmeric and red chilli",
     description: "Ground turmeric and red chilli powder, cleaned, milled and packed for retail or bulk buyers.",
     heroImage: jpg("categories", "spices"), subCategories: [],
@@ -68,9 +64,8 @@ export const products: Product[] = [
   // Potato
   base({ slug: "red-potato", name: "Red potato", category: "potato", subCategory: "Red", tagline: "Red-skin table potato" }),
   base({ slug: "white-potato", name: "White potato", category: "potato", subCategory: "White", tagline: "White-skin table potato" }),
-  // Onion, Tomato
+  // Onion
   base({ slug: "fresh-onion", name: "Fresh onion", category: "onion", tagline: "Wholesale fresh onion" }),
-  base({ slug: "fresh-tomato", name: "Fresh tomato", category: "tomato", tagline: "Wholesale fresh tomato" }),
   // Spices
   base({ slug: "turmeric-powder", name: "Turmeric powder", category: "spices", tagline: "Ground turmeric" }),
   base({ slug: "red-chilli-powder", name: "Red chilli powder", category: "spices", tagline: "Ground red chilli" }),
