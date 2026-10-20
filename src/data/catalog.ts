@@ -40,12 +40,19 @@ const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "suppor
   ...p,
 });
 
+const EDIBLE_SALT_PACKING = [
+  "Printed stand-up zipper pouches with your brand, 500 g or 1 kg",
+  "Plain stand-up pouches for your own labels, 500 g or 1 kg",
+  "Cotton drawstring bags, 500 g or 1 kg",
+  "25 kg or 30 kg PP bags for bulk buyers and repackers",
+];
+
 export const products: Product[] = [
   // Salt
-  base({ slug: "dark-pink-food-grade-salt", name: "Dark pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades" }),
-  base({ slug: "light-pink-food-grade-salt", name: "Light pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades" }),
-  base({ slug: "white-food-grade-salt", name: "White Himalayan food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades" }),
-  base({ slug: "black-salt", name: "Black Himalayan salt", category: "salt", subCategory: "Edible salt", tagline: "Kala namak" }),
+  base({ slug: "dark-pink-food-grade-salt", name: "Dark pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
+  base({ slug: "light-pink-food-grade-salt", name: "Light pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
+  base({ slug: "white-food-grade-salt", name: "White Himalayan food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
+  base({ slug: "black-salt", name: "Black Himalayan salt", category: "salt", subCategory: "Edible salt", tagline: "Kala namak", packagingOptions: EDIBLE_SALT_PACKING }),
   base({ slug: "grilling-slabs", name: "Salt grilling slabs", category: "salt", subCategory: "Cooking and grilling", tagline: "With metal or wooden holders" }),
   base({ slug: "salt-bowls-and-plates", name: "Salt bowls and serving plates", category: "salt", subCategory: "Table products", tagline: "Hand-carved serveware" }),
   base({ slug: "salt-pestle-and-mortar", name: "Salt pestle and mortar", category: "salt", subCategory: "Kitchen products", tagline: "Solid rock salt" }),
