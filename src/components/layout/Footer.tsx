@@ -7,7 +7,7 @@ import { NAV_LINKS } from "./nav";
 export function Footer() {
   const categories = getCategories();
   return (
-    <footer className="mt-24 bg-navy text-salt">
+    <footer className="border-t border-salt/15 bg-navy text-salt">
       <Container className="grid gap-10 py-14 md:grid-cols-4">
         <div>
           <p className="font-display text-2xl font-semibold m-0">
