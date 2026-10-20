@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Category } from "@/lib/types";
 
-export function CategoryTile({ category, productCount }: { category: Category; productCount: number }) {
+export function CategoryTile({ category, productCount, sizes = "(min-width: 768px) 33vw, 100vw" }: { category: Category; productCount: number; sizes?: string }) {
   return (
     <Link href={`/products/${category.slug}`} className="group block no-underline text-ink">
       <div className="relative aspect-[4/3] overflow-hidden rounded-tile bg-navy">
-        <Image src={category.heroImage} alt={`${category.name}: ${category.tagline}`} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+        <Image src={category.heroImage} alt={`${category.name}: ${category.tagline}`} fill sizes={sizes} className="object-cover" />
+        {category.tier === "enquiry" && (
+          <span className="absolute left-3 top-3 rounded-full border border-teal-bright bg-navy/85 px-2 py-0.5 text-[12px] font-semibold text-teal-bright">On enquiry</span>
+        )}
       </div>
       <div className="mt-3 flex items-baseline justify-between gap-3">
         <h3 className="group-hover:text-teal transition-colors duration-[var(--dur-micro)]">{category.name}</h3>

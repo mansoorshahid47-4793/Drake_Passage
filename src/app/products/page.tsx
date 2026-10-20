@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
-import { EnquiryCategoryList } from "@/components/ui/EnquiryCategoryList";
+import { EnquiryCategoryGrid } from "@/components/ui/EnquiryCategoryGrid";
 import { getCategories, getPrimaryCategories, getEnquiryCategories, getProductsByCategory, groupBySubCategory } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ export default function ProductsPage() {
       <h2 className="mt-10">Primary lines</h2>
       <div className="mt-6"><CategoryGrid categories={primaryCategories} counts={counts} /></div>
       <h2 className="mt-12">On enquiry</h2>
-      <div className="mt-6"><EnquiryCategoryList categories={enquiryCategories} /></div>
+      <div className="mt-6"><EnquiryCategoryGrid categories={enquiryCategories} counts={counts} /></div>
       {categories.map((c) => (
         <section key={c.slug} className="mt-16 border-t border-line pt-10">
           <h2><Link href={`/products/${c.slug}`} className="text-ink no-underline hover:text-teal">All {c.name.toLowerCase()}</Link></h2>
