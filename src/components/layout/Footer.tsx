@@ -8,7 +8,7 @@ export function Footer() {
   const categories = getCategories();
   return (
     <footer className="border-t border-salt/15 bg-navy text-salt">
-      <Container className="grid gap-10 py-14 md:grid-cols-4">
+      <Container className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <p className="font-display text-2xl font-semibold m-0">
             <span className="text-salt">Drake</span> <span className="text-teal-bright">Passage</span>
@@ -16,7 +16,7 @@ export function Footer() {
           <p className="mt-2 text-salt/80 m-0">{company.legalName}</p>
           <p className="mt-4 m-0">{company.office}</p>
           <p className="m-0"><a href={`tel:+${company.phoneE164}`} className="text-teal-bright">{company.phoneDisplay}</a></p>
-          <p className="m-0"><a href={`mailto:${company.email}`} className="text-teal-bright">{company.email}</a></p>
+          <p className="m-0"><a href={`mailto:${company.email}`} className="text-teal-bright break-all">{company.email}</a></p>
           <p className="mt-2 m-0 text-salt/80">{company.hours}</p>
         </div>
         <div>
