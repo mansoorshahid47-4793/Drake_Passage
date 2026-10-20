@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { OriginFigure } from "@/components/ui/OriginFigure";
+import { ProductGroups } from "@/components/products/ProductGroups";
 import { getCategories, getCategory, groupBySubCategory, ENQUIRY_NOTE } from "@/lib/catalog";
 import { getOriginPhotos } from "@/lib/origin";
 import { categoryTitle } from "@/lib/seo";
@@ -61,24 +62,7 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
           <Button href={`/contact?category=${category.slug}`}>Get a quote for {category.name.toLowerCase()}</Button>
           <Button href={whatsAppUrl(`Quote request: ${category.name}`)} external variant="whatsapp">Chat on WhatsApp</Button>
         </div>
-        {groups.map((g) => (
-          <section key={g.subCategory ?? "all"} className="mt-12">
-            {g.subCategory && <h2 className="text-[1.6rem]">{g.subCategory}</h2>}
-            <ul className="mt-4 grid list-none gap-6 p-0 m-0 sm:grid-cols-2 lg:grid-cols-3">
-              {g.products.map((p) => (
-                <li key={p.slug}>
-                  <Link href={`/products/${category.slug}/${p.slug}`} className="block no-underline text-ink group">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-tile bg-navy">
-                      <Image src={p.images[0]} alt={`${p.name}: ${p.tagline}`} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
-                    </div>
-                    <h3 className="mt-3 text-[1.25rem] group-hover:text-teal">{p.name}</h3>
-                    <p className="m-0 text-muted text-[15px]">{p.tagline}</p>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+        <ProductGroups groups={groups} categorySlug={category.slug} />
         {originPhotos.length > 0 && (
           <section className="mt-12">
             <h2 className="text-[1.6rem]">From the source</h2>
