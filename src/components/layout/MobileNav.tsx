@@ -51,7 +51,7 @@ export function MobileNav({ categories }: { categories: Category[] }) {
       </button>
       {mounted &&
         createPortal(
-          <div id={panelId} ref={panelRef} tabIndex={-1} hidden={!open} role="dialog" aria-label="Site menu" className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-white p-4 xl:hidden">
+          <div id={panelId} ref={panelRef} tabIndex={-1} hidden={!open} role="dialog" aria-label="Site menu" className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto bg-header p-4 xl:hidden">
             <p className="mb-2 font-semibold">Products</p>
             <ul className="m-0 mb-4 list-none p-0">
               {categories.map((c) => (

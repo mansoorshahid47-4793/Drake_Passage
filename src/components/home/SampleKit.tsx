@@ -4,7 +4,7 @@ import { company } from "@/data/company";
 
 export function SampleKit() {
   return (
-    <section className="py-20">
+    <section className="bg-gold-soft py-20">
       <Container className="grid items-center gap-10 md:grid-cols-2">
         <div>
           <h2>Check the grade before you commit</h2>

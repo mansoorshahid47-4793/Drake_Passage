@@ -4,7 +4,7 @@ import { whatsAppUrl } from "@/lib/whatsapp";
 
 export function FinalCta() {
   return (
-    <section className="py-20 border-t border-line">
+    <section className="bg-leaf py-20">
       <Container className="text-center">
         <h2>Tell us what you need, where it is going, and how much</h2>
         <div className="mt-8 flex flex-wrap justify-center gap-3">

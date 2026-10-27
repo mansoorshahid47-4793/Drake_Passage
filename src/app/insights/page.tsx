@@ -66,7 +66,7 @@ export default function InsightsPage() {
         </div>
       </Container>
 
-      <section className="py-20 border-t border-line">
+      <section className="bg-leaf py-20">
         <Container className="text-center">
           <h2>Have a question before our guides are ready?</h2>
           <p className="mt-4 text-muted mx-auto">Ask us directly — most grading, packing and documentation questions can be answered on a call or over WhatsApp.</p>

@@ -45,7 +45,7 @@ export default function Home() {
           <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
         </Container>
       </section>
-      <section className="py-20">
+      <section className="bg-gold-soft py-20">
         <Container>
           <h2>From the Salt Range to the Punjab plains</h2>
           <p className="mt-4 text-muted text-[1.2rem] max-w-prose">Our salt comes from the Khewra mine in the Salt Range; our rice from the paddies of Punjab. Both are graded and packed to your specification before dispatch.</p>
@@ -56,7 +56,7 @@ export default function Home() {
           </div>
         </Container>
       </section>
-      <section className="py-20">
+      <section className="bg-leaf py-20">
         <Container>
           <h2>How an order works</h2>
           <div className="mt-10"><ProcessSteps steps={PROCESS_STEPS} /></div>

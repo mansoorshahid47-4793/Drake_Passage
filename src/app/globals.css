@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
+/* "Emerald and gold" palette, chosen by the client. The token names predate
+   it (navy/teal/salt) and are kept so components need no renaming: --navy is
+   now the deep green, --teal the emerald, --teal-bright the gold accent. */
 :root {
-  --navy: #0b2545;
-  --teal: #0f8286;
-  --teal-bright: #22b8bc;
-  /* Darker than --teal so inline text links meet WCAG AA (4.5:1) on the
-     --salt page background; --teal itself stays untouched since it also
-     backs buttons/hover states where the lighter shade already passes. */
-  --teal-text: #0c6c70;
-  --salt: #f4f7f6;
-  --ink: #14202e;
-  --line: #d5dcda;
-  --muted: #5b6b7a;
+  --navy: #0e3b2c;
+  --teal: #17734a;
+  --teal-hover: #125c3b;
+  --teal-bright: #d9a93d;
+  /* Darker than --teal so inline text links meet WCAG AA (4.5:1) on every
+     tinted background below. */
+  --teal-text: #14653f;
+  /* Page base and section tints: the client asked for colour in the empty
+     areas instead of white. White is kept for cards and form fields. */
+  --salt: #e4f1e8;
+  --gold-soft: #f9eed0;
+  --leaf: #d3e8da;
+  --header: #f2f8f4;
+  --ink: #15201a;
+  --line: #c9dccf;
+  --muted: #55625a;
   --danger: #b42318;
   --success: #1b7f4c;
   --whatsapp: #25d366;
@@ -23,6 +31,10 @@
 @theme inline {
   --color-navy: var(--navy);
   --color-teal: var(--teal);
+  --color-teal-hover: var(--teal-hover);
+  --color-gold-soft: var(--gold-soft);
+  --color-leaf: var(--leaf);
+  --color-header: var(--header);
   --color-teal-text: var(--teal-text);
   --color-teal-bright: var(--teal-bright);
   --color-salt: var(--salt);

@@ -94,7 +94,7 @@ export default function AboutPage() {
         </ul>
       </Container>
 
-      <section className="py-20 border-t border-line">
+      <section className="bg-leaf py-20">
         <Container className="text-center">
           <h2>Tell us what you need</h2>
           <p className="mt-4 text-muted mx-auto">Send the product, quantity and destination and we will come back with a quote.</p>

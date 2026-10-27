@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function ProofStrip() {
   return (
-    <section className="border-y border-line bg-white py-8">
+    <section className="border-y border-line bg-gold-soft py-8">
       <Container>
         <div className="flex flex-wrap items-baseline justify-between gap-4">
           <p className="m-0 font-semibold">Documents available on request</p>

@@ -19,7 +19,7 @@ export default function OgImage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#ffffff",
+          background: "#e4f1e8",
           fontFamily: "Georgia, serif",
         }}
       >
@@ -27,11 +27,11 @@ export default function OgImage() {
           {/* eslint-disable-next-line @next/next/no-img-element -- Satori renders plain <img> only */}
           <img src={logoSrc} width={142} height={150} alt="" />
           <div style={{ display: "flex", fontSize: 88, fontWeight: 600 }}>
-            <span style={{ color: "#0B2545" }}>Drake</span>
-            <span style={{ color: "#0F8286", marginLeft: 20 }}>Passage</span>
+            <span style={{ color: "#0E3B2C" }}>Drake</span>
+            <span style={{ color: "#17734A", marginLeft: 20 }}>Passage</span>
           </div>
         </div>
-        <div style={{ display: "flex", marginTop: 28, fontSize: 30, color: "#5a6b72" }}>
+        <div style={{ display: "flex", marginTop: 28, fontSize: 30, color: "#55625A" }}>
           Salt, rice, produce, spices and fruit exporters, Pakistan
         </div>
       </div>

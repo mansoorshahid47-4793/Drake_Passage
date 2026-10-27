@@ -4,7 +4,7 @@ type Variant = "primary" | "secondary" | "whatsapp";
 type Size = "default" | "compact";
 
 const styles: Record<Variant, string> = {
-  primary: "bg-teal text-white hover:bg-[#0c6c70]",
+  primary: "bg-teal text-white hover:bg-teal-hover",
   secondary: "border border-navy text-navy hover:bg-navy hover:text-salt",
   whatsapp: "bg-whatsapp text-navy hover:bg-[#1fb85a]",
 };
