@@ -7,7 +7,7 @@ import { company } from "@/data/company";
 
 export const metadata: Metadata = {
   title: "Export process and trade terms",
-  description: `How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB or CIF, ${company.paymentTerms.newBuyers} for new buyers, samples by ${company.sampleCouriers.join(" or ")}.`,
+  description: `How an order works: enquiry, quote, sample, contract, quality checks and shipment. FOB, CIF, CNF or Ex-Works, ${company.paymentTerms.newBuyers} for new buyers, samples by ${company.sampleCouriers.join(" or ")}.`,
   alternates: { canonical: "/services" },
 };
 

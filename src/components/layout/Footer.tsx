@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { company } from "@/data/company";
 import { getCategories } from "@/lib/catalog";
 import { NAV_LINKS } from "./nav";
+import { joinOr } from "@/lib/seo";
 
 export function Footer() {
   const categories = getCategories();
@@ -37,7 +38,7 @@ export function Footer() {
         </div>
         <div>
           <p className="font-semibold m-0 mb-3">Terms</p>
-          <p className="m-0 text-salt/90">Trade terms: {company.tradeTerms.join(" or ")}</p>
+          <p className="m-0 text-salt/90">Trade terms: {joinOr(company.tradeTerms)}</p>
           <p className="m-0 text-salt/90">New buyers: {company.paymentTerms.newBuyers}</p>
           <p className="m-0 text-salt/90">Repeat buyers: {company.paymentTerms.repeatBuyers}</p>
           <p className="m-0 text-salt/90">Samples by {company.sampleCouriers.join(" or ")}</p>

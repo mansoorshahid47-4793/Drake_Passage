@@ -2,13 +2,13 @@ import type { Company } from "@/lib/types";
 
 export const company: Company = {
   name: "Drake Passage",
-  legalName: "Drake Passage Pvt Limited",
-  phoneDisplay: "+92 304 740 9567",
-  phoneE164: "923047409567",
+  legalName: "Drake Passage Private Limited",
+  phoneDisplay: "+92 345 689 7420",
+  phoneE164: "923456897420",
   email: "drakepassagepvtltd@gmail.com",
   office: "Lahore, Punjab, Pakistan",
   hours: "Mon–Sat 09:00–18:00 PKT",
-  tradeTerms: ["FOB", "CIF"],
+  tradeTerms: ["FOB", "CIF", "CNF", "Ex-Works"],
   paymentTerms: {
     newBuyers: "100% advance",
     repeatBuyers: "70% advance, 30% against BL copy",

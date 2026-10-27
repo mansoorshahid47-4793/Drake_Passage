@@ -25,11 +25,11 @@ const sourceSans = Source_Sans_3({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Himalayan salt and Basmati rice exporters | Drake Passage",
+    default: "Salt, rice, produce, spices and fruit exporters in Pakistan | Drake Passage",
     template: "%s | Drake Passage",
   },
   description:
-    "Drake Passage Pvt Limited, Lahore: Himalayan salt and Basmati rice exporters, with fresh produce and spices on enquiry. FOB or CIF quotes, samples by courier.",
+    "Drake Passage Private Limited, Lahore: exporters of Himalayan salt, Basmati rice, potatoes, onions, spices, mangoes and Kinnow oranges. FOB, CIF, CNF or Ex-Works quotes, samples by courier.",
   alternates: { canonical: "/" },
   openGraph: { type: "website", siteName: "Drake Passage", locale: "en_GB" },
 };

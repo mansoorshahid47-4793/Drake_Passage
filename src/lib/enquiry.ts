@@ -1,6 +1,6 @@
 export const ENQUIRY_TYPES = ["quote", "sample", "certificate"] as const;
 export type EnquiryType = (typeof ENQUIRY_TYPES)[number];
-export const TRADE_TERMS = ["FOB", "CIF"] as const;
+export const TRADE_TERMS = ["FOB", "CIF", "CNF", "Ex-Works"] as const;
 
 export interface EnquiryInput {
   fullName: string;
@@ -84,7 +84,7 @@ export function validateEnquiry(input: Record<string, unknown>, catalog: Enquiry
   if (v.quantity.length < 1) errors.quantity = "Enter the quantity, for example 2 x 40ft containers";
   else if (v.quantity.length > MAX_LENGTHS.quantity) errors.quantity = "Keep the quantity under 200 characters";
 
-  if (!(TRADE_TERMS as readonly string[]).includes(v.tradeTerm)) errors.tradeTerm = "Choose FOB or CIF";
+  if (!(TRADE_TERMS as readonly string[]).includes(v.tradeTerm)) errors.tradeTerm = "Choose a trade term";
 
   if (v.message.length < 10) errors.message = "Add a few details so we can quote accurately";
   else if (v.message.length > MAX_LENGTHS.message) errors.message = "Keep the message under 4000 characters";

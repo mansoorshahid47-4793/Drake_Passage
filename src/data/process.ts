@@ -1,8 +1,9 @@
 import { company } from "@/data/company";
+import { joinOr } from "@/lib/seo";
 
 export const PROCESS_STEPS = [
   { title: "Enquiry", detail: "Send your requirement by WhatsApp or the enquiry form: product, quantity, destination." },
-  { title: "Quote", detail: `We quote ${company.tradeTerms.join(" or ")} for your port, with packing options and lead time.` },
+  { title: "Quote", detail: `We quote ${joinOr(company.tradeTerms)}, with packing options and lead time.` },
   { title: "Sample", detail: `Samples are dispatched by ${company.sampleCouriers.join(" or ")} so you can check grade and packing.` },
   { title: "Contract and advance", detail: `New buyers: ${company.paymentTerms.newBuyers}. Repeat buyers: ${company.paymentTerms.repeatBuyers}.` },
   { title: "Quality checks and documents", detail: "Inspection and the documents your import needs, such as the certificate of analysis, SGS inspection, phytosanitary certificate and certificate of origin." },

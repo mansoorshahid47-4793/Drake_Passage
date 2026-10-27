@@ -59,15 +59,4 @@ export const ORIGIN_PHOTOS: OriginPhoto[] = [
     width: 1600,
     height: 1200,
   },
-  {
-    id: "badshahi-mosque",
-    src: "/images/origin/badshahi-mosque.jpg",
-    alt: "A night view of the red sandstone facade and domes of Badshahi Mosque in Lahore",
-    caption: "Lahore, where Drake Passage is based",
-    author: "Harvinder Chandigarh",
-    licence: CC_BY_SA_4,
-    sourceUrl: "https://commons.wikimedia.org/wiki/File:Badshahi_Mosque_-Lahore_02.jpg",
-    width: 1600,
-    height: 1200,
-  },
 ];

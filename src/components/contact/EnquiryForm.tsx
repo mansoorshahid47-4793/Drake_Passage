@@ -217,7 +217,7 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
         {field("quantity", <input {...a11y("quantity")} value={values.quantity} onChange={(e) => set("quantity", e.target.value)} onBlur={() => validateField("quantity")} placeholder="e.g. 2 x 40ft containers or 25 MT" className={inputClass} />)}
         {field("tradeTerm", (
           <select {...a11y("tradeTerm")} value={values.tradeTerm} onChange={(e) => set("tradeTerm", e.target.value)} onBlur={() => validateField("tradeTerm")} className={inputClass}>
-            <option value="">Choose FOB or CIF</option>
+            <option value="">Choose a trade term</option>
             {TRADE_TERMS.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         ))}
