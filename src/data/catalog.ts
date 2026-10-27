@@ -21,8 +21,8 @@ export const categories: Category[] = [
   { slug: "onion", name: "Onions", seoName: "Onion", tagline: "Fresh onions for wholesale buyers",
     description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
     heroImage: jpg("categories", "onion"), slide: { kicker: "Farm fresh", title: "Onions" }, subCategories: [] },
-  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric and red chilli powder",
-    description: "Ground turmeric from Kasur and red chilli from Kunri, cleaned, milled and packed for retail or bulk buyers.",
+  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric fingers, turmeric and red chilli powder",
+    description: "Whole turmeric fingers and ground turmeric from Kasur, and red chilli from Kunri, cleaned, graded and packed for retail or bulk buyers.",
     heroImage: jpg("categories", "spices"), slide: { kicker: "Pure ground", title: "Spices" }, subCategories: [] },
   { slug: "fruits", name: "Fruits", seoName: "Fruit", tagline: "Mango and Kinnow oranges",
     description: "Mangoes from southern Punjab and Sindh, and Kinnow oranges from Sargodha, graded and packed in cartons for export.",
@@ -78,6 +78,7 @@ export const products: Product[] = [
   base({ slug: "fresh-onion", name: "Fresh onion", category: "onion", tagline: "Wholesale fresh onion" }),
   // Spices
   base({ slug: "turmeric-powder", name: "Turmeric powder", category: "spices", tagline: "Ground turmeric" }),
+  base({ slug: "turmeric-finger", name: "Turmeric finger", category: "spices", tagline: "Whole dried turmeric" }),
   base({ slug: "red-chilli-powder", name: "Red chilli powder", category: "spices", tagline: "Ground red chilli" }),
   // Fruits
   base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Sindhri and Chaunsa varieties" }),

@@ -12,7 +12,7 @@ describe("packGroups", () => {
     expect(shape("salt")).toEqual([4, [1, 1, 1, 1, 1, 1], 3]);
     expect(shape("rice")).toEqual([4, [1]]);
     expect(shape("potato")).toEqual([[1, 1]]);
-    expect(shape("spices")).toEqual([2]);
+    expect(shape("spices")).toEqual([3]);
   });
 });
 

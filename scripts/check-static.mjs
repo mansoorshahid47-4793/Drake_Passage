@@ -13,7 +13,7 @@ const expected = [
 ];
 
 const NON_PAGE_ROUTES = new Set(["/_global-error", "/_not-found", "/icon.png", "/apple-icon.png", "/opengraph-image", "/robots.txt", "/sitemap.xml"]);
-const EXPECTED_PAGE_COUNT = 38; // 7 static + 6 categories + 25 products; change deliberately with the catalog
+const EXPECTED_PAGE_COUNT = 39; // 7 static + 6 categories + 26 products; change deliberately with the catalog
 const prerenderedPages = [...prerendered].filter((r) => !NON_PAGE_ROUTES.has(r));
 
 const missing = expected.filter((r) => !prerendered.has(r));

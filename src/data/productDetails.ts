@@ -494,6 +494,27 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     ],
     uses: ["Curry powders and spice blends", "Retail spice packs", "Food colouring", "Food manufacturing"],
   },
+  "turmeric-finger": {
+    overview:
+      "Whole dried turmeric rhizomes, known as turmeric fingers, with a deep yellow core and earthy aroma. Spice grinders, extract processors and wholesalers buy them to mill into powder or to sell whole.",
+    origin: "Turmeric is sourced from growers in Kasur district, Punjab, the main turmeric-producing area of Pakistan.",
+    process:
+      "Fresh rhizomes are boiled, sun-dried and polished to remove the outer skin. The dried fingers are then cleaned of stones and dust, sorted by size and checked for moisture before packing.",
+    specs: [
+      { label: "Form", value: "Whole dried fingers, polished" },
+      { label: "Colour", value: "Deep yellow to orange core" },
+      { label: "Curcumin", value: "Approx. 2–3% (typical), tested per lot" },
+      { label: "Moisture", value: "Max 10%" },
+      { label: "Foreign matter", value: "Max 1%" },
+      { label: "Size", value: "Fingers approx. 3–7 cm, or as per buyer's specification" },
+    ],
+    packagingOptions: [
+      "25 kg or 50 kg jute bags",
+      "25 kg PP bags with inner liner",
+      "Private label packing to buyer's design",
+    ],
+    uses: ["Milling into turmeric powder", "Spice blends", "Extract and oleoresin processing", "Wholesale spice markets"],
+  },
   "red-chilli-powder": {
     overview:
       "Ground red chilli made from sun-dried whole chillies, with a strong red colour and medium to high heat. Spice packers, food manufacturers and wholesalers buy it for retail packs, sauces, snacks and spice blends.",
