@@ -18,6 +18,8 @@ export interface Category {
   tagline: string;
   description: string;
   heroImage: string;
+  /** Homepage slider headline: small kicker line above a large title. */
+  slide: { kicker: string; title: string };
   subCategories: string[];
   originPhotoIds?: string[];
 }

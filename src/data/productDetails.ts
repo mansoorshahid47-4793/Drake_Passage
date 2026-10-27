@@ -529,7 +529,6 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
       "Mangoes are picked at mature green stage, de-sapped and washed, then sorted and graded by weight and appearance. Hot water treatment is applied where the destination market requires it, and the fruit is packed in ventilated cartons and pre-cooled before shipment.",
     specs: [
       { label: "Varieties", value: "Sindhri, Chaunsa (white and black) and others on request" },
-      { label: "Season", value: "Sindhri late May to July, Chaunsa July to August" },
       { label: "Fruit weight", value: "Approx. 250–700 g depending on variety and grade" },
       { label: "Count per carton", value: "Approx. 6–12 fruits per carton, by size" },
       { label: "Quality", value: "Clean, sound fruit, free from sap burn and pest damage" },
@@ -551,7 +550,6 @@ export const PRODUCT_DETAILS: Record<string, ProductDetails> = {
     process:
       "Fruit is picked by hand and taken to packing houses, where it is washed, treated with fungicide, waxed and dried. It is then graded by size and colour, packed in ventilated cartons and pre-cooled before loading into reefer containers.",
     specs: [
-      { label: "Season", value: "December to March" },
       { label: "Size", value: "Approx. 55–80 mm diameter" },
       { label: "Count sizes", value: "48 to 120 count per 10 kg carton" },
       { label: "Colour", value: "Bright orange, full colour" },

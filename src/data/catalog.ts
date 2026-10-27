@@ -6,27 +6,27 @@ const jpg = (folder: "categories" | "products", name: string) => `/images/${fold
 export const categories: Category[] = [
   { slug: "salt", name: "Salt", seoName: "Himalayan salt", tagline: "Himalayan pink salt from the Khewra mine",
     description: "Rock salt from Pakistan's Salt Range, offered as edible grades, cooking and grilling slabs, table and kitchen pieces, salt lamps, wellness products, home and decor items and industrial grades.",
-    heroImage: jpg("categories", "salt"),
+    heroImage: jpg("categories", "salt"), slide: { kicker: "Himalayan", title: "Pink salt" },
     subCategories: ["Edible salt", "Cooking and grilling", "Table products", "Kitchen products", "Salt lamps", "Wellness products", "Home and decor", "Industrial products"],
     originPhotoIds: ["khewra-interior", "khewra-landscape", "salt-coarse", "salt-block"] },
   { slug: "rice", name: "Rice", seoName: "Basmati rice", tagline: "Basmati and non-Basmati rice from the Punjab plains",
     description: "Basmati and non-Basmati varieties from the Punjab plains, including Basmati 1121 steam (single and double), 1847 and 1509 sella, and non-Basmati IRRI-6, milled and graded for export.",
-    heroImage: jpg("categories", "rice"),
+    heroImage: jpg("categories", "rice"), slide: { kicker: "Pakistani", title: "Basmati rice" },
     subCategories: ["Basmati", "Non-Basmati"],
     originPhotoIds: ["paddy-chunian"] },
   { slug: "potato", name: "Potatoes", seoName: "Potato", tagline: "Red and white table potatoes",
     description: "Red-skinned and white-skinned table potatoes, sorted and graded by size before dispatch.",
-    heroImage: jpg("categories", "potato"),
+    heroImage: jpg("categories", "potato"), slide: { kicker: "Farm fresh", title: "Potatoes" },
     subCategories: ["Red", "White"] },
   { slug: "onion", name: "Onions", seoName: "Onion", tagline: "Fresh onions for wholesale buyers",
     description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
-    heroImage: jpg("categories", "onion"), subCategories: [] },
+    heroImage: jpg("categories", "onion"), slide: { kicker: "Farm fresh", title: "Onions" }, subCategories: [] },
   { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric and red chilli powder",
     description: "Ground turmeric from Kasur and red chilli from Kunri, cleaned, milled and packed for retail or bulk buyers.",
-    heroImage: jpg("categories", "spices"), subCategories: [] },
+    heroImage: jpg("categories", "spices"), slide: { kicker: "Pure ground", title: "Spices" }, subCategories: [] },
   { slug: "fruits", name: "Fruits", seoName: "Fruit", tagline: "Mango and Kinnow oranges",
-    description: "Seasonal mangoes from southern Punjab and Sindh, and Kinnow oranges from Sargodha, graded and packed in cartons for export.",
-    heroImage: jpg("categories", "fruits"), subCategories: [] },
+    description: "Mangoes from southern Punjab and Sindh, and Kinnow oranges from Sargodha, graded and packed in cartons for export.",
+    heroImage: jpg("categories", "fruits"), slide: { kicker: "Sweet and juicy", title: "Fruits" }, subCategories: [] },
 ];
 
 const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "supportedTradeTerms" | "certifications" | "summary"> & Partial<Product>): Product => {
@@ -80,6 +80,6 @@ export const products: Product[] = [
   base({ slug: "turmeric-powder", name: "Turmeric powder", category: "spices", tagline: "Ground turmeric" }),
   base({ slug: "red-chilli-powder", name: "Red chilli powder", category: "spices", tagline: "Ground red chilli" }),
   // Fruits
-  base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Sindhri and Chaunsa, in season" }),
-  base({ slug: "kinnow-orange", name: "Kinnow orange", category: "fruits", tagline: "Sargodha Kinnow, in season" }),
+  base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Sindhri and Chaunsa varieties" }),
+  base({ slug: "kinnow-orange", name: "Kinnow orange", category: "fruits", tagline: "Sargodha Kinnow" }),
 ];
