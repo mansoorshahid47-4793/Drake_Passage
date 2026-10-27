@@ -9,8 +9,8 @@ const categories = [
 ];
 
 describe("EnquiryForm", () => {
-  beforeEach(() => { vi.stubGlobal("fetch", vi.fn()); });
-  afterEach(() => { vi.unstubAllGlobals(); });
+  beforeEach(() => { vi.stubGlobal("fetch", vi.fn()); vi.stubEnv("NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY", "test-key"); });
+  afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
 
   it("shows an error summary and inline errors on empty submit, and focuses the summary", async () => {
     const user = userEvent.setup();
@@ -39,7 +39,7 @@ describe("EnquiryForm", () => {
   });
 
   it("submits valid data and shows success", async () => {
-    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ success: true }), { status: 200 }));
     const user = userEvent.setup();
     render(<EnquiryForm categories={categories} initial={{ category: "rice" }} />);
     await user.type(screen.getByLabelText("Full name"), "Amina Khan");
@@ -50,12 +50,12 @@ describe("EnquiryForm", () => {
     await user.type(screen.getByLabelText("Message"), "Please quote IRRI-6 in 25kg bags.");
     await user.click(screen.getByRole("button", { name: "Send enquiry" }));
     await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("Enquiry sent"));
-    expect(fetch).toHaveBeenCalledWith("/api/enquiry", expect.objectContaining({ method: "POST" }));
+    expect(fetch).toHaveBeenCalledWith("https://api.web3forms.com/submit", expect.objectContaining({ method: "POST" }));
     expect(screen.getByRole("status")).toHaveFocus();
   });
 
-  it("shows the server error and a WhatsApp fallback with the category and product names when delivery fails", async () => {
-    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: false, error: "We could not send your enquiry." }), { status: 502 }));
+  it("shows the delivery error and a WhatsApp fallback with the category and product names when delivery fails", async () => {
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ success: false, message: "Invalid access key" }), { status: 400 }));
     const user = userEvent.setup();
     render(<EnquiryForm categories={categories} initial={{ category: "rice", product: "irri-6" }} />);
     await user.type(screen.getByLabelText("Full name"), "Amina Khan");
@@ -72,7 +72,7 @@ describe("EnquiryForm", () => {
   });
 
   it("stays responsive after following an error-summary link, so a later select change is not dropped", async () => {
-    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ ok: true }), { status: 200 }));
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ success: true }), { status: 200 }));
     const user = userEvent.setup();
     render(<EnquiryForm categories={categories} initial={{}} />);
     await user.click(screen.getByRole("button", { name: "Send enquiry" }));
@@ -97,7 +97,8 @@ describe("EnquiryForm", () => {
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
     const [, init] = vi.mocked(fetch).mock.calls[0];
     const body = JSON.parse((init as RequestInit).body as string);
-    expect(body.tradeTerm).toBe("CIF");
+    expect(body.trade_term).toBe("CIF");
+    expect(body.access_key).toBe("test-key");
   });
 
   it("clears a field's inline error on blur but keeps it in the summary until the next submit", async () => {
@@ -158,7 +159,7 @@ describe("EnquiryForm", () => {
     expect(document.activeElement).toBe(name);
   });
 
-  it("shows the generic server-error message when the response body is not JSON", async () => {
+  it("shows the delivery error when the provider replies with a non-JSON page", async () => {
     vi.mocked(fetch).mockResolvedValue(new Response("<html>Internal Server Error</html>", { status: 500 }));
     const user = userEvent.setup();
     render(<EnquiryForm categories={categories} initial={{ category: "rice" }} />);

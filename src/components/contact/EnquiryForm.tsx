@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ENQUIRY_FIELDS, ENQUIRY_TYPES, TRADE_TERMS, validateEnquiry, type EnquiryInput, type EnquiryType } from "@/lib/enquiry";
 import { whatsAppUrl } from "@/lib/whatsapp";
+import { sendEnquiry } from "@/lib/email";
 import { Button } from "@/components/ui/Button";
 import { company } from "@/data/company";
 
@@ -117,20 +118,10 @@ export function EnquiryForm({ categories, initial }: { categories: FormCategory[
     setSummaryErrors({});
     setStatus({ kind: "sending" });
     const botcheck = (form.elements.namedItem("botcheck") as HTMLInputElement | null)?.value ?? "";
-    try {
-      const res = await fetch("/api/enquiry", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...r.value, botcheck }) });
-      // A platform-level failure (e.g. a 413 from a body-size limit, or an
-      // HTML 500 page from an intermediary) never reaches our route handler
-      // and so returns a non-JSON body. Falling back to `{ ok: false }`
-      // routes that case into the generic server-error message below instead
-      // of throwing and being mis-reported as a connectivity problem.
-      const data = (await res.json().catch(() => ({ ok: false }))) as { ok: boolean; error?: string; errors?: Errors };
-      if (res.ok && data.ok) { setStatus({ kind: "sent" }); return; }
-      if (data.errors) { setErrors(data.errors); setSummaryErrors(data.errors); setStatus({ kind: "idle" }); setFocusToken((t) => t + 1); return; }
-      setStatus({ kind: "failed", message: data.error ?? "We could not send your enquiry." });
-    } catch {
-      setStatus({ kind: "failed", message: "We could not send your enquiry. Check your connection and try again." });
-    }
+    const sent = await sendEnquiry(r.value, botcheck);
+    if (sent.ok) { setStatus({ kind: "sent" }); return; }
+    console.error("enquiry delivery failed:", sent.reason);
+    setStatus({ kind: "failed", message: "We could not send your enquiry. Please try again or message us on WhatsApp." });
   };
 
   const productObj = categoryObj?.products.find((p) => p.slug === values.product);
