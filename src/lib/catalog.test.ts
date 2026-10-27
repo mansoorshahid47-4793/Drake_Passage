@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getCategories, getCategory, getProducts, getProductsByCategory, getProduct, groupBySubCategory, getPrimaryCategories, getEnquiryCategories } from "@/lib/catalog";
+import { getCategories, getCategory, getProducts, getProductsByCategory, getProduct, groupBySubCategory } from "@/lib/catalog";
 
 describe("catalog accessors", () => {
   it("lists six categories in display order", () => {
@@ -14,9 +14,9 @@ describe("catalog accessors", () => {
     for (const p of products) expect(categorySlugs.has(p.category)).toBe(true);
   });
 
-  it("only allows FOB and CIF trade terms", () => {
+  it("only allows FOB, CIF, CNF and Ex-Works trade terms", () => {
     for (const p of getProducts()) {
-      for (const t of p.supportedTradeTerms) expect(["FOB", "CIF"]).toContain(t);
+      for (const t of p.supportedTradeTerms) expect(["FOB", "CIF", "CNF", "Ex-Works"]).toContain(t);
     }
   });
 
@@ -37,19 +37,18 @@ describe("catalog accessors", () => {
     expect(groups).toEqual([{ subCategory: null, products: getProductsByCategory("spices") }]);
   });
 
-  it("marks salt and rice as primary and the rest as on enquiry", () => {
-    const tiers = Object.fromEntries(getCategories().map((c) => [c.slug, c.tier]));
-    expect(tiers).toEqual({
-      salt: "primary", rice: "primary",
-      potato: "enquiry", onion: "enquiry", spices: "enquiry", fruits: "enquiry",
-    });
+  it("gives every product written details: overview, origin, process, specs and packing", () => {
+    for (const p of getProducts()) {
+      expect(p.summary, p.slug).not.toMatch(/confirmed per enquiry/);
+      expect(p.origin, p.slug).toBeTruthy();
+      expect(p.process, p.slug).toBeTruthy();
+      expect(p.specs.length, p.slug).toBeGreaterThan(0);
+      expect(p.packagingOptions.length, p.slug).toBeGreaterThan(0);
+    }
   });
 
-  it("getPrimaryCategories returns salt and rice in catalog order", () => {
-    expect(getPrimaryCategories().map((c) => c.slug)).toEqual(["salt", "rice"]);
-  });
-
-  it("getEnquiryCategories returns potato, onion, spices and fruits in catalog order", () => {
-    expect(getEnquiryCategories().map((c) => c.slug)).toEqual(["potato", "onion", "spices", "fruits"]);
+  it("does not list ginger and does list Kinnow oranges under fruits", () => {
+    expect(getProducts().some((p) => p.slug === "ginger")).toBe(false);
+    expect(getProduct("fruits", "kinnow-orange")?.name).toBe("Kinnow orange");
   });
 });

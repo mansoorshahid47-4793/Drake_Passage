@@ -1,6 +1,5 @@
 import { Container } from "@/components/ui/Container";
 import { ProcessSteps } from "@/components/ui/ProcessSteps";
-import { EnquiryCategoryList } from "@/components/ui/EnquiryCategoryList";
 import { OriginFigure } from "@/components/ui/OriginFigure";
 import { Hero } from "@/components/home/Hero";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
@@ -10,7 +9,7 @@ import { SampleKit } from "@/components/home/SampleKit";
 import { FinalCta } from "@/components/home/FinalCta";
 import { ProductDial } from "@/components/dial/ProductDial";
 import { PROCESS_STEPS } from "@/data/process";
-import { getCategories, getPrimaryCategories, getEnquiryCategories, getProductsByCategory } from "@/lib/catalog";
+import { getCategories, getProductsByCategory } from "@/lib/catalog";
 import { getOriginPhotos } from "@/lib/origin";
 import { toDialItems } from "@/lib/dial";
 import { company } from "@/data/company";
@@ -31,8 +30,6 @@ const orgJsonLd = {
 
 export default function Home() {
   const categories = getCategories();
-  const primaryCategories = getPrimaryCategories();
-  const enquiryCategories = getEnquiryCategories();
   const counts = Object.fromEntries(categories.map((c) => [c.slug, getProductsByCategory(c.slug).length]));
   const originPhotos = getOriginPhotos(["khewra-interior", "paddy-chunian"]);
   return (
@@ -45,9 +42,7 @@ export default function Home() {
       <section className="py-20">
         <Container>
           <h2>What we export</h2>
-          <div className="mt-10"><CategoryGrid categories={primaryCategories} counts={counts} /></div>
-          <h3 className="mt-12">Also available on enquiry</h3>
-          <div className="mt-6"><EnquiryCategoryList categories={enquiryCategories} /></div>
+          <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
         </Container>
       </section>
       <section className="py-20">

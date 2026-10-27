@@ -2,28 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
-import { EnquiryCategoryGrid } from "@/components/ui/EnquiryCategoryGrid";
-import { getCategories, getPrimaryCategories, getEnquiryCategories, getProductsByCategory, groupBySubCategory } from "@/lib/catalog";
+import { getCategories, getProductsByCategory, groupBySubCategory } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Himalayan salt and Basmati rice products",
-  description: "Himalayan pink salt grades, lamps and decor, Basmati 1121, 1509, 1847 and IRRI-6 rice, with potatoes, onions, spices and fruits on enquiry. From Pakistan.",
+  title: "Salt, rice, produce, spices and fruit from Pakistan",
+  description: "Himalayan pink salt grades, lamps and decor, Basmati 1121, 1509, 1847 and IRRI-6 rice, potatoes, onions, turmeric, red chilli, mango and Kinnow oranges. Exported from Pakistan.",
   alternates: { canonical: "/products" },
 };
 
 export default function ProductsPage() {
   const categories = getCategories();
-  const primaryCategories = getPrimaryCategories();
-  const enquiryCategories = getEnquiryCategories();
   const counts = Object.fromEntries(categories.map((c) => [c.slug, getProductsByCategory(c.slug).length]));
   return (
     <Container className="py-16">
       <h1>Products</h1>
-      <p className="mt-4 text-muted">Salt and rice are our primary lines. Potatoes, onions, spices and fruits are available on enquiry. Open a category for its varieties and packing options, or ask for a quote on anything you do not see.</p>
-      <h2 className="mt-10">Primary lines</h2>
-      <div className="mt-6"><CategoryGrid categories={primaryCategories} counts={counts} /></div>
-      <h2 className="mt-12">On enquiry</h2>
-      <div className="mt-6"><EnquiryCategoryGrid categories={enquiryCategories} counts={counts} /></div>
+      <p className="mt-4 text-muted">Open a category to see every product in it, then open a product for its origin, processing, specifications and packing. Ask us for a quote on anything you do not see.</p>
+      <div className="mt-10"><CategoryGrid categories={categories} counts={counts} /></div>
       {categories.map((c) => (
         <section key={c.slug} className="mt-16 border-t border-line pt-10">
           <h2><Link href={`/products/${c.slug}`} className="text-ink no-underline hover:text-teal">All {c.name.toLowerCase()}</Link></h2>

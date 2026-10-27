@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import type { DialItem } from "./types";
-import { ENQUIRY_NOTE } from "@/lib/catalog";
 
 const MAX_LINKS = 6;
 
@@ -39,19 +38,6 @@ export function CategoryPanel({ item }: { item: DialItem }) {
       <Link href={`/contact?category=${item.slug}`} className="font-semibold">Get a quote for {lower}</Link>
     </div>
   );
-
-  if (item.tier === "enquiry") {
-    return (
-      <section
-        id={`dial-panel-${item.slug}`}
-        aria-label={`${item.name} details`}
-        className="mt-6 rounded-tile border border-line bg-white p-6 opacity-100 transition-opacity duration-[var(--dur-component)] ease-out starting:opacity-0 motion-reduce:transition-none"
-      >
-        <p className="m-0 mb-4 rounded-control bg-salt px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
-        {ctas}
-      </section>
-    );
-  }
 
   const groups = groupProducts(item);
   return (

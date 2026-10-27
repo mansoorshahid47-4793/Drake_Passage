@@ -13,8 +13,8 @@ describe("MobileNav", () => {
     await user.click(trigger);
     const panel = screen.getByRole("dialog", { name: "Site menu" });
     expect(panel).toHaveFocus();
-    expect(screen.getByText("Primary lines")).toBeInTheDocument();
-    expect(screen.getByText("On enquiry")).toBeInTheDocument();
+    expect(screen.queryByText("Primary lines")).not.toBeInTheDocument();
+    expect(screen.queryByText("On enquiry")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Rice" })).toHaveAttribute("href", "/products/rice");
     expect(screen.getByRole("link", { name: "Potatoes" })).toHaveAttribute("href", "/products/potato");
     await user.keyboard("{Escape}");

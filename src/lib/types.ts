@@ -1,4 +1,4 @@
-export type TradeTerm = "FOB" | "CIF";
+export type TradeTerm = "FOB" | "CIF" | "CNF" | "Ex-Works";
 
 export interface ProductSpec {
   label: string;
@@ -11,8 +11,6 @@ export interface Certification {
   documentUrl?: string;
 }
 
-export type CategoryTier = "primary" | "enquiry";
-
 export interface Category {
   slug: string;
   name: string;
@@ -21,7 +19,6 @@ export interface Category {
   description: string;
   heroImage: string;
   subCategories: string[];
-  tier: CategoryTier;
   originPhotoIds?: string[];
 }
 
@@ -32,6 +29,9 @@ export interface Product {
   subCategory?: string;
   tagline: string;
   summary: string;
+  origin?: string;
+  process?: string;
+  uses?: string[];
   images: string[];
   specs: ProductSpec[];
   packagingOptions: string[];

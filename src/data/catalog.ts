@@ -1,4 +1,5 @@
 import type { Category, Product } from "@/lib/types";
+import { PRODUCT_DETAILS } from "./productDetails";
 
 const jpg = (folder: "categories" | "products", name: string) => `/images/${folder}/${name}.jpg`;
 
@@ -7,42 +8,40 @@ export const categories: Category[] = [
     description: "Rock salt from Pakistan's Salt Range, offered as edible grades, cooking and grilling slabs, table and kitchen pieces, salt lamps, wellness products, home and decor items and industrial grades.",
     heroImage: jpg("categories", "salt"),
     subCategories: ["Edible salt", "Cooking and grilling", "Table products", "Kitchen products", "Salt lamps", "Wellness products", "Home and decor", "Industrial products"],
-    tier: "primary",
     originPhotoIds: ["khewra-interior", "khewra-landscape", "salt-coarse", "salt-block"] },
   { slug: "rice", name: "Rice", seoName: "Basmati rice", tagline: "Basmati and non-Basmati rice from the Punjab plains",
     description: "Basmati and non-Basmati varieties from the Punjab plains, including Basmati 1121 steam (single and double), 1847 and 1509 sella, and non-Basmati IRRI-6, milled and graded for export.",
     heroImage: jpg("categories", "rice"),
     subCategories: ["Basmati", "Non-Basmati"],
-    tier: "primary",
     originPhotoIds: ["paddy-chunian"] },
   { slug: "potato", name: "Potatoes", seoName: "Potato", tagline: "Red and white table potatoes",
     description: "Red-skinned and white-skinned table potatoes, sorted and graded by size before dispatch.",
     heroImage: jpg("categories", "potato"),
-    subCategories: ["Red", "White"],
-    tier: "enquiry" },
+    subCategories: ["Red", "White"] },
   { slug: "onion", name: "Onions", seoName: "Onion", tagline: "Fresh onions for wholesale buyers",
     description: "Fresh onions sorted and graded by size for wholesale and food-service buyers.",
-    heroImage: jpg("categories", "onion"), subCategories: [],
-    tier: "enquiry" },
-  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric, red chilli and ginger",
-    description: "Ground turmeric and red chilli powder, cleaned, milled and packed for retail or bulk buyers, with ginger also supplied on enquiry.",
-    heroImage: jpg("categories", "spices"), subCategories: [],
-    tier: "enquiry" },
-  { slug: "fruits", name: "Fruits", seoName: "Fruit", tagline: "Mango for wholesale buyers",
-    description: "Mango for wholesale and food-service buyers, with varieties, grades and packing confirmed per enquiry.",
-    heroImage: jpg("categories", "fruits"), subCategories: [],
-    tier: "enquiry" },
+    heroImage: jpg("categories", "onion"), subCategories: [] },
+  { slug: "spices", name: "Spices", seoName: "Spice", tagline: "Turmeric and red chilli powder",
+    description: "Ground turmeric from Kasur and red chilli from Kunri, cleaned, milled and packed for retail or bulk buyers.",
+    heroImage: jpg("categories", "spices"), subCategories: [] },
+  { slug: "fruits", name: "Fruits", seoName: "Fruit", tagline: "Mango and Kinnow oranges",
+    description: "Seasonal mangoes from southern Punjab and Sindh, and Kinnow oranges from Sargodha, graded and packed in cartons for export.",
+    heroImage: jpg("categories", "fruits"), subCategories: [] },
 ];
 
-const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "supportedTradeTerms" | "certifications" | "summary"> & Partial<Product>): Product => ({
-  images: [jpg("products", p.slug)],
-  specs: [],
-  packagingOptions: [],
-  supportedTradeTerms: ["FOB", "CIF"],
-  certifications: [],
-  summary: "Specifications, grades and packing options are confirmed per enquiry.",
-  ...p,
-});
+const base = (p: Omit<Product, "images" | "specs" | "packagingOptions" | "supportedTradeTerms" | "certifications" | "summary"> & Partial<Product>): Product => {
+  const d = PRODUCT_DETAILS[p.slug];
+  return {
+    images: [jpg("products", p.slug)],
+    specs: d?.specs ?? [],
+    packagingOptions: d?.packagingOptions ?? [],
+    supportedTradeTerms: ["FOB", "CIF", "CNF", "Ex-Works"],
+    certifications: [],
+    summary: d?.overview ?? "Specifications, grades and packing options are confirmed per enquiry.",
+    ...(d ? { origin: d.origin, process: d.process, uses: d.uses } : {}),
+    ...p,
+  };
+};
 
 const EDIBLE_SALT_PACKING = [
   "Printed stand-up zipper pouches with your brand, 500 g or 1 kg",
@@ -56,7 +55,7 @@ export const products: Product[] = [
   base({ slug: "dark-pink-food-grade-salt", name: "Dark pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
   base({ slug: "light-pink-food-grade-salt", name: "Light pink food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
   base({ slug: "white-food-grade-salt", name: "White Himalayan food-grade salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades", packagingOptions: EDIBLE_SALT_PACKING }),
-  base({ slug: "black-salt", name: "Black Himalayan salt", category: "salt", subCategory: "Edible salt", tagline: "Kala namak", packagingOptions: EDIBLE_SALT_PACKING }),
+  base({ slug: "black-salt", name: "Black Himalayan salt", category: "salt", subCategory: "Edible salt", tagline: "Fine and coarse grades",packagingOptions: EDIBLE_SALT_PACKING }),
   base({ slug: "grilling-slabs", name: "Salt grilling slabs", category: "salt", subCategory: "Cooking and grilling", tagline: "With metal or wooden holders" }),
   base({ slug: "salt-bowls-and-plates", name: "Salt bowls and serving plates", category: "salt", subCategory: "Table products", tagline: "Hand-carved serveware" }),
   base({ slug: "salt-pestle-and-mortar", name: "Salt pestle and mortar", category: "salt", subCategory: "Kitchen products", tagline: "Solid rock salt" }),
@@ -80,7 +79,7 @@ export const products: Product[] = [
   // Spices
   base({ slug: "turmeric-powder", name: "Turmeric powder", category: "spices", tagline: "Ground turmeric" }),
   base({ slug: "red-chilli-powder", name: "Red chilli powder", category: "spices", tagline: "Ground red chilli" }),
-  base({ slug: "ginger", name: "Ginger", category: "spices", tagline: "Wholesale ginger" }),
   // Fruits
-  base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Wholesale mango" }),
+  base({ slug: "mango", name: "Mango", category: "fruits", tagline: "Sindhri and Chaunsa, in season" }),
+  base({ slug: "kinnow-orange", name: "Kinnow orange", category: "fruits", tagline: "Sargodha Kinnow, in season" }),
 ];

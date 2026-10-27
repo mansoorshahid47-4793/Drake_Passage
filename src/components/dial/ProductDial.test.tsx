@@ -8,7 +8,6 @@ const items: DialItem[] = ["salt", "rice", "potato", "onion", "spices", "fruits"
   slug, name: slug[0].toUpperCase() + slug.slice(1), tagline: `${slug} tagline`, description: `${slug} description`, image: `/images/categories/${slug}.svg`,
   productCount: i + 1, subCategories: slug === "rice" ? ["Basmati", "Non-Basmati"] : [],
   products: [{ slug: `${slug}-a`, name: `${slug} A`, ...(slug === "rice" ? { subCategory: "Basmati" } : {}) }],
-  tier: (slug === "salt" || slug === "rice" ? "primary" : "enquiry") as DialItem["tier"],
 }));
 
 const cardButton = (slug: string) => within(screen.getByTestId(`dial-item-${slug}`)).getByRole("button", { hidden: true });
@@ -156,25 +155,19 @@ describe("ProductDial", () => {
     expect(screen.getByRole("status")).toHaveTextContent("1 of 6, Salt");
   });
 
-  it("shows the on enquiry badge only on enquiry-tier cards", () => {
+  it("shows no on enquiry badge on any card", () => {
     render(<ProductDial items={items} />);
-    expect(within(screen.getByTestId("dial-item-salt")).queryByText("On enquiry")).not.toBeInTheDocument();
-    expect(within(screen.getByTestId("dial-item-rice")).queryByText("On enquiry")).not.toBeInTheDocument();
-    for (const slug of ["potato", "onion", "spices", "fruits"]) {
-      expect(within(screen.getByTestId(`dial-item-${slug}`)).getByText("On enquiry")).toBeInTheDocument();
-    }
+    expect(screen.queryByText("On enquiry")).not.toBeInTheDocument();
   });
 
-  it("an enquiry-tier panel shows the note and no product link list or chips", async () => {
+  it("every category panel lists its product links", async () => {
     const user = userEvent.setup();
     render(<ProductDial items={items} />);
     await user.click(screen.getByRole("button", { name: /Potato/ }));
     await user.click(screen.getByRole("button", { name: /Potato/ }));
     const panel = screen.getByRole("region", { name: "Potato details" });
-    expect(panel).toHaveTextContent("Supplied on enquiry. Tell us the grade, quantity and destination and we will quote.");
-    const productLinks = within(panel).getAllByRole("link").filter((l) => l.getAttribute("href")?.startsWith("/products/potato/"));
-    expect(productLinks).toHaveLength(0);
-    expect(within(panel).queryAllByRole("listitem")).toHaveLength(0);
+    expect(panel).not.toHaveTextContent("Supplied on enquiry");
+    expect(within(panel).getByRole("link", { name: "potato A" })).toHaveAttribute("href", "/products/potato/potato-a");
     expect(screen.getByRole("link", { name: "See all potato" })).toHaveAttribute("href", "/products/potato");
     expect(screen.getByRole("link", { name: "Get a quote for potato" })).toHaveAttribute("href", "/contact?category=potato");
   });

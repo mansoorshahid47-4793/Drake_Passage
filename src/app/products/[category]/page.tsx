@@ -6,9 +6,10 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { OriginFigure } from "@/components/ui/OriginFigure";
 import { ProductGroups } from "@/components/products/ProductGroups";
-import { getCategories, getCategory, groupBySubCategory, ENQUIRY_NOTE } from "@/lib/catalog";
+import { getCategories, getCategory, groupBySubCategory } from "@/lib/catalog";
 import { getOriginPhotos } from "@/lib/origin";
-import { categoryTitle } from "@/lib/seo";
+import { categoryTitle, joinOr } from "@/lib/seo";
+import { company } from "@/data/company";
 import { whatsAppUrl } from "@/lib/whatsapp";
 import { SITE_URL } from "@/lib/site";
 
@@ -21,12 +22,9 @@ export function generateStaticParams(): Params[] {
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const category = getCategory((await params).category);
   if (!category) return {};
-  const description = category.tier === "primary"
-    ? `${category.tagline}. FOB or CIF quotes from Drake Passage, Lahore, Pakistan; samples by courier, documents on request.`
-    : `${category.tagline}, supplied on enquiry by Drake Passage, Lahore, Pakistan. FOB or CIF quotes; tell us the grade, quantity and destination.`;
   return {
     title: categoryTitle(category),
-    description,
+    description: `${category.tagline}. ${joinOr(company.tradeTerms)} quotes from Drake Passage, Lahore, Pakistan; samples by courier, documents on request.`,
     alternates: { canonical: `/products/${category.slug}` },
   };
 }
@@ -55,9 +53,6 @@ export default async function CategoryPage({ params }: { params: Promise<Params>
         <h1 className="mt-2">{category.name}</h1>
         <p className="mt-3 text-muted text-[1.2rem]">{category.tagline}</p>
         <p className="mt-3 text-muted text-[15px] max-w-prose">{category.description}</p>
-        {category.tier === "enquiry" && (
-          <p className="mt-4 max-w-prose rounded-control bg-white border border-line px-4 py-3 text-[15px]">{ENQUIRY_NOTE}</p>
-        )}
         <div className="mt-6 flex flex-wrap gap-3">
           <Button href={`/contact?category=${category.slug}`}>Get a quote for {category.name.toLowerCase()}</Button>
           <Button href={whatsAppUrl(`Quote request: ${category.name}`)} external variant="whatsapp">Chat on WhatsApp</Button>
