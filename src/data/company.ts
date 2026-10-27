@@ -5,7 +5,7 @@ export const company: Company = {
   legalName: "Drake Passage Pvt Limited",
   phoneDisplay: "+92 304 740 9567",
   phoneE164: "923047409567",
-  email: "mansoorshahid47@gmail.com",
+  email: "drakepassagepvtltd@gmail.com",
   office: "Lahore, Punjab, Pakistan",
   hours: "Mon–Sat 09:00–18:00 PKT",
   tradeTerms: ["FOB", "CIF"],
